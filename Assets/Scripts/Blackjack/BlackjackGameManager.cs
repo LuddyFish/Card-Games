@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +8,11 @@ public class BlackjackGameManager : MonoBehaviour
 {
     public static BlackjackGameManager Instance;
 
-    public PlayerObject dealer;
-    public PlayerObject player;
-    [HideInInspector] public PlayerObject[] Players { get; private set; }
-    [HideInInspector] public Player[] PlayerDatas { get; private set; }
-    private Cardbox Box => Cardbox.Instance;
+    // --- Players ---
+    [HideInInspector] public List<PlayerObject> Players { get; private set; } = new List<PlayerObject>();
+    [HideInInspector] public List<Player> PlayerDatas { get; private set; } = new List<Player>();
 
+    // --- UI ---
     [Space(12)]
     [SerializeField] private Button[] buttons;
     [SerializeField] private GameObject winTextBox;
@@ -20,11 +21,17 @@ public class BlackjackGameManager : MonoBehaviour
     [SerializeField] private BlackjackScores[] playersScore;
     private BlackjackScores[] playerScores;
 
+    // --- Conditions ---
     private int phase = 0;
     private bool dealerTurn = false;
-    private bool waitingforPhase = false;
+    private bool waitingforPhase = true;
 
     public bool PlayersActive => phase == 2;
+
+    // --- Events ---
+    public Action onDeal;
+    public Action onShuffle;
+    public Action onReset;
 
     void Awake()
     {
@@ -34,25 +41,36 @@ public class BlackjackGameManager : MonoBehaviour
             Destroy(Instance);
     }
 
-    void Start()
+    IEnumerator Start()
     {
-        SetPlayers();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => Players.Count >= 2);
+
+        SetPlayerData();
         InstantiateCards();
         SetOtherVariables();
+        AddEventSubscribers();
 
         StartPhase(0);
+        waitingforPhase = false;
     }
 
-    void SetPlayers()
+    public void SetPlayer(PlayerObject player)
     {
-        Players = new PlayerObject[2];
-        PlayerDatas = new Player[2];
-        Players[0] = dealer;
-        Players[1] = player;
-        for (int i = 0; i < Players.Length; i++)
-            PlayerDatas[i] = Players[i].Data;
+        Players.Add(player);
+    }
 
-        Table.NewTable(PlayerDatas);
+    public void SetPlayer(PlayerObject player, int priority)
+    {
+        Players.Insert(priority, player);
+    }
+
+    void SetPlayerData()
+    {
+        foreach(var player in Players)
+            PlayerDatas.Add(player.Data);
+
+        Table.NewTable(PlayerDatas.ToArray());
         Table.playerTurn = 0;
     }
 
@@ -60,7 +78,6 @@ public class BlackjackGameManager : MonoBehaviour
     {
         Table.startingCardCount = 2;
         Deck.InitDeck();
-        Box.Init();
     }
 
     void SetOtherVariables()
@@ -70,13 +87,20 @@ public class BlackjackGameManager : MonoBehaviour
         
         playerScores = new BlackjackScores[playersScore.Length + 1];
         playerScores[0] = dealerScore;
-        playerScores[1] = playersScore[0];
+        for (int i = 0; i < playersScore.Length; i++)
+            playerScores[i + 1] = playersScore[i];
         foreach (var item in playerScores)
         {
             item.SetScore(0);
             item.SetWins(0);
             item.ToggleBust(false);
         }
+    }
+
+    void AddEventSubscribers()
+    {
+        onDeal += Deck.Deal;
+        onShuffle += Deck.NewDeck;
     }
 
     void Update()
@@ -159,8 +183,8 @@ public class BlackjackGameManager : MonoBehaviour
                         return;
                     }
                     dealerTurn = true;
-                    dealer.cards[0].Reveal();
-                    dealer.cards[1].Hide();
+                    Players[0].cards[0].Reveal();
+                    Players[0].cards[1].Hide();
                 }
                 Table.NextPlayerTurn();
                 playerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
@@ -193,8 +217,7 @@ public class BlackjackGameManager : MonoBehaviour
     /// </summary>
     void Reshuffle()
     {
-        Deck.NewDeck();
-        Box.ReturnCardsToDeck();
+        onShuffle?.Invoke();
     }
 
     /// <summary>
@@ -202,9 +225,7 @@ public class BlackjackGameManager : MonoBehaviour
     /// </summary>
     void Deal()
     {
-        Deck.Deal();
-        dealer.SetHand();
-        player.SetHand();
+        onDeal?.Invoke();
         dealerTurn = false;
     }
 
@@ -213,8 +234,7 @@ public class BlackjackGameManager : MonoBehaviour
     /// </summary>
     void ClearHands()
     {
-        dealer.DiscardCards();
-        player.DiscardCards();
+        onReset?.Invoke();
         HideWinText();
         foreach (var text in playerScores)
         {
@@ -277,7 +297,7 @@ public class BlackjackGameManager : MonoBehaviour
         int winner = -1;
         int highest = 0;
 
-        for (int i = 0; i < Players.Length; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
             int score = GetPlayerScore(Players[i]);
             if (score <= 21 && score > highest)

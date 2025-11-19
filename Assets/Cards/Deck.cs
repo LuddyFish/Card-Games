@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
@@ -37,6 +36,7 @@ public static class Deck
             for (int j = 1; j <= rankCount; j++)
                 Cards[i * rankCount + j - 1] = new Card(i, j);
         Pool = new List<Card>();
+        Box.Init();
     }
 
     /// <summary>

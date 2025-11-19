@@ -35,6 +35,8 @@ public class Cardbox : MonoBehaviour
             ReturnCard(card.transform);
             cards.Add(card);
         }
+        if (BlackjackGameManager.Instance != null) 
+            BlackjackGameManager.Instance.onShuffle += ReturnCardsToDeck;
     }
 
     /// <summary>

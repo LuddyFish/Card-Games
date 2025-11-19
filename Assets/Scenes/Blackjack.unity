@@ -119,6 +119,58 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &153954827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153954829}
+  - component: {fileID: 153954828}
+  m_Layer: 0
+  m_Name: Card Audios
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &153954828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153954827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fa16846e4414341b58106cf46676fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardAudio
+  sources: []
+  audios:
+  - {fileID: 8300000, guid: 57134ab5dc3d7d54da5019ed22fb5365, type: 3}
+  - {fileID: 8300000, guid: 9b91c2dab41ee3a409c0fd04650a747a, type: 3}
+  - {fileID: 8300000, guid: 6aa0b3685d08a0e45a8ff071dfedd7fa, type: 3}
+  - {fileID: 8300000, guid: 86f479d5be1c7ff4a8c04d1d67065ee1, type: 3}
+  - {fileID: 8300000, guid: a917d37e5f096ab4aa6b5a1dccdd2f62, type: 3}
+  - {fileID: 8300000, guid: 2c85dd2a0b1aa8a4385a606bfff0bca8, type: 3}
+--- !u!4 &153954829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153954827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &245161559
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,8 +749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2696710899de85940900c10bf3b138ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlackjackGameManager
-  dealer: {fileID: 6511470332063839460}
-  player: {fileID: 4887889194346437768}
   buttons:
   - {fileID: 1408033846}
   - {fileID: 259276652}
@@ -1304,28 +1354,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0697b7be426926d428505d2078edca0e, type: 3}
---- !u!114 &4887889194346437768 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6511470332136786916, guid: 0697b7be426926d428505d2078edca0e, type: 3}
-  m_PrefabInstance: {fileID: 4887889194346437766}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 419235b3526810e48b2f0235ff0b5c1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
---- !u!114 &6511470332063839460 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1603034117596080366, guid: 01ac3b57b5853704abf8ee6bbfba57c0, type: 3}
-  m_PrefabInstance: {fileID: 8892547333565637822}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 419235b3526810e48b2f0235ff0b5c1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
 --- !u!1001 &8722943567941348273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1501,9 +1529,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 793172127}
   - {fileID: 2451657141601870965}
   - {fileID: 8892547333565637822}
   - {fileID: 4887889194346437766}
-  - {fileID: 793172127}
   - {fileID: 482285569}
   - {fileID: 1819163354}
+  - {fileID: 153954829}

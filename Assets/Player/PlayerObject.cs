@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerObject : MonoBehaviour
 {
+    private BlackjackGameManager BJGM => BlackjackGameManager.Instance;
     Transform hand;
 
     public Player Data { get; private set; }
@@ -17,6 +18,13 @@ public class PlayerObject : MonoBehaviour
         hand = transform.Find("Hand").transform;
         Data = new Player();
         cards = new List<CardObject>();
+
+        if (TryGetComponent<Dealer>(out _))
+            BJGM?.SetPlayer(this, 0);
+        else
+            BJGM?.SetPlayer(this);
+        BJGM.onDeal += SetHand;
+        BJGM.onReset += DiscardCards;
     }
 
     void Update()
