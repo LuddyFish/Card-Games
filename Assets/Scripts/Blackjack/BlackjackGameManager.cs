@@ -9,17 +9,15 @@ public class BlackjackGameManager : MonoBehaviour
     public static BlackjackGameManager Instance;
 
     // --- Players ---
-    [HideInInspector] public List<PlayerObject> Players { get; private set; } = new List<PlayerObject>();
-    [HideInInspector] public List<Player> PlayerDatas { get; private set; } = new List<Player>();
+    [HideInInspector] public List<PlayerObject> Players { get; private set; } = new();
+    [HideInInspector] public List<Player> PlayerDatas { get; private set; } = new();
 
     // --- UI ---
     [Space(12)]
     [SerializeField] private Button[] buttons;
     [SerializeField] private GameObject winTextBox;
     private Text winText;
-    [SerializeField] private BlackjackScores dealerScore;
-    [SerializeField] private BlackjackScores[] playersScore;
-    private BlackjackScores[] playerScores;
+    private List<BlackjackScores> playerScores = new();
 
     // --- Conditions ---
     private int phase = 0;
@@ -33,6 +31,7 @@ public class BlackjackGameManager : MonoBehaviour
     public Action onShuffle;
     public Action onReset;
 
+    // --- Set up ---
     void Awake()
     {
         if (Instance == null)
@@ -47,22 +46,11 @@ public class BlackjackGameManager : MonoBehaviour
         yield return new WaitUntil(() => Players.Count >= 2);
 
         SetPlayerData();
-        InstantiateCards();
         SetOtherVariables();
         AddEventSubscribers();
 
         StartPhase(0);
         waitingforPhase = false;
-    }
-
-    public void SetPlayer(PlayerObject player)
-    {
-        Players.Add(player);
-    }
-
-    public void SetPlayer(PlayerObject player, int priority)
-    {
-        Players.Insert(priority, player);
     }
 
     void SetPlayerData()
@@ -74,35 +62,52 @@ public class BlackjackGameManager : MonoBehaviour
         Table.playerTurn = 0;
     }
 
-    void InstantiateCards()
-    {
-        Table.startingCardCount = 2;
-        Deck.InitDeck();
-    }
-
     void SetOtherVariables()
     {
+        Table.startingCardCount = 2;
         winText = winTextBox.GetComponentInChildren<Text>();
         HideWinText();
         
-        playerScores = new BlackjackScores[playersScore.Length + 1];
-        playerScores[0] = dealerScore;
-        for (int i = 0; i < playersScore.Length; i++)
-            playerScores[i + 1] = playersScore[i];
-        foreach (var item in playerScores)
+        foreach (var scorer in playerScores)
         {
-            item.SetScore(0);
-            item.SetWins(0);
-            item.ToggleBust(false);
+            scorer.SetScore(0);
+            scorer.SetWins(0);
+            scorer.ToggleBust(false);
         }
     }
 
     void AddEventSubscribers()
     {
-        onDeal += Deck.Deal;
         onShuffle += Deck.NewDeck;
     }
+    
+    // --- Other variables subscribing ---
+    public void SetPlayer(PlayerObject player)
+    {
+        Players.Add(player);
+        Debug.Log($"Added {player.name} to list of Players");
+    }
 
+    public void SetPlayer(PlayerObject player, int priority)
+    {
+        Players.Insert(priority, player);
+        Debug.Log($"Added {player.name} to list of Players at position {priority}");
+    }
+
+    public void SetScorer(BlackjackScores scorer)
+    {
+        playerScores.Add(scorer);
+        Debug.Log($"Added {scorer.name} to list of Scorers");
+    }
+
+    public void SetScorer(BlackjackScores scorer, int priority)
+    {
+        playerScores.Insert(priority, scorer);
+        Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}");
+    }
+
+
+    // --- Runtime ---
     void Update()
     {
         if (!waitingforPhase)
@@ -113,7 +118,8 @@ public class BlackjackGameManager : MonoBehaviour
                     StartPhase(1);
                     break;
                 case 1:
-                    StartPhase(2);
+                    waitingforPhase = true;
+                    StartCoroutine(DelayStartPhase(2, 0.2f));
                     break;
                 case 2:
                     break;
@@ -225,6 +231,7 @@ public class BlackjackGameManager : MonoBehaviour
     /// </summary>
     void Deal()
     {
+        Deck.Deal();
         onDeal?.Invoke();
         dealerTurn = false;
     }

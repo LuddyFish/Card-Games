@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class BlackjackScores : MonoBehaviour
 {
+    BlackjackGameManager BJGM => BlackjackGameManager.Instance;
+
     private Text description;
     private GameObject bust;
 
@@ -14,6 +16,11 @@ public class BlackjackScores : MonoBehaviour
         description = transform.Find("Description").GetComponent<Text>();
         bust = transform.Find("Bust").gameObject;
         UpdateText();
+
+        if (name.Contains("Dealer"))
+            BJGM.SetScorer(this, 0);
+        else
+            BJGM.SetScorer(this);
     }
 
     private void UpdateText()

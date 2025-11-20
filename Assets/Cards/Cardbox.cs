@@ -35,8 +35,7 @@ public class Cardbox : MonoBehaviour
             ReturnCard(card.transform);
             cards.Add(card);
         }
-        if (BlackjackGameManager.Instance != null) 
-            BlackjackGameManager.Instance.onShuffle += ReturnCardsToDeck;
+        BlackjackGameManager.Instance.onShuffle += ReturnCardsToDeck;
     }
 
     /// <summary>
@@ -65,7 +64,7 @@ public class Cardbox : MonoBehaviour
     public void ReturnCard(Transform card)
     {
         card.SetParent(transform);
-        StartCoroutine(AnimationUtilities.Lerp(card, card.position, transform.position, discardTime));
+        AnimationUtilities.Lerp(card, card.position, transform.position, discardTime);
     }
 
     public void ReturnCardsToDeck()
@@ -79,6 +78,6 @@ public class Cardbox : MonoBehaviour
     public void DiscardCard(Transform card)
     {
         card.SetParent(transform);
-        StartCoroutine(AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime));
+        AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime);
     }
 }

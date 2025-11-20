@@ -30,6 +30,6 @@ public class HandLayout : MonoBehaviour
 
     public void ReceiveCard(Transform card, int position, float duration)
     {
-        StartCoroutine(AnimationUtilities.Lerp(card, card.position, GetPosition(position) + (Vector2)transform.position, duration));
+        AnimationUtilities.Lerp(card, card.position, GetPosition(position) + (Vector2)transform.position, duration);
     }
 }

@@ -16,7 +16,7 @@ public class PlayerObject : MonoBehaviour
     void Start()
     {
         hand = transform.Find("Hand").transform;
-        Data = new Player();
+        Data = new Player(name);
         cards = new List<CardObject>();
 
         if (TryGetComponent<Dealer>(out _))
@@ -64,6 +64,7 @@ public class PlayerObject : MonoBehaviour
             Transform child = hand.GetChild(i);
             cards.Add(child.GetComponent<CardObject>());
             layout.ReceiveCard(child, i, collectTime);
+            child.GetComponent<SpriteRenderer>().sortingOrder = i; // Ensure that there's a layering
         }
         layout.SetCards();
     }
