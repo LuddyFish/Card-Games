@@ -1,0 +1,1573 @@
+fileFormatVersion: 2
+guid: e6d9736f0e3924e4b979b1872c497a62
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5418969976890613542
+    second: Cards - HC_0
+  - first:
+      213: -3264272750513521346
+    second: Cards - HC_1
+  - first:
+      213: 8763506986183853611
+    second: Cards - HC_2
+  - first:
+      213: 856632267801354479
+    second: Cards - HC_3
+  - first:
+      213: 1413088798652942692
+    second: Cards - HC_4
+  - first:
+      213: -5566644691731905058
+    second: Cards - HC_5
+  - first:
+      213: 8332465390660164638
+    second: Cards - HC_6
+  - first:
+      213: -1854725621176244016
+    second: Cards - HC_7
+  - first:
+      213: -9102275252967611553
+    second: Cards - HC_8
+  - first:
+      213: 1286498419388712153
+    second: Cards - HC_9
+  - first:
+      213: -5951470815593598030
+    second: Cards - HC_10
+  - first:
+      213: -6695218726482414163
+    second: Cards - HC_11
+  - first:
+      213: -7855423448457755519
+    second: Cards - HC_12
+  - first:
+      213: 4516296815073391533
+    second: Cards - HC_13
+  - first:
+      213: -6151317275746715988
+    second: Cards - HC_14
+  - first:
+      213: 7872718858236935191
+    second: Cards - HC_15
+  - first:
+      213: 7868823915615066788
+    second: Cards - HC_16
+  - first:
+      213: 2470097826885194890
+    second: Cards - HC_17
+  - first:
+      213: -2986975810359658753
+    second: Cards - HC_18
+  - first:
+      213: -6888416910768675448
+    second: Cards - HC_19
+  - first:
+      213: -988321168662248412
+    second: Cards - HC_20
+  - first:
+      213: -7892441170736446176
+    second: Cards - HC_21
+  - first:
+      213: -6469601446582891014
+    second: Cards - HC_22
+  - first:
+      213: 1481406128568471647
+    second: Cards - HC_23
+  - first:
+      213: -1738613680594179917
+    second: Cards - HC_24
+  - first:
+      213: 7798698898180346031
+    second: Cards - HC_25
+  - first:
+      213: 5637530412207797022
+    second: Cards - HC_26
+  - first:
+      213: -1226240934146021751
+    second: Cards - HC_27
+  - first:
+      213: 6427796905978041784
+    second: Cards - HC_28
+  - first:
+      213: -6726642106198666866
+    second: Cards - HC_29
+  - first:
+      213: 6451563442028812401
+    second: Cards - HC_30
+  - first:
+      213: 2368867198728567496
+    second: Cards - HC_31
+  - first:
+      213: 3531750761145411039
+    second: Cards - HC_32
+  - first:
+      213: 4854865835314656816
+    second: Cards - HC_33
+  - first:
+      213: -4109013779633487455
+    second: Cards - HC_34
+  - first:
+      213: -7733987538384125542
+    second: Cards - HC_35
+  - first:
+      213: -6482446490649520645
+    second: Cards - HC_36
+  - first:
+      213: -5626553822041544554
+    second: Cards - HC_37
+  - first:
+      213: -9093965288050436659
+    second: Cards - HC_38
+  - first:
+      213: 6415768527118101747
+    second: Cards - HC_39
+  - first:
+      213: -159705863808290685
+    second: Cards - HC_40
+  - first:
+      213: -3614997216602020506
+    second: Cards - HC_41
+  - first:
+      213: 1754786858307164869
+    second: Cards - HC_42
+  - first:
+      213: 5636766423811039283
+    second: Cards - HC_43
+  - first:
+      213: -6109354528138145180
+    second: Cards - HC_44
+  - first:
+      213: 1016790448594892218
+    second: Cards - HC_45
+  - first:
+      213: -4428334700691650050
+    second: Cards - HC_46
+  - first:
+      213: 2993101602319701044
+    second: Cards - HC_47
+  - first:
+      213: 2903102162806681684
+    second: Cards - HC_48
+  - first:
+      213: -8066508898663081096
+    second: Cards - HC_49
+  - first:
+      213: -3952817770742647067
+    second: Cards - HC_50
+  - first:
+      213: 8927749882410473352
+    second: Cards - HC_51
+  - first:
+      213: -296044127224820886
+    second: Cards - HC_52
+  - first:
+      213: 6146359454332740639
+    second: Cards - HC_53
+  - first:
+      213: 330609267731730726
+    second: Cards - HC_54
+  - first:
+      213: 2063197737895918747
+    second: Cards - HC_55
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cards - HC_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 636
+        width: 156
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad0ade65483fbc4b0800000000000000
+      internalID: -5418969976890613542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_1
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3d77af6a39f2b2d0800000000000000
+      internalID: -3264272750513521346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_2
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2684224c2b3e9970800000000000000
+      internalID: 8763506986183853611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_3
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe0ef69428e53eb00800000000000000
+      internalID: 856632267801354479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_4
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 469cac786cc4c9310800000000000000
+      internalID: 1413088798652942692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_5
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed5818e652e4fb2b0800000000000000
+      internalID: -5566644691731905058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_6
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1c1981202dd2a370800000000000000
+      internalID: 8332465390660164638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_7
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d869f1dfd0b246e0800000000000000
+      internalID: -1854725621176244016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_8
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f53690322e83ea180800000000000000
+      internalID: -9102275252967611553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_9
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d404cb0f7f8ad110800000000000000
+      internalID: 1286498419388712153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_10
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b3707153d0286da0800000000000000
+      internalID: -5951470815593598030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_11
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da5f8728a0ec513a0800000000000000
+      internalID: -6695218726482414163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_12
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 636
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 184c6625efdebf290800000000000000
+      internalID: -7855423448457755519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_13
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 636
+        width: 156
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da37da2660c1dae30800000000000000
+      internalID: 4516296815073391533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 423
+        width: 156
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca6b46e578122aaa0800000000000000
+      internalID: -6151317275746715988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_15
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71c3bb11714814d60800000000000000
+      internalID: 7872718858236935191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_16
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa955219ada33d60800000000000000
+      internalID: 7868823915615066788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_17
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a84d4fbe2ec874220800000000000000
+      internalID: 2470097826885194890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_18
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff6f3de73512c86d0800000000000000
+      internalID: -2986975810359658753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_19
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 885e6d8e05d6760a0800000000000000
+      internalID: -6888416910768675448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_20
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42443e92227c842f0800000000000000
+      internalID: -988321168662248412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_21
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0250697329a687290800000000000000
+      internalID: -7892441170736446176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_22
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afdc21203cb5736a0800000000000000
+      internalID: -6469601446582891014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_23
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f50196d66030f8410800000000000000
+      internalID: 1481406128568471647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_24
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b8ac8ea1143fd7e0800000000000000
+      internalID: -1738613680594179917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_25
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa01540245b8a3c60800000000000000
+      internalID: 7798698898180346031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_26
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 423
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e137b1e7a088c3e40800000000000000
+      internalID: 5637530412207797022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_27
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 423
+        width: 156
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 986ee270e548bfee0800000000000000
+      internalID: -1226240934146021751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 211
+        width: 156
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b51d25ea3f143950800000000000000
+      internalID: 6427796905978041784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_29
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e81d7d8c4aa26a2a0800000000000000
+      internalID: -6726642106198666866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_30
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1781608c4ce888950800000000000000
+      internalID: 6451563442028812401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_31
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ca7a4c9a28efd020800000000000000
+      internalID: 2368867198728567496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_32
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd5a941fa9c430130800000000000000
+      internalID: 3531750761145411039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_33
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0363c1a41c2ff5340800000000000000
+      internalID: 4854865835314656816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_34
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a1c2c7ecb9d9f6c0800000000000000
+      internalID: -4109013779633487455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_35
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a91015d6f4b5ba490800000000000000
+      internalID: -7733987538384125542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_36
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf59b512349b906a0800000000000000
+      internalID: -6482446490649520645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_37
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 698e89f0c177ae1b0800000000000000
+      internalID: -5626553822041544554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_38
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc5550e90cebbc180800000000000000
+      internalID: -9093965288050436659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_39
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fc6104bb73690950800000000000000
+      internalID: 6415768527118101747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_40
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 211
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 380f82fec5c98cdf0800000000000000
+      internalID: -159705863808290685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_41
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 211
+        width: 156
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66529604f23f4ddc0800000000000000
+      internalID: -3614997216602020506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 156
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ca1ce1b9514a5810800000000000000
+      internalID: 1754786858307164869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_43
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3302b159231d93e40800000000000000
+      internalID: 5636766423811039283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_44
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 462d667ec66373ba0800000000000000
+      internalID: -6109354528138145180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_45
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab5328b968d5c1e00800000000000000
+      internalID: 1016790448594892218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_46
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef90db25d056b82c0800000000000000
+      internalID: -4428334700691650050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_47
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4341be69c02a98920800000000000000
+      internalID: 2993101602319701044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_48
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 450b2c82904e94820800000000000000
+      internalID: 2903102162806681684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_49
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87bd8a515e00e0090800000000000000
+      internalID: -8066508898663081096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_50
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e678013e25c429c0800000000000000
+      internalID: -3952817770742647067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_51
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8879c90873db5eb70800000000000000
+      internalID: 8927749882410473352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_52
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6b8cee4f6d34ebf0800000000000000
+      internalID: -296044127224820886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_53
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f14ed51eb514c4550800000000000000
+      internalID: 6146359454332740639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_54
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 0
+        width: 157
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6211a9a906f869400800000000000000
+      internalID: 330609267731730726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cards - HC_55
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 0
+        width: 156
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9cfcac4963f1ac10800000000000000
+      internalID: 2063197737895918747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cards - HC_0: -5418969976890613542
+      Cards - HC_1: -3264272750513521346
+      Cards - HC_10: -5951470815593598030
+      Cards - HC_11: -6695218726482414163
+      Cards - HC_12: -7855423448457755519
+      Cards - HC_13: 4516296815073391533
+      Cards - HC_14: -6151317275746715988
+      Cards - HC_15: 7872718858236935191
+      Cards - HC_16: 7868823915615066788
+      Cards - HC_17: 2470097826885194890
+      Cards - HC_18: -2986975810359658753
+      Cards - HC_19: -6888416910768675448
+      Cards - HC_2: 8763506986183853611
+      Cards - HC_20: -988321168662248412
+      Cards - HC_21: -7892441170736446176
+      Cards - HC_22: -6469601446582891014
+      Cards - HC_23: 1481406128568471647
+      Cards - HC_24: -1738613680594179917
+      Cards - HC_25: 7798698898180346031
+      Cards - HC_26: 5637530412207797022
+      Cards - HC_27: -1226240934146021751
+      Cards - HC_28: 6427796905978041784
+      Cards - HC_29: -6726642106198666866
+      Cards - HC_3: 856632267801354479
+      Cards - HC_30: 6451563442028812401
+      Cards - HC_31: 2368867198728567496
+      Cards - HC_32: 3531750761145411039
+      Cards - HC_33: 4854865835314656816
+      Cards - HC_34: -4109013779633487455
+      Cards - HC_35: -7733987538384125542
+      Cards - HC_36: -6482446490649520645
+      Cards - HC_37: -5626553822041544554
+      Cards - HC_38: -9093965288050436659
+      Cards - HC_39: 6415768527118101747
+      Cards - HC_4: 1413088798652942692
+      Cards - HC_40: -159705863808290685
+      Cards - HC_41: -3614997216602020506
+      Cards - HC_42: 1754786858307164869
+      Cards - HC_43: 5636766423811039283
+      Cards - HC_44: -6109354528138145180
+      Cards - HC_45: 1016790448594892218
+      Cards - HC_46: -4428334700691650050
+      Cards - HC_47: 2993101602319701044
+      Cards - HC_48: 2903102162806681684
+      Cards - HC_49: -8066508898663081096
+      Cards - HC_5: -5566644691731905058
+      Cards - HC_50: -3952817770742647067
+      Cards - HC_51: 8927749882410473352
+      Cards - HC_52: -296044127224820886
+      Cards - HC_53: 6146359454332740639
+      Cards - HC_54: 330609267731730726
+      Cards - HC_55: 2063197737895918747
+      Cards - HC_6: 8332465390660164638
+      Cards - HC_7: -1854725621176244016
+      Cards - HC_8: -9102275252967611553
+      Cards - HC_9: 1286498419388712153
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
