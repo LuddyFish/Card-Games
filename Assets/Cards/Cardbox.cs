@@ -21,7 +21,7 @@ public class Cardbox : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
-            Destroy(Instance);
+            Destroy(this);
     }
 
     public void Init()
@@ -36,6 +36,7 @@ public class Cardbox : MonoBehaviour
             cards.Add(card);
         }
         BlackjackGameManager.Instance.onShuffle += ReturnCardsToDeck;
+        CardAudio.Instance.SetCardSRCs();
     }
 
     /// <summary>
@@ -69,6 +70,7 @@ public class Cardbox : MonoBehaviour
 
     public void ReturnCardsToDeck()
     {
+        Deck.PlayCardSound(CardAudio.Instance.sources[0], 4);
         foreach (var card in cards)
         {
             ReturnCard(card.transform);
@@ -79,5 +81,13 @@ public class Cardbox : MonoBehaviour
     {
         card.SetParent(transform);
         AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime);
+    }
+
+    public int GetCardPosition(GameObject original)
+    {
+        for (int i = 0; i < cards.Count; i++)
+            if (original.name == cards[i].name)
+                return i;
+        return 0;
     }
 }

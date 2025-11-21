@@ -37,7 +37,7 @@ public class BlackjackGameManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
-            Destroy(Instance);
+            Destroy(this);
     }
 
     IEnumerator Start()
@@ -115,7 +115,7 @@ public class BlackjackGameManager : MonoBehaviour
             switch (phase)
             {
                 case 0:
-                    StartPhase(1);
+                    StartCoroutine(DelayStartPhase(1, 0.5f));
                     break;
                 case 1:
                     waitingforPhase = true;

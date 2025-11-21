@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerObject : MonoBehaviour
 {
     private BlackjackGameManager BJGM => BlackjackGameManager.Instance;
+    private Cardbox Box => Cardbox.Instance;
+    private CardAudio CardAudio => CardAudio.Instance;
     Transform hand;
 
     public Player Data { get; private set; }
@@ -42,7 +44,7 @@ public class PlayerObject : MonoBehaviour
     public void SetHand()
     {
         foreach (var card in Data.Hand)
-            foreach (var obj in Cardbox.Instance.cards)
+            foreach (var obj in Box.cards)
                 if (obj.name == card.GetName())
                 {
                     obj.transform.SetParent(hand);
@@ -74,7 +76,11 @@ public class PlayerObject : MonoBehaviour
     /// <param name="physical">The physical <c>GameObject</c> to return to <see cref="Cardbox"/></param>
     private void RemoveFromHand(Transform physical)
     {
-        Cardbox.Instance.DiscardCard(physical);
+        CardAudio.Play(
+            CardAudio.sources[Box.GetCardPosition(physical.gameObject) + 1],
+            CardAudio.audios[0]
+        );
+        Box.DiscardCard(physical);
     }
 
     /// <summary>
@@ -108,6 +114,6 @@ public class PlayerObject : MonoBehaviour
     /// <returns>The sum value of all my cards</returns>
     public int GetScore()
     {
-        return BlackjackGameManager.Instance.GetPlayerScore(this);
+        return BJGM.GetPlayerScore(this);
     }
 }
