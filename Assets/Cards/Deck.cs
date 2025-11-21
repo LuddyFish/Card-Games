@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
@@ -23,6 +24,7 @@ public static class Deck
     /// Box where the physical <c>GameObject</c>s are stored
     /// </summary>
     private static Cardbox Box => Cardbox.Instance;
+    private static CardAudio Audio => CardAudio.Instance;
 
     /// <summary>
     /// Initialise the deck
@@ -44,6 +46,7 @@ public static class Deck
     /// </summary>
     public static void NewDeck()
     {
+        PlayCardSound(Audio.sources[0], 3);
         Pool.Clear();
         foreach (Card card in Cards)
             Pool.Add(card);
@@ -56,6 +59,7 @@ public static class Deck
     {
         if (Box != null)
         {
+            PlayCardSound(Audio.sources[0], 3);
             Pool.Clear();
             for (int i = 0; i < Cards.Length; i++)
             {
@@ -102,6 +106,7 @@ public static class Deck
     {
         if (IsDeckEmpty()) NewSoftDeck(); // Ensures that can deal cards.
         int index = UnityEngine.Random.Range(0, Pool.Count);
+        PlayCardSound(Box.cards[index], 1);
         Card card = Pool.ElementAt(index);
         Pool.RemoveAt(index);
         return card;
@@ -114,6 +119,7 @@ public static class Deck
     {
         var dealer = Table.GetDealer();
         int cardsDealt = 0;
+        PlayCardSound(Audio.sources[0], 4);
         while (!IsDeckEmpty() && cardsDealt < Table.Players.Length * Table.startingCardCount)
         {
             int playerIndex = (cardsDealt + dealer + 1) % Table.Players.Length;
@@ -142,5 +148,17 @@ public static class Deck
     public static bool NotEnoughCards()
     {
         return Pool.Count < Table.Players.Length * Table.startingCardCount;
+    }
+
+    public static void PlayCardSound(GameObject card, int srcNum)
+    {
+        if (Audio != null)
+            Audio.Play(card.GetComponent<AudioSource>(), Audio.audios[srcNum]);
+    }
+
+    public static void PlayCardSound(AudioSource src, int srcNum)
+    {
+        if (Audio != null)
+            Audio.Play(src, Audio.audios[srcNum]);
     }
 }
