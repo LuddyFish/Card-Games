@@ -139,7 +139,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hearts_0
+      name: LC_heart_A
       rect:
         serializedVersion: 2
         x: 0
@@ -147,7 +147,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -161,7 +161,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_1
+      name: LC_heart_02
       rect:
         serializedVersion: 2
         x: 159
@@ -169,7 +169,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_2
+      name: LC_heart_03
       rect:
         serializedVersion: 2
         x: 319
@@ -191,7 +191,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_3
+      name: LC_heart_04
       rect:
         serializedVersion: 2
         x: 479
@@ -213,7 +213,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -227,7 +227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_4
+      name: LC_heart_05
       rect:
         serializedVersion: 2
         x: 639
@@ -235,7 +235,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -249,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_5
+      name: LC_heart_06
       rect:
         serializedVersion: 2
         x: 799
@@ -257,7 +257,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -271,7 +271,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_6
+      name: LC_heart_07
       rect:
         serializedVersion: 2
         x: 959
@@ -279,7 +279,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -293,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_7
+      name: LC_heart_08
       rect:
         serializedVersion: 2
         x: 1119
@@ -301,7 +301,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_8
+      name: LC_heart_09
       rect:
         serializedVersion: 2
         x: 1279
@@ -323,7 +323,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -337,7 +337,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_9
+      name: LC_heart_10
       rect:
         serializedVersion: 2
         x: 1439
@@ -345,7 +345,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -359,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_10
+      name: LC_heart_J
       rect:
         serializedVersion: 2
         x: 1599
@@ -367,7 +367,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_11
+      name: LC_heart_Q
       rect:
         serializedVersion: 2
         x: 1759
@@ -389,7 +389,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_12
+      name: LC_heart_K
       rect:
         serializedVersion: 2
         x: 1919
@@ -411,7 +411,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hearts_13
+      name: LC_JOKER_red
       rect:
         serializedVersion: 2
         x: 2079
@@ -433,7 +433,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -450,7 +450,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7ab58bf3fc8131442a405bf78f964e67
     internalID: 0
     vertices: []
     indices: 
@@ -460,20 +460,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hearts_0: 4432793351920879750
-      Hearts_1: 5642012044021194823
-      Hearts_10: 1005382218610990372
-      Hearts_11: -8764663365825681498
-      Hearts_12: 7767218836316654617
-      Hearts_13: -6617522761392243081
-      Hearts_2: 8124259339964715380
-      Hearts_3: 7685371531485235544
-      Hearts_4: 4160753575623616581
-      Hearts_5: 366615594880959974
-      Hearts_6: -35186699611894704
-      Hearts_7: 3631281003583422710
-      Hearts_8: 4183679337717486878
-      Hearts_9: -691712649893454002
+      LC_JOKER_red: -6617522761392243081
+      LC_heart_02: 5642012044021194823
+      LC_heart_03: 8124259339964715380
+      LC_heart_04: 7685371531485235544
+      LC_heart_05: 4160753575623616581
+      LC_heart_06: 366615594880959974
+      LC_heart_07: -35186699611894704
+      LC_heart_08: 3631281003583422710
+      LC_heart_09: 4183679337717486878
+      LC_heart_10: -691712649893454002
+      LC_heart_A: 4432793351920879750
+      LC_heart_J: 1005382218610990372
+      LC_heart_K: 7767218836316654617
+      LC_heart_Q: -8764663365825681498
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

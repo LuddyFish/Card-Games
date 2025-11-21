@@ -139,7 +139,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Clubs_0
+      name: HC_club_A
       rect:
         serializedVersion: 2
         x: 0
@@ -147,7 +147,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -161,7 +161,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_1
+      name: HC_club_02
       rect:
         serializedVersion: 2
         x: 159
@@ -169,7 +169,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_2
+      name: HC_club_03
       rect:
         serializedVersion: 2
         x: 319
@@ -191,7 +191,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_3
+      name: HC_club_04
       rect:
         serializedVersion: 2
         x: 479
@@ -213,7 +213,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -227,7 +227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_4
+      name: HC_club_05
       rect:
         serializedVersion: 2
         x: 639
@@ -235,7 +235,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -249,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_5
+      name: HC_club_06
       rect:
         serializedVersion: 2
         x: 799
@@ -257,7 +257,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -271,7 +271,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_6
+      name: HC_club_07
       rect:
         serializedVersion: 2
         x: 959
@@ -279,7 +279,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -293,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_7
+      name: HC_club_08
       rect:
         serializedVersion: 2
         x: 1119
@@ -301,7 +301,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_8
+      name: HC_club_09
       rect:
         serializedVersion: 2
         x: 1279
@@ -323,7 +323,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -337,7 +337,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_9
+      name: HC_club_10
       rect:
         serializedVersion: 2
         x: 1439
@@ -345,7 +345,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -359,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_10
+      name: HC_club_J
       rect:
         serializedVersion: 2
         x: 1599
@@ -367,7 +367,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_11
+      name: HC_club_Q
       rect:
         serializedVersion: 2
         x: 1759
@@ -389,7 +389,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_12
+      name: HC_club_K
       rect:
         serializedVersion: 2
         x: 1919
@@ -411,7 +411,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -425,15 +425,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Clubs_13
+      name: HC_card_back_2
       rect:
         serializedVersion: 2
-        x: 2079
+        x: 2075
         y: 0
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -450,7 +450,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 56e5732674204ad4e99b51a95efd924f
     internalID: 0
     vertices: []
     indices: 
@@ -460,20 +460,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Clubs_0: 6580202243993870459
-      Clubs_1: -6531208083505969383
-      Clubs_10: -5059728685345207952
-      Clubs_11: -1904986639896281482
-      Clubs_12: -6315250980985255380
-      Clubs_13: 4304269157814612079
-      Clubs_2: 8344925835321504350
-      Clubs_3: 5712192179826311687
-      Clubs_4: 6723229121571351083
-      Clubs_5: 3234311325699658468
-      Clubs_6: 4945532024574248614
-      Clubs_7: 253359655687380762
-      Clubs_8: 4328612506940052362
-      Clubs_9: -8149640864683522241
+      HC_card_back_2: 4304269157814612079
+      HC_club_02: -6531208083505969383
+      HC_club_03: 8344925835321504350
+      HC_club_04: 5712192179826311687
+      HC_club_05: 6723229121571351083
+      HC_club_06: 3234311325699658468
+      HC_club_07: 4945532024574248614
+      HC_club_08: 253359655687380762
+      HC_club_09: 4328612506940052362
+      HC_club_10: -8149640864683522241
+      HC_club_A: 6580202243993870459
+      HC_club_J: -5059728685345207952
+      HC_club_K: -6315250980985255380
+      HC_club_Q: -1904986639896281482
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

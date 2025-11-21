@@ -81,7 +81,6 @@ public static class Table
     public static void SetDealer(Player player)
     {
         player.isDealer = true;
-        //player.CheckDealerStatus();
     }
 
     /// <summary>
@@ -92,7 +91,6 @@ public static class Table
     public static void SwapDealer(Player previous, Player current)
     {
         previous.isDealer = false;
-        //previous.CheckDealerStatus();
         SetDealer(current);
     }
 

@@ -139,7 +139,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spades_0
+      name: HC_spade_A
       rect:
         serializedVersion: 2
         x: 0
@@ -147,7 +147,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -161,7 +161,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_1
+      name: HC_spade_02
       rect:
         serializedVersion: 2
         x: 159
@@ -169,7 +169,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_2
+      name: HC_spade_03
       rect:
         serializedVersion: 2
         x: 319
@@ -191,7 +191,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_3
+      name: HC_spade_04
       rect:
         serializedVersion: 2
         x: 479
@@ -213,7 +213,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -227,7 +227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_4
+      name: HC_spade_05
       rect:
         serializedVersion: 2
         x: 639
@@ -235,7 +235,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -249,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_5
+      name: HC_spade_06
       rect:
         serializedVersion: 2
         x: 799
@@ -257,7 +257,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -271,7 +271,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_6
+      name: HC_spade_07
       rect:
         serializedVersion: 2
         x: 959
@@ -279,7 +279,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -293,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_7
+      name: HC_spade_08
       rect:
         serializedVersion: 2
         x: 1119
@@ -301,7 +301,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_8
+      name: HC_spade_09
       rect:
         serializedVersion: 2
         x: 1279
@@ -323,7 +323,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -337,7 +337,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_9
+      name: HC_spade_10
       rect:
         serializedVersion: 2
         x: 1439
@@ -345,7 +345,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -359,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_10
+      name: HC_spade_J
       rect:
         serializedVersion: 2
         x: 1599
@@ -367,7 +367,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_11
+      name: HC_spade_Q
       rect:
         serializedVersion: 2
         x: 1759
@@ -389,7 +389,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_12
+      name: HC_spade_K
       rect:
         serializedVersion: 2
         x: 1919
@@ -411,7 +411,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spades_13
+      name: HC_JOKER_blue
       rect:
         serializedVersion: 2
         x: 2079
@@ -433,7 +433,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -450,7 +450,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 40c523b1d1960614785ff79c5b2eb037
     internalID: 0
     vertices: []
     indices: 
@@ -460,20 +460,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spades_0: -3173057495752149194
-      Spades_1: 6797638448102901132
-      Spades_10: -8268629565528164758
-      Spades_11: -259097689770144473
-      Spades_12: 4537376988046387192
-      Spades_13: -1239415532583106732
-      Spades_2: -9088260605387656605
-      Spades_3: -7293753406859156411
-      Spades_4: -3038228121545803943
-      Spades_5: 996634375146312575
-      Spades_6: 3507120216710708497
-      Spades_7: -4646880256051194766
-      Spades_8: -4452450269282608172
-      Spades_9: 2120434171988213139
+      HC_JOKER_blue: -1239415532583106732
+      HC_spade_02: 6797638448102901132
+      HC_spade_03: -9088260605387656605
+      HC_spade_04: -7293753406859156411
+      HC_spade_05: -3038228121545803943
+      HC_spade_06: 996634375146312575
+      HC_spade_07: 3507120216710708497
+      HC_spade_08: -4646880256051194766
+      HC_spade_09: -4452450269282608172
+      HC_spade_10: 2120434171988213139
+      HC_spade_A: -3173057495752149194
+      HC_spade_J: -8268629565528164758
+      HC_spade_K: 4537376988046387192
+      HC_spade_Q: -259097689770144473
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

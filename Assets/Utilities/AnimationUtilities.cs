@@ -33,7 +33,7 @@ public static class AnimationUtilities
     public static Coroutine Lerp(Transform obj, Vector2 origin, Vector2 target, float duration)
         => Runner.StartCoroutine(LerpLinear(obj, origin, target, duration));
 
-    public static IEnumerator LerpLinear(Transform obj, Vector2 origin, Vector2 target, float duration)
+    private static IEnumerator LerpLinear(Transform obj, Vector2 origin, Vector2 target, float duration)
     {
         float t = 0;
         while (t < duration)

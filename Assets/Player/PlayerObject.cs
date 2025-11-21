@@ -66,7 +66,6 @@ public class PlayerObject : MonoBehaviour
             layout.ReceiveCard(child, i, collectTime);
             child.GetComponent<SpriteRenderer>().sortingOrder = i; // Ensure that there's a layering
         }
-        layout.SetCards();
     }
 
     /// <summary>

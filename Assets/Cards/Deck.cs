@@ -60,8 +60,11 @@ public static class Deck
             for (int i = 0; i < Cards.Length; i++)
             {
                 var card = Box.cards[i].GetComponent<CardObject>().card;
-                Pool.Add(card);
-                if (!card.faceUp) Box.ReturnCard(Box.cards[i].transform);
+                if (!card.faceUp)
+                {
+                    Pool.Add(card);
+                    Box.ReturnCard(Box.cards[i].transform);
+                }
             }
         }
         else

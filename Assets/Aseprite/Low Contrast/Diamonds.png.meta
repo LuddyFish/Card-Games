@@ -139,7 +139,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Diamonds_0
+      name: LC_diamond_A
       rect:
         serializedVersion: 2
         x: 0
@@ -147,7 +147,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -161,7 +161,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_1
+      name: LC_diamond_02
       rect:
         serializedVersion: 2
         x: 159
@@ -169,7 +169,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_2
+      name: LC_diamond_03
       rect:
         serializedVersion: 2
         x: 319
@@ -191,7 +191,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_3
+      name: LC_diamond_04
       rect:
         serializedVersion: 2
         x: 479
@@ -213,7 +213,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -227,7 +227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_4
+      name: LC_diamond_05
       rect:
         serializedVersion: 2
         x: 639
@@ -235,7 +235,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -249,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_5
+      name: LC_diamond_06
       rect:
         serializedVersion: 2
         x: 799
@@ -257,7 +257,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -271,7 +271,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_6
+      name: LC_diamond_07
       rect:
         serializedVersion: 2
         x: 959
@@ -279,7 +279,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -293,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_7
+      name: LC_diamond_08
       rect:
         serializedVersion: 2
         x: 1119
@@ -301,7 +301,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_8
+      name: LC_diamond_09
       rect:
         serializedVersion: 2
         x: 1279
@@ -323,7 +323,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -337,7 +337,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_9
+      name: LC_diamond_10
       rect:
         serializedVersion: 2
         x: 1439
@@ -345,7 +345,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -359,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_10
+      name: LC_diamond_J
       rect:
         serializedVersion: 2
         x: 1599
@@ -367,7 +367,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -381,15 +381,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_11
+      name: LC_diamond_Q
       rect:
         serializedVersion: 2
-        x: 1759
+        x: 1763
         y: 0
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_12
+      name: LC_diamond_K
       rect:
         serializedVersion: 2
         x: 1919
@@ -411,7 +411,7 @@ TextureImporter:
         width: 157
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diamonds_13
+      name: LC_card_back_1
       rect:
         serializedVersion: 2
         x: 2079
@@ -433,7 +433,7 @@ TextureImporter:
         width: 156
         height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -450,7 +450,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: aa50dd442d53f4949ac1458571dca451
     internalID: 0
     vertices: []
     indices: 
@@ -460,20 +460,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Diamonds_0: 1930839287912332762
-      Diamonds_1: -4180039516846402663
-      Diamonds_10: 7169267357523271611
-      Diamonds_11: 2280115057347858601
-      Diamonds_12: -3158540903589798737
-      Diamonds_13: -1868697851134581415
-      Diamonds_2: -7550446514286331383
-      Diamonds_3: -1189264683318500452
-      Diamonds_4: 5489425550423852611
-      Diamonds_5: -129344682377229948
-      Diamonds_6: 4706147864203298530
-      Diamonds_7: -8609163736557127468
-      Diamonds_8: 2271373999398222149
-      Diamonds_9: -9054866390690767207
+      LC_card_back_1: -1868697851134581415
+      LC_diamond_02: -4180039516846402663
+      LC_diamond_03: -7550446514286331383
+      LC_diamond_04: -1189264683318500452
+      LC_diamond_05: 5489425550423852611
+      LC_diamond_06: -129344682377229948
+      LC_diamond_07: 4706147864203298530
+      LC_diamond_08: -8609163736557127468
+      LC_diamond_09: 2271373999398222149
+      LC_diamond_10: -9054866390690767207
+      LC_diamond_A: 1930839287912332762
+      LC_diamond_J: 7169267357523271611
+      LC_diamond_K: -3158540903589798737
+      LC_diamond_Q: 2280115057347858601
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

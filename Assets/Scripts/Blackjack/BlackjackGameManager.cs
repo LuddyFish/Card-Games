@@ -49,7 +49,7 @@ public class BlackjackGameManager : MonoBehaviour
         SetOtherVariables();
         AddEventSubscribers();
 
-        StartPhase(0);
+        StartPhase(4);
         waitingforPhase = false;
     }
 
