@@ -66,7 +66,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 3b615eff552b2dd44b218d7faf252347, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
@@ -169,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4608138830486379624, guid: 7aab0750a0392c249b84ece9b1c64044, type: 3}
       propertyPath: m_Name
-      value: Player Scoreboard Variant
+      value: Blackjack Scoreboard
       objectReference: {fileID: 0}
     - target: {fileID: 7556198552592451610, guid: 7aab0750a0392c249b84ece9b1c64044, type: 3}
       propertyPath: m_Pivot.x
