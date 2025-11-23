@@ -64,7 +64,9 @@ public class PlayerObject : MonoBehaviour
         for (int i = 0; i < hand.childCount; i++)
         {
             Transform child = hand.GetChild(i);
-            cards.Add(child.GetComponent<CardObject>());
+            CardObject obj = child.GetComponent<CardObject>();
+            obj.inHand = true;
+            cards.Add(obj);
             layout.ReceiveCard(child, i, collectTime);
             child.GetComponent<SpriteRenderer>().sortingOrder = i; // Ensure that there's a layering
         }

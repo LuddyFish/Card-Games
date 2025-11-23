@@ -63,10 +63,10 @@ public static class Deck
             Pool.Clear();
             for (int i = 0; i < Cards.Length; i++)
             {
-                var card = Box.cards[i].GetComponent<CardObject>().card;
-                if (!card.faceUp)
+                var card = Box.cards[i].GetComponent<CardObject>();
+                if (!card.inHand)
                 {
-                    Pool.Add(card);
+                    Pool.Add(card.card);
                     Box.ReturnCard(Box.cards[i].transform);
                 }
             }

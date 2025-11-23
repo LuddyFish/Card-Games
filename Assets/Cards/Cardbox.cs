@@ -10,7 +10,7 @@ public class Cardbox : MonoBehaviour
     public Sprite back;
     public Sprite[] face = new Sprite[52];
 
-    [HideInInspector] public List<GameObject> cards;
+    [HideInInspector] public List<GameObject> cards = new();
 
     [Space(10)]
     public Vector2 discardLocation;
@@ -35,8 +35,8 @@ public class Cardbox : MonoBehaviour
             ReturnCard(card.transform);
             cards.Add(card);
         }
-        BlackjackGameManager.Instance.onShuffle += ReturnCardsToDeck;
-        CardAudio.Instance.SetCardSRCs();
+        if (BlackjackGameManager.Instance != null) BlackjackGameManager.Instance.onShuffle += ReturnCardsToDeck;
+        CardAudio.Instance?.SetCardSRCs();
     }
 
     /// <summary>
@@ -80,6 +80,7 @@ public class Cardbox : MonoBehaviour
     public void DiscardCard(Transform card)
     {
         card.SetParent(transform);
+        card.GetComponent<CardObject>().inHand = false;
         AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime);
     }
 

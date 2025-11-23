@@ -7,6 +7,8 @@ public class CardObject : MonoBehaviour
     public Card card;
     public Sprite front, back;
 
+    public bool inHand = false;
+
     void Start()
     {
         rend = GetComponent<SpriteRenderer>();

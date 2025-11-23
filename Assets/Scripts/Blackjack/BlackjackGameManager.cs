@@ -115,21 +115,25 @@ public class BlackjackGameManager : MonoBehaviour
             switch (phase)
             {
                 case 0:
-                    StartCoroutine(DelayStartPhase(1, 0.5f));
+                    waitingforPhase = true;
+                    DelayStartPhase(1, 0.5f);
                     break;
                 case 1:
                     waitingforPhase = true;
-                    StartCoroutine(DelayStartPhase(2, 0.2f));
+                    DelayStartPhase(2, 0.2f);
                     break;
                 case 2:
                     break;
                 case 3:
                     waitingforPhase = true;
-                    StartCoroutine(DelayStartPhase(4, 3f));
+                    DelayStartPhase(4, 3f);
                     break;
                 case 4:
                     waitingforPhase = true;
-                    StartCoroutine(Deck.NotEnoughCards() ? DelayStartPhase(0, 0.75f) : DelayStartPhase(1, 0.2f));
+                    if (Deck.NotEnoughCards())
+                        DelayStartPhase(0, 0.75f);
+                    else
+                        DelayStartPhase(1, 0.2f);
                     break;
             }
         }
@@ -211,7 +215,9 @@ public class BlackjackGameManager : MonoBehaviour
     /// <param name="phase">Refer to <see cref="StartPhase(int)"/> for phase numbers</param>
     /// <param name="t">Time to wait</param>
     /// <returns></returns>
-    IEnumerator DelayStartPhase(int phase, float t)
+    Coroutine DelayStartPhase(int phase, float t) => StartCoroutine(DelayPhase(phase, t));
+
+    IEnumerator DelayPhase(int phase, float t)
     {
         yield return new WaitForSeconds(t);
         StartPhase(phase);
