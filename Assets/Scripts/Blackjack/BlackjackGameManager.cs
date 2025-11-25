@@ -19,6 +19,9 @@ public class BlackjackGameManager : MonoBehaviour
     private Text winText;
     private List<BlackjackScores> playerScores = new();
 
+    [SerializeField] private GameObject pausedScreen;
+    [HideInInspector] public bool isPaused = false;
+
     // --- Conditions ---
     private int phase = 0;
     private bool dealerTurn = false;
@@ -382,5 +385,19 @@ public class BlackjackGameManager : MonoBehaviour
     {
         playerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
         StartPhase(2);
+    }
+
+
+
+    public void TogglePause(bool pause)
+    {
+        isPaused = pause;
+        SetPause();
+    }
+
+    private void SetPause()
+    {
+        pausedScreen.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0 : 1;
     }
 }

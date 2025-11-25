@@ -5,7 +5,7 @@ public class BlackjackScores : MonoBehaviour
 {
     BlackjackGameManager BJGM => BlackjackGameManager.Instance;
 
-    private Text description;
+    private Text numbers;
     private GameObject bust;
 
     private int score = 0;
@@ -13,7 +13,7 @@ public class BlackjackScores : MonoBehaviour
 
     void Start()
     {
-        description = transform.Find("Description").GetComponent<Text>();
+        numbers = transform.Find("Numbers").GetComponent<Text>();
         bust = transform.Find("Bust").gameObject;
         UpdateText();
 
@@ -25,8 +25,7 @@ public class BlackjackScores : MonoBehaviour
 
     private void UpdateText()
     {
-        description.text = $"Score:\t\t\t\t\t\t{score}\n" +
-            $"Wins:\t\t\t\t\t\t{wins}";
+        numbers.text = $"{score}\n{wins}";
     }
 
     public int GetScore()
