@@ -5,15 +5,34 @@ using System.Collections.Generic;
 /// </summary>
 public class Player
 {
+    public int id { get; private set; }
+    public static int nextId = 0;
+
     public string Name { get; set; }
     public List<Card> Hand { get; private set; }
 
     public bool isMyTurn = false;
     public bool isDealer = false;
 
-    public Player(string name)
+    public Player(string name, int? id = null)
     {
+        this.id = id ?? nextId;
+        if (id is null)
+            nextId++;
+        else if (id.Value >= nextId)
+            nextId = id.Value + 1;
+
         Name = name;
         Hand = new List<Card>();
+    }
+
+    /// <summary>
+    /// Determines if this Player has the same name as <paramref name="other"/>
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns>Returns true if both players share the same <see cref="Name"/></returns>
+    public bool CompareName(Player other)
+    {
+        return Name == other.Name;
     }
 }

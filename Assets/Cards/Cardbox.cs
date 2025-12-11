@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Cardbox : MonoBehaviour
 {
-    public static Cardbox Instance;
+    public static Cardbox Instance { get; private set; }
 
     public GameObject cardPrefab;
 
@@ -65,6 +65,7 @@ public class Cardbox : MonoBehaviour
     public void ReturnCard(Transform card)
     {
         card.SetParent(transform);
+        card.GetComponent<CardObject>().discarded = false;
         AnimationUtilities.Lerp(card, card.position, transform.position, discardTime);
     }
 
@@ -80,7 +81,9 @@ public class Cardbox : MonoBehaviour
     public void DiscardCard(Transform card)
     {
         card.SetParent(transform);
-        card.GetComponent<CardObject>().inHand = false;
+        var obj = card.GetComponent<CardObject>();
+        obj.inHand = false;
+        obj.discarded = true;
         AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime);
     }
 

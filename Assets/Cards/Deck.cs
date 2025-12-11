@@ -34,9 +34,9 @@ public static class Deck
         suitCount = Enum.GetNames(typeof(Card.Suits)).Length;
         rankCount = Enum.GetNames(typeof(Card.Ranks)).Length;
         Cards = new Card[suitCount * rankCount];
-        for (int i = 0; i < suitCount; i++)
-            for (int j = 1; j <= rankCount; j++)
-                Cards[i * rankCount + j - 1] = new Card(i, j);
+        for (int s = 0; s < suitCount; s++)
+            for (int r = 1; r <= rankCount; r++)
+                Cards[s * rankCount + r - 1] = new Card(s, r);
         Pool = new List<Card>();
         Box.Init();
     }

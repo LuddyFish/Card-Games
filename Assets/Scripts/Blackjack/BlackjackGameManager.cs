@@ -6,18 +6,17 @@ using UnityEngine.UI;
 
 public class BlackjackGameManager : MonoBehaviour
 {
-    public static BlackjackGameManager Instance;
+    public static BlackjackGameManager Instance { get; private set; }
 
     // --- Players ---
     [HideInInspector] public List<PlayerObject> Players { get; private set; } = new();
-    [HideInInspector] public List<Player> PlayerDatas { get; private set; } = new();
 
     // --- UI ---
     [Space(12)]
     [SerializeField] private Button[] buttons;
     [SerializeField] private GameObject winTextBox;
     private Text winText;
-    private List<BlackjackScores> playerScores = new();
+    [HideInInspector] public List<BlackjackScores> PlayerScores { get; private set; } = new();
 
     [SerializeField] private GameObject pausedScreen;
     [HideInInspector] public bool isPaused = false;
@@ -58,20 +57,21 @@ public class BlackjackGameManager : MonoBehaviour
 
     void SetPlayerData()
     {
-        foreach(var player in Players)
-            PlayerDatas.Add(player.Data);
-
-        Table.NewTable(PlayerDatas.ToArray());
+        List<Player> playerDatas = new();
+        foreach (var player in Players)
+            playerDatas.Add(player.Data);
+        Table.NewTable(playerDatas.ToArray());
         Table.playerTurn = 0;
     }
 
     void SetOtherVariables()
     {
+        Deck.InitDeck();
         Table.startingCardCount = 2;
         winText = winTextBox.GetComponentInChildren<Text>();
         HideWinText();
         
-        foreach (var scorer in playerScores)
+        foreach (var scorer in PlayerScores)
         {
             scorer.SetScore(0);
             scorer.SetWins(0);
@@ -99,13 +99,13 @@ public class BlackjackGameManager : MonoBehaviour
 
     public void SetScorer(BlackjackScores scorer)
     {
-        playerScores.Add(scorer);
+        PlayerScores.Add(scorer);
         Debug.Log($"Added {scorer.name} to list of Scorers");
     }
 
     public void SetScorer(BlackjackScores scorer, int priority)
     {
-        playerScores.Insert(priority, scorer);
+        PlayerScores.Insert(priority, scorer);
         Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}");
     }
 
@@ -200,7 +200,7 @@ public class BlackjackGameManager : MonoBehaviour
                     Players[0].cards[1].Hide();
                 }
                 Table.NextPlayerTurn();
-                playerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
+                PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
                 break;
             case 3:
                 DisplayWinner(GetWinner());
@@ -252,7 +252,7 @@ public class BlackjackGameManager : MonoBehaviour
     {
         onReset?.Invoke();
         HideWinText();
-        foreach (var text in playerScores)
+        foreach (var text in PlayerScores)
         {
             text.SetScore(0);
             text.ToggleBust(false);
@@ -342,7 +342,7 @@ public class BlackjackGameManager : MonoBehaviour
     /// <param name="player"></param>
     public void IncrementWinsTally(int player)
     {
-        if (player >= 0) playerScores[player].SetWins(playerScores[player].GetWins() + 1);
+        if (player >= 0) PlayerScores[player].SetWins(PlayerScores[player].GetWins() + 1);
     }
 
     public void HideWinText()
@@ -373,17 +373,17 @@ public class BlackjackGameManager : MonoBehaviour
 
     public void HitMe()
     {
-        PlayerDatas[Table.playerTurn].Hand.Add(Deck.DealRandomCard());
+        Players[Table.playerTurn].Data.Hand.Add(Deck.DealRandomCard());
         Players[Table.playerTurn].SetHand();
         Players[Table.playerTurn].RevealHand();
-        playerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
+        PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
         if (CanHit(Players[Table.playerTurn]) != 1)
             StartPhase(2);
     }
 
     public void Stay()
     {
-        playerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
+        PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
         StartPhase(2);
     }
 

@@ -8,6 +8,7 @@ public class CardObject : MonoBehaviour
     public Sprite front, back;
 
     public bool inHand = false;
+    public bool discarded = false;
 
     void Start()
     {

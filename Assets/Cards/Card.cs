@@ -3,6 +3,9 @@
 /// </summary>
 public class Card
 {
+    public int id { get; private set; }
+    private static int nextId = 0;
+
     public int Suit { get; private set; }
     public int Rank { get; private set; }
 
@@ -15,8 +18,14 @@ public class Card
     /// </summary>
     public bool faceUp = false;
 
-    public Card(int Suit, int Rank)
+    public Card(int Suit, int Rank, int? id = null)
     {
+        this.id = id ?? nextId;
+        if (id is null)
+            nextId++;
+        else if (id.Value >= nextId)
+            nextId = id.Value + 1;
+
         this.Suit = Suit;
         this.Rank = Rank;
     }
@@ -90,7 +99,7 @@ public class Card
     /// Gets the name of the card
     /// </summary>
     /// <returns>
-    /// <c>Suit</c>-<c>Rank</c> as a string
+    /// <see cref="Card.Suit"/>-<see cref="Card.Rank"/> as a string
     /// </returns>
     public string GetName()
     {
@@ -123,5 +132,15 @@ public class Card
             Ranks.nine => 9,
             _ => 10
         };
+    }
+
+    /// <summary>
+    /// Determines if this card is the same value as <paramref name="other"/>
+    /// </summary>
+    /// <param name="other">Card to compare to</param>
+    /// <returns>Returns true if card has the same <see cref="Card.GetName"/></returns>
+    public bool CompareCard(Card other)
+    {
+        return GetName() == other.GetName();
     }
 }

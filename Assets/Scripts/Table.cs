@@ -26,7 +26,6 @@ public static class Table
         Players = new Player[players.Length];
         for (int i = 0; i < players.Length; i++)
             SetPlayer(i, players[i]);
-        Deck.InitDeck();
     }
 
     /// <summary>
