@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class FileDataHandler
 {
-    private string dataDirPath = string.Empty;
-    private string dataFileName = string.Empty;
-    private string dataSubFolderPath = string.Empty;
+    private readonly string dataDirPath = string.Empty;
+    private readonly string dataFileName = string.Empty;
+    private readonly string dataSubFolderPath = string.Empty;
 
     private string fullPath => Path.Combine(dataDirPath, dataSubFolderPath, dataFileName);
 

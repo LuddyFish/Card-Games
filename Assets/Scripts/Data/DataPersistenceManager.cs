@@ -30,6 +30,7 @@ public class DataPersistenceManager : MonoBehaviour
     public static DataPersistenceManager Instance { get; private set; }
 
     [SerializeField] private string fileName;
+    public string FullPath => Path.Combine(Application.persistentDataPath, fileName);
 
     private GameData gameData;
     private List<IDataPersistence> DataPersistenceObjects => FindAllDataPersistenceObjects();
@@ -38,16 +39,31 @@ public class DataPersistenceManager : MonoBehaviour
     void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(this);
+        }
         else
             Destroy(this);
+    }
+
+    [Tooltip("State values:\n0: New game\n1: Resume game")]
+    private int _enterGameState = 0;
+    public int EnterGameState
+    {
+        get { return _enterGameState; }
+        set { _enterGameState = value; }
     }
 
     public void Init()
     {
         SetDataHandler();
-        Debug.Log("File can be found at: " + Path.Combine(Application.persistentDataPath, fileName));
-        LoadGame();
+        Debug.Log("File can be found at: " + FullPath);
+
+        if (EnterGameState == 1)
+            LoadGame();
+        else
+            NewGame();
     }
 
     private void SetDataHandler() => dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
