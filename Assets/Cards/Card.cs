@@ -135,12 +135,12 @@ public class Card
     }
 
     /// <summary>
-    /// Determines if this card is the same value as <paramref name="other"/>
+    /// Determines if this card is the same id as <paramref name="other"/>
     /// </summary>
     /// <param name="other">Card to compare to</param>
-    /// <returns>Returns true if card has the same <see cref="Card.GetName"/></returns>
+    /// <returns>Returns true if card has the same <see cref="Card.id"/></returns>
     public bool CompareCard(Card other)
     {
-        return GetName() == other.GetName();
+        return id == other.id;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlackjackGameManager : MonoBehaviour
+public class BlackjackGameManager : MonoBehaviour, IDataPersistence
 {
     public static BlackjackGameManager Instance { get; private set; }
 
@@ -77,6 +77,8 @@ public class BlackjackGameManager : MonoBehaviour
             scorer.SetWins(0);
             scorer.ToggleBust(false);
         }
+
+        DataPersistenceManager.Instance.Init();
     }
 
     void AddEventSubscribers()
@@ -109,6 +111,20 @@ public class BlackjackGameManager : MonoBehaviour
         Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}");
     }
 
+    // --- Data Saving ---
+    public void LoadData(GameData data)
+    {
+        for (int i = 0; i < PlayerScores.Count; i++)
+        {
+            PlayerScores[i].SetScore(data.blackjackScores[i].score);
+            PlayerScores[i].SetWins(data.blackjackScores[i].wins);
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.SaveBlackjackData();
+    }
 
     // --- Runtime ---
     void Update()
@@ -370,7 +386,7 @@ public class BlackjackGameManager : MonoBehaviour
             return 2;
     }
 
-
+    // --- External Event Subscribers ---
     public void HitMe()
     {
         Players[Table.playerTurn].Data.Hand.Add(Deck.DealRandomCard());
@@ -386,8 +402,6 @@ public class BlackjackGameManager : MonoBehaviour
         PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
         StartPhase(2);
     }
-
-
 
     public void TogglePause(bool pause)
     {

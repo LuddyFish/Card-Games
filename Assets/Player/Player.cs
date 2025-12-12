@@ -27,6 +27,16 @@ public class Player
     }
 
     /// <summary>
+    /// Determines if this Player has the same id as <paramref name="other"/>
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns>Returns true if both players share the same <see cref="id"/></returns>
+    public bool ComparePlayer(Player other)
+    {
+        return id == other.id;
+    }
+
+    /// <summary>
     /// Determines if this Player has the same name as <paramref name="other"/>
     /// </summary>
     /// <param name="other"></param>

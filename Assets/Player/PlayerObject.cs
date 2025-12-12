@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerObject : MonoBehaviour
+public class PlayerObject : MonoBehaviour, IDataPersistence
 {
     private BlackjackGameManager BJGM => BlackjackGameManager.Instance;
     private Cardbox Box => Cardbox.Instance;
@@ -29,12 +29,41 @@ public class PlayerObject : MonoBehaviour
         BJGM.onReset += DiscardCards;
     }
 
+    public void LoadData(GameData data)
+    {
+
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        int index = GetPositionInTable();
+        if (index == -1)
+        {
+            Debug.LogError($"Could not find player: \"{name}\" id in Table");
+            return;
+        }
+
+        data.Players[index] = new(Data);
+    }
+
     void Update()
     {
         if (Data.isMyTurn && !handRevealed)
             RevealHand();
         else if (!Data.isMyTurn)
             handRevealed = false;
+    }
+
+    /// <summary>
+    /// Finds it's position index in <see cref="Table.Players"/>
+    /// </summary>
+    /// <returns>Returns it's index position or <c>-1</c> if it can't</returns>
+    public int GetPositionInTable()
+    {
+        for (int i = 0; i < Table.Players.Length; i++)
+            if (Data.ComparePlayer(Table.Players[i]))
+                return i;
+        return -1;
     }
 
     /// <summary>

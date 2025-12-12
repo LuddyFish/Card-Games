@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CardObject : MonoBehaviour
+public class CardObject : MonoBehaviour, IDataPersistence
 {
     SpriteRenderer rend;
 
@@ -15,11 +15,39 @@ public class CardObject : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
     }
 
+    public void LoadData(GameData data)
+    {
+
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        int index = GetCardInDeck();
+        if (index == -1)
+        {
+            Debug.LogError($"Could not find card: \"{name}\" id in Deck");
+            return;
+        }
+
+        data.Cards[index] = new(card);
+    }
+
     void Update()
     {
         rend.sprite = card.faceUp ? front : back;
     }
 
+    /// <summary>
+    /// Finds it's position index in <see cref="Deck.Cards"/>
+    /// </summary>
+    /// <returns>Returns it's index position or <c>-1</c> if it can't</returns>
+    public int GetCardInDeck()
+    {
+        for (int i = 0; i < Deck.Cards.Length; i++)
+            if (card.CompareCard(Deck.Cards[i]))
+                return i;
+        return -1;
+    }
     /// <summary>
     /// Activates/Deactivates the <c>gameObject</c> depending on if it is <c>inPlay</c>
     /// </summary>
