@@ -4,12 +4,14 @@ using System.Linq;
 [System.Serializable]
 public class PlayerData
 {
-    public readonly int id;
+    public int id;
 
-    public readonly string name;
-    public readonly List<int> cardIds;
-    public readonly bool isMyTurn;
-    public readonly bool isDealer;
+    public string name;
+    public List<int> cardIds;
+    public bool isMyTurn;
+    public bool isDealer;
+
+    public PlayerData() { }
 
     public PlayerData(Player player)
     {

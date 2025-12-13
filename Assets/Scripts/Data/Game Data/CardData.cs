@@ -1,12 +1,14 @@
 [System.Serializable]
 public class CardData
 {
-    public readonly int id;
+    public int id;
 
-    public readonly int suit;
-    public readonly int rank;
-    public readonly bool inPlay;
-    public readonly bool faceUp;
+    public int suit;
+    public int rank;
+    public bool inPlay;
+    public bool faceUp;
+
+    public CardData() { }
 
     public CardData(Card card)
     {
