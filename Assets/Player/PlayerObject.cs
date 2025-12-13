@@ -46,6 +46,11 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
         data.Players[index] = new(Data);
     }
 
+    public void SaveStats(ref PlayerGameStats stats)
+    {
+
+    }
+
     void Update()
     {
         if (Data.isMyTurn && !handRevealed)

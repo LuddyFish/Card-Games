@@ -19,7 +19,13 @@ public class DataScriptEditor : Editor
         if (GUILayout.Button("Save Game"))
             script.SaveGame();
         if (GUILayout.Button("Destroy Save"))
-            script.DestroySaveFile();
+            script.DestroySaveFile(script.dataHandler);
+
+        GUILayout.Space(10);
+        if (GUILayout.Button("Save Stats"))
+            script.SaveStats();
+        if (GUILayout.Button("Destroy Stats"))
+            script.DestroySaveFile(script.statsHandler);
     }
 }
 
@@ -29,14 +35,18 @@ public class DataPersistenceManager : MonoBehaviour
 {
     public static DataPersistenceManager Instance { get; private set; }
 
-    [SerializeField] private string fileName;
-    public string FullPath => Path.Combine(Application.persistentDataPath, fileName);
+    [SerializeField] private string dataFileName;
+    [SerializeField] private string statsFileName;
+    public string DataPath => Path.Combine(Application.persistentDataPath, dataFileName);
+    public string StatsPath => Path.Combine(Application.persistentDataPath, statsFileName);
 
     private GameData gameData;
+    private PlayerGameStats playerStats;
     private List<IDataPersistence> DataPersistenceObjects => FindAllDataPersistenceObjects();
-    private FileDataHandler dataHandler;
+    public FileDataHandler<GameData> dataHandler { get; private set; }
+    public FileDataHandler<PlayerGameStats> statsHandler { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -58,7 +68,9 @@ public class DataPersistenceManager : MonoBehaviour
     public void Init()
     {
         SetDataHandler();
-        Debug.Log("File can be found at: " + FullPath);
+        Debug.Log("Data file can be found at: " + DataPath);
+        SetStatsHandler();
+        Debug.Log("Stats file can be found at: " + StatsPath);
 
         if (EnterGameState == 1)
             LoadGame();
@@ -66,7 +78,12 @@ public class DataPersistenceManager : MonoBehaviour
             NewGame();
     }
 
-    private void SetDataHandler() => dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+    private void SetDataHandler() => 
+        dataHandler = new FileDataHandler<GameData>
+        (Application.persistentDataPath, dataFileName);
+    private void SetStatsHandler() => 
+        statsHandler = new FileDataHandler<PlayerGameStats>
+        (Application.persistentDataPath, statsFileName);
 
     public void NewGame()
     {
@@ -82,8 +99,6 @@ public class DataPersistenceManager : MonoBehaviour
         // if no data can be loaded, initilise data
         if (gameData == null)
             NewGame();
-
-        Debug.Log("Loading game data");
 
         // push loaded data to all other scripts
         foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
@@ -109,27 +124,78 @@ public class DataPersistenceManager : MonoBehaviour
         foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
             dataPersistenceObj.SaveData(ref gameData);
 
-        Debug.Log("Saving game data");
-
         // save that data to a file
         dataHandler.Save(gameData);
 
         Debug.Log("Saved game data");
     }
 
+    public void NewStats()
+    {
+        Debug.Log("Instatiating new Player Game Stats");
+        playerStats = new PlayerGameStats();
+    }
+
+    public PlayerGameStats GetStats()
+    {
+        if (playerStats == null)
+            NewStats();
+
+        Debug.Log("Retrieving Player Game Stats");
+        return playerStats;
+    }
+
+    public void SaveStats()
+    {
+        if (playerStats == null)
+            NewStats();
+
+        // pass the data to other scripts so they can update
+        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
+           dataPersistenceObj.SaveStats(ref playerStats); 
+
+        // save those stats to a file
+        statsHandler.Save(playerStats);
+
+        Debug.Log("Saved player game stats");
+    }
+
     /// <summary>
     /// <b>WARNING:</b> Only do this if you're sure you want to remove the existing data
     /// </summary>
-    public void DestroySaveFile()
+    public void DestroySaveFile<T>(FileDataHandler<T> handler) where T : class
     {
-        if (dataHandler == null) SetDataHandler();
-        dataHandler.Delete();
-        Debug.Log("Deleted game data");
+        // if handler doesn't point to a file, then determine it's type to be deleted
+        if (handler == null)
+        {
+            Debug.Log($"Could not find {typeof(T).Name} save file");
+            switch (typeof(T))
+            {
+                case var t when t == typeof(GameData):
+                    SetDataHandler();
+                    dataHandler.Delete();
+                    break;
+                case var t when t == typeof(PlayerGameStats):
+                    SetStatsHandler();
+                    statsHandler.Delete();
+                    break;
+                default: 
+                    Debug.LogError($"Class {typeof(T).Name} is not supported"); 
+                    return;
+            }
+        }
+        else
+        {
+            handler.Delete();
+        }
+
+        Debug.Log($"Deleted {typeof(T).Name} save data");
     }
 
     private void OnApplicationQuit()
     {
         SaveGame();
+        SaveStats();
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()

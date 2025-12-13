@@ -21,6 +21,10 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject pausedScreen;
     [HideInInspector] public bool isPaused = false;
 
+    // --- Internal Data ---
+    private int roundsPlayed = 0;
+    private List<int> playerInitialWins = new();
+
     // --- Conditions ---
     private int phase = 0;
     private bool dealerTurn = false;
@@ -76,7 +80,9 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
             scorer.SetScore(0);
             scorer.SetWins(0);
             scorer.ToggleBust(false);
+            playerInitialWins.Add(scorer.GetWins());
         }
+
 
         DataPersistenceManager.Instance.Init();
     }
@@ -116,14 +122,20 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     {
         for (int i = 0; i < PlayerScores.Count; i++)
         {
-            PlayerScores[i].SetScore(data.blackjackScores[i].score);
-            PlayerScores[i].SetWins(data.blackjackScores[i].wins);
+            PlayerScores[i].SetScore(data.BlackjackScores[i].score);
+            PlayerScores[i].SetWins(data.BlackjackScores[i].wins);
         }
     }
 
     public void SaveData(ref GameData data)
     {
         data.SaveBlackjackData();
+    }
+
+    public void SaveStats(ref PlayerGameStats stats)
+    {
+        stats.blackjackGames += roundsPlayed;
+        // TODO: add stats.blackjackWins to the identified player
     }
 
     // --- Runtime ---

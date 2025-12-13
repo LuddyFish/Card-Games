@@ -32,6 +32,11 @@ public class CardObject : MonoBehaviour, IDataPersistence
         data.Cards[index] = new(card);
     }
 
+    public void SaveStats(ref PlayerGameStats stats)
+    {
+
+    }
+
     void Update()
     {
         rend.sprite = card.faceUp ? front : back;
