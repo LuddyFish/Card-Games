@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 
@@ -19,13 +20,13 @@ public class DataScriptEditor : Editor
         if (GUILayout.Button("Save Game"))
             script.SaveGame();
         if (GUILayout.Button("Destroy Save"))
-            script.DestroySaveFile(script.dataHandler);
+            script.DestroySaveFile(script.data.handler);
 
         GUILayout.Space(10);
         if (GUILayout.Button("Save Stats"))
             script.SaveStats();
         if (GUILayout.Button("Destroy Stats"))
-            script.DestroySaveFile(script.statsHandler);
+            script.DestroySaveFile(script.stats.handler);
     }
 }
 
@@ -35,16 +36,24 @@ public class DataPersistenceManager : MonoBehaviour
 {
     public static DataPersistenceManager Instance { get; private set; }
 
-    [SerializeField] private string dataFileName;
-    [SerializeField] private string statsFileName;
-    public string DataPath => Path.Combine(Application.persistentDataPath, dataFileName);
-    public string StatsPath => Path.Combine(Application.persistentDataPath, statsFileName);
+    public DataComponents<GameData> data;
+    public DataComponents<PlayerGameStats> stats;
 
-    private GameData gameData;
-    private PlayerGameStats playerStats;
     private List<IDataPersistence> DataPersistenceObjects => FindAllDataPersistenceObjects();
-    public FileDataHandler<GameData> dataHandler { get; private set; }
-    public FileDataHandler<PlayerGameStats> statsHandler { get; private set; }
+
+    [System.Serializable]
+    public class DataComponents<T> where T : class
+    {
+        [SerializeField] private string fileName;
+        public string FilePath => Path.Combine(Application.persistentDataPath, fileName);
+
+        [HideInInspector] public T data;
+        public FileDataHandler<T> handler;
+
+        public void SetHandler() =>
+            handler = new FileDataHandler<T>
+            (Application.persistentDataPath, fileName);
+    }
 
     private void Awake()
     {
@@ -67,10 +76,10 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void Init()
     {
-        SetDataHandler();
-        Debug.Log("Data file can be found at: " + DataPath);
-        SetStatsHandler();
-        Debug.Log("Stats file can be found at: " + StatsPath);
+        data.SetHandler();
+        Debug.Log("Data file can be found at: " + data.FilePath);
+        stats.SetHandler();
+        Debug.Log("Stats file can be found at: " + stats.FilePath);
 
         if (EnterGameState == 1)
             LoadGame();
@@ -78,31 +87,25 @@ public class DataPersistenceManager : MonoBehaviour
             NewGame();
     }
 
-    private void SetDataHandler() => 
-        dataHandler = new FileDataHandler<GameData>
-        (Application.persistentDataPath, dataFileName);
-    private void SetStatsHandler() => 
-        statsHandler = new FileDataHandler<PlayerGameStats>
-        (Application.persistentDataPath, statsFileName);
-
+    #region Game
     public void NewGame()
     {
         Debug.Log("Instatiating new Game Data");
-        gameData = new GameData(Table.Players, Deck.Cards);
+        data.data = new GameData();
     }
 
     public void LoadGame()
     {
         // load any saved data from a file
-        gameData = dataHandler.Load();
+        data.data = data.handler.Load();
 
         // if no data can be loaded, initilise data
-        if (gameData == null)
+        if (data.data == null)
             NewGame();
 
         // push loaded data to all other scripts
         foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
-            dataPersistenceObj.LoadData(gameData);
+            dataPersistenceObj.LoadData(data.data);
 
         Debug.Log("Loaded game data");
     }
@@ -110,55 +113,58 @@ public class DataPersistenceManager : MonoBehaviour
     public void SaveGame()
     {
         // if game data was deleted for some reason
-        if (gameData == null)
+        if (data.data == null)
         {
             NewGame();
         }
         else
         {
             // update existing variables from static classes
-            gameData.SaveTableAndDeckData(Table.Players, Deck.Cards);
+            data.data.SaveTableAndDeckData();
         }
 
         // pass the data to other scripts so they can update
         foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
-            dataPersistenceObj.SaveData(ref gameData);
+            dataPersistenceObj.SaveData(ref data.data);
 
         // save that data to a file
-        dataHandler.Save(gameData);
+        data.handler.Save(data.data);
 
         Debug.Log("Saved game data");
     }
+    #endregion
 
+    #region Stats
     public void NewStats()
     {
         Debug.Log("Instatiating new Player Game Stats");
-        playerStats = new PlayerGameStats();
+        stats.data = new PlayerGameStats();
     }
 
     public PlayerGameStats GetStats()
     {
-        if (playerStats == null)
+        if (stats.data == null)
             NewStats();
 
         Debug.Log("Retrieving Player Game Stats");
-        return playerStats;
+        return stats.data;
     }
 
     public void SaveStats()
     {
-        if (playerStats == null)
+        if (stats.data == null)
             NewStats();
 
         // pass the data to other scripts so they can update
         foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
-           dataPersistenceObj.SaveStats(ref playerStats); 
+           dataPersistenceObj.SaveStats(ref stats.data); 
 
         // save those stats to a file
-        statsHandler.Save(playerStats);
+        stats.handler.Save(stats.data);
 
         Debug.Log("Saved player game stats");
     }
+    #endregion
 
     /// <summary>
     /// <b>WARNING:</b> Only do this if you're sure you want to remove the existing data
@@ -172,12 +178,12 @@ public class DataPersistenceManager : MonoBehaviour
             switch (typeof(T))
             {
                 case var t when t == typeof(GameData):
-                    SetDataHandler();
-                    dataHandler.Delete();
+                    data.SetHandler();
+                    data.handler.Delete();
                     break;
                 case var t when t == typeof(PlayerGameStats):
-                    SetStatsHandler();
-                    statsHandler.Delete();
+                    stats.SetHandler();
+                    stats.handler.Delete();
                     break;
                 default: 
                     Debug.LogError($"Class {typeof(T).Name} is not supported"); 
@@ -194,8 +200,11 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveGame();
-        SaveStats();
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MainMenu"))
+        {
+            SaveGame();
+            SaveStats();
+        }
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()

@@ -24,7 +24,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (DataPersistenceManager.Instance != null)
         {
-            return File.Exists(DataPersistenceManager.Instance.DataPath);
+            return File.Exists(DataPersistenceManager.Instance.data.FilePath);
         }
         return false;
     }

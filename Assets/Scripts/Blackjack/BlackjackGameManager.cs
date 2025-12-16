@@ -37,7 +37,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     public Action onShuffle;
     public Action onReset;
 
-    // --- Set up ---
+    #region Set Up
     void Awake()
     {
         if (Instance == null)
@@ -91,8 +91,9 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     {
         onShuffle += Deck.NewDeck;
     }
-    
-    // --- Other variables subscribing ---
+    #endregion
+
+    #region Other variables subscribing
     public void SetPlayer(PlayerObject player)
     {
         Players.Add(player);
@@ -116,14 +117,15 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
         PlayerScores.Insert(priority, scorer);
         Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}");
     }
+    #endregion
 
-    // --- Data Saving ---
+    #region Data Saving
     public void LoadData(GameData data)
     {
         for (int i = 0; i < PlayerScores.Count; i++)
         {
-            PlayerScores[i].SetScore(data.BlackjackScores[i].score);
-            PlayerScores[i].SetWins(data.BlackjackScores[i].wins);
+            PlayerScores[i].SetScore(data.blackjackScores[i].score);
+            PlayerScores[i].SetWins(data.blackjackScores[i].wins);
         }
     }
 
@@ -137,8 +139,9 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
         stats.blackjackGames += roundsPlayed;
         // TODO: add stats.blackjackWins to the identified player
     }
+    #endregion
 
-    // --- Runtime ---
+    #region Runtime
     void Update()
     {
         if (!waitingforPhase)
@@ -397,8 +400,9 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
         else
             return 2;
     }
+    #endregion
 
-    // --- External Event Subscribers ---
+    #region External Event Subscribers
     public void HitMe()
     {
         Players[Table.playerTurn].Data.Hand.Add(Deck.DealRandomCard());
@@ -426,4 +430,5 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
         pausedScreen.SetActive(isPaused);
         Time.timeScale = isPaused ? 0 : 1;
     }
+    #endregion
 }

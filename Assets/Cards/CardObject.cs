@@ -29,7 +29,7 @@ public class CardObject : MonoBehaviour, IDataPersistence
             return;
         }
 
-        data.Cards[index] = new(card);
+        data.cards[index] = new(card);
     }
 
     public void SaveStats(ref PlayerGameStats stats)

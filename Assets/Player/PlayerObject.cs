@@ -43,7 +43,7 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
             return;
         }
 
-        data.Players[index] = new(Data);
+        data.players[index] = new(Data);
     }
 
     public void SaveStats(ref PlayerGameStats stats)

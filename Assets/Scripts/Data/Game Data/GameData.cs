@@ -5,15 +5,15 @@ using UnityEngine;
 public class GameData
 {
     // --- Table Data ---
-    public List<PlayerData> Players = new();
+    public List<PlayerData> players = new();
     public int playerTurn;
     public int startingCardCount;
 
     // --- Deck Data ---
-    public List<CardData> Cards = new();
+    public List<CardData> cards = new();
 
     // --- Blackjack Data ---
-    public BlackjackScore[] BlackjackScores;
+    public BlackjackScore[] blackjackScores;
 
     [System.Serializable]
     public struct BlackjackScore
@@ -22,34 +22,30 @@ public class GameData
         public int wins;
     }
 
-    public GameData() { }
-
-    public GameData(Player[] players, Card[] cards)
+    public GameData()
     {
-        SaveTableAndDeckData(players, cards);
+        SaveTableAndDeckData();
         SaveBlackjackData();
     }
 
     /// <summary>
     /// Save specific data from <see cref="Table"/> and <see cref="Deck"/>.
     /// </summary>
-    /// <param name="Players"><see cref="Table.Players"/></param>
-    /// <param name="Cards"><see cref="Deck.Cards"/></param>
-    public void SaveTableAndDeckData(Player[] Players, Card[] Cards)
+    public void SaveTableAndDeckData()
     {
         // pre-emptive reset
-        this.Players.Clear();
-        this.Cards.Clear();
+        players.Clear();
+        cards.Clear();
 
         // set table/player variables
-        foreach (Player player in Players)
-            this.Players.Add(new(player));
+        foreach (Player player in Table.Players)
+            players.Add(new(player));
         playerTurn = Table.playerTurn;
         startingCardCount = Table.startingCardCount;
 
         // set deck/card variables
-        foreach (Card card in Cards)
-            this.Cards.Add(new(card));
+        foreach (Card card in Deck.Cards)
+            cards.Add(new(card));
     }
 
     public void SaveBlackjackData()
@@ -57,17 +53,17 @@ public class GameData
         // clear the save if it has already been set
         if (BlackjackGameManager.Instance == null)
         {
-            BlackjackScores = null;
+            blackjackScores = null;
             return;
         }
 
         var scores = BlackjackGameManager.Instance.PlayerScores;
-        BlackjackScores = new BlackjackScore[scores.Count];
+        blackjackScores = new BlackjackScore[scores.Count];
 
-        for (int i = 0; i < BlackjackScores.Length; i++)
+        for (int i = 0; i < blackjackScores.Length; i++)
         {
-            BlackjackScores[i].score = scores[i].GetScore();
-            BlackjackScores[i].wins = scores[i].GetWins();
+            blackjackScores[i].score = scores[i].GetScore();
+            blackjackScores[i].wins = scores[i].GetWins();
         }
     }
 }

@@ -44,5 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b88943d214f44e4396294cdbcbc5d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
+  data:
+    fileName: save_data.game
+    data:
+      players: []
+      playerTurn: 0
+      startingCardCount: 0
+      cards: []
+      blackjackScores: []
+  stats:
+    fileName: player_stats.game
   dataFileName: save_data.game
   statsFileName: player_stats.game
