@@ -33,7 +33,17 @@ public class Player
     /// <returns>Returns true if both players share the same <see cref="id"/></returns>
     public bool ComparePlayer(Player other)
     {
-        return id == other.id;
+        return this.id == other.id;
+    }
+
+    /// <summary>
+    /// Determines if this Player has the same id as <paramref name="other"/>
+    /// </summary>
+    /// <param name="other">ID of other player</param>
+    /// <returns>Returns true if both players share the same <see cref="id"/></returns>
+    public bool ComparePlayer(int id)
+    {
+        return this.id == id;
     }
 
     /// <summary>
@@ -43,6 +53,6 @@ public class Player
     /// <returns>Returns true if both players share the same <see cref="Name"/></returns>
     public bool CompareName(Player other)
     {
-        return Name == other.Name;
+        return this.Name == other.Name;
     }
 }

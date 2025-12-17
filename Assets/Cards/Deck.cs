@@ -152,13 +152,11 @@ public static class Deck
 
     public static void PlayCardSound(GameObject card, int srcNum)
     {
-        if (Audio != null)
-            Audio.Play(card.GetComponent<AudioSource>(), Audio.audios[srcNum]);
+        Audio?.Play(card.GetComponent<AudioSource>(), Audio.audios[srcNum]);
     }
 
     public static void PlayCardSound(AudioSource src, int srcNum)
     {
-        if (Audio != null)
-            Audio.Play(src, Audio.audios[srcNum]);
+        Audio?.Play(src, Audio.audios[srcNum]);
     }
 }

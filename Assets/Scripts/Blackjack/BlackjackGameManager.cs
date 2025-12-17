@@ -63,15 +63,17 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     {
         List<Player> playerDatas = new();
         foreach (var player in Players)
-            playerDatas.Add(player.Data);
+            playerDatas.Add(player.data);
         Table.NewTable(playerDatas.ToArray());
-        Table.playerTurn = 0;
+        if (DataPersistenceManager.Instance?.EnterGameState == 0)
+            Table.playerTurn = 0;
     }
 
     void SetOtherVariables()
     {
         Deck.InitDeck();
-        Table.startingCardCount = 2;
+        if (DataPersistenceManager.Instance?.EnterGameState == 0)
+            Table.startingCardCount = 2;
         winText = winTextBox.GetComponentInChildren<Text>();
         HideWinText();
         
@@ -122,7 +124,12 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     #region Data Saving
     public void LoadData(GameData data)
     {
-        for (int i = 0; i < PlayerScores.Count; i++)
+        // --- Table ---
+        Table.playerTurn = data.playerTurn;
+        Table.startingCardCount = data.startingCardCount;
+
+        // --- Players ---
+        for (int i = 0; i < PlayerScores.Count && i < data.blackjackScores.Length; i++)
         {
             PlayerScores[i].SetScore(data.blackjackScores[i].score);
             PlayerScores[i].SetWins(data.blackjackScores[i].wins);
@@ -405,7 +412,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
     #region External Event Subscribers
     public void HitMe()
     {
-        Players[Table.playerTurn].Data.Hand.Add(Deck.DealRandomCard());
+        Players[Table.playerTurn].data.Hand.Add(Deck.DealRandomCard());
         Players[Table.playerTurn].SetHand();
         Players[Table.playerTurn].RevealHand();
         PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));

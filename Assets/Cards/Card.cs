@@ -113,6 +113,37 @@ public class Card
     }
 
     /// <summary>
+    /// Determines if this card is the same id as <paramref name="other"/>
+    /// </summary>
+    /// <param name="other">Card to compare to</param>
+    /// <returns>Returns true if card has the same <see cref="Card.id"/></returns>
+    public bool CompareCard(Card other)
+    {
+        return this.id == other.id;
+    }
+
+    /// <summary>
+    /// Determines if this card is the same id as <paramref name="other"/>
+    /// </summary>
+    /// <param name="id">ID of the other card</param>
+    /// <returns>Returns true if card has the same <see cref="Card.id"/></returns>
+    public bool CompareCard(int id)
+    {
+        return this.id == id;
+    }
+
+    /// <summary>
+    /// Restore the original values of the card
+    /// </summary>
+    /// <param name="suit"></param>
+    /// <param name="rank"></param>
+    public void Restore(int suit, int rank)
+    {
+        Suit = suit;
+        Rank = rank;
+    }
+
+    /// <summary>
     /// The value of cards in blackjack
     /// </summary>
     /// <param name="card"></param>
@@ -132,15 +163,5 @@ public class Card
             Ranks.nine => 9,
             _ => 10
         };
-    }
-
-    /// <summary>
-    /// Determines if this card is the same id as <paramref name="other"/>
-    /// </summary>
-    /// <param name="other">Card to compare to</param>
-    /// <returns>Returns true if card has the same <see cref="Card.id"/></returns>
-    public bool CompareCard(Card other)
-    {
-        return id == other.id;
     }
 }

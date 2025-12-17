@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerObject : MonoBehaviour, IDataPersistence
@@ -6,9 +7,10 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     private BlackjackGameManager BJGM => BlackjackGameManager.Instance;
     private Cardbox Box => Cardbox.Instance;
     private CardAudio CardAudio => CardAudio.Instance;
-    Transform hand;
 
-    public Player Data { get; private set; }
+    private Transform hand;
+
+    public Player data;
     [HideInInspector] public List<CardObject> cards;
 
     [Tooltip("How long it takes for a card to move into hand")]
@@ -18,7 +20,7 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     void Start()
     {
         hand = transform.Find("Hand").transform;
-        Data = new Player(name);
+        data = new Player(name);
         cards = new List<CardObject>();
 
         if (TryGetComponent<Dealer>(out _))
@@ -31,7 +33,10 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-
+        var cardsById = Deck.Cards.ToDictionary(c => c.id);
+        foreach (var player in data.players)
+            if (this.data.ComparePlayer(player.id))
+                player.TransferData(this.data, cardsById);
     }
 
     public void SaveData(ref GameData data)
@@ -43,7 +48,7 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
             return;
         }
 
-        data.players[index] = new(Data);
+        data.players[index] = new(this.data);
     }
 
     public void SaveStats(ref PlayerGameStats stats)
@@ -53,9 +58,9 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
 
     void Update()
     {
-        if (Data.isMyTurn && !handRevealed)
+        if (data.isMyTurn && !handRevealed)
             RevealHand();
-        else if (!Data.isMyTurn)
+        else if (!data.isMyTurn)
             handRevealed = false;
     }
 
@@ -66,18 +71,18 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     public int GetPositionInTable()
     {
         for (int i = 0; i < Table.Players.Length; i++)
-            if (Data.ComparePlayer(Table.Players[i]))
+            if (data.ComparePlayer(Table.Players[i]))
                 return i;
         return -1;
     }
 
     /// <summary>
-    /// Retrieve all cards in <see cref="Data"/> and add it to <see cref="hand"/><br/>
+    /// Retrieve all cards in <see cref="data"/> and add it to <see cref="hand"/><br/>
     /// Also resets <see cref="hand"/> to avoid mistakes
     /// </summary>
     public void SetHand()
     {
-        foreach (var card in Data.Hand)
+        foreach (var card in data.Hand)
             foreach (var obj in Box.cards)
                 if (obj.name == card.GetName())
                 {
@@ -120,11 +125,11 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     }
 
     /// <summary>
-    /// Remove all cards from <see cref="Data"/> and <see cref="hand"/>
+    /// Remove all cards from <see cref="data"/> and <see cref="hand"/>
     /// </summary>
     public void DiscardCards()
     {
-        Data.Hand.Clear();
+        data.Hand.Clear();
         while (hand.childCount > 0)
             RemoveFromHand(hand.GetChild(0));
         foreach (var card in cards)

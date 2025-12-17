@@ -22,7 +22,7 @@ public class Dealer : MonoBehaviour
     void Update()
     {
         if (!Manager.PlayersActive) return;
-        if (me.Data.isMyTurn && !performingAction)
+        if (me.data.isMyTurn && !performingAction)
         {
             performingAction = true;
             StartCoroutine(TryToWin());
@@ -35,7 +35,7 @@ public class Dealer : MonoBehaviour
         if (HaveHighestScore())
         {
             Manager.Stay();
-            Table.RestPlayer(me.Data); // Pre-initative rest
+            Table.RestPlayer(me.data); // Pre-initative rest
         }
         else
             Manager.HitMe();

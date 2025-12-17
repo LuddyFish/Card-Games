@@ -18,4 +18,15 @@ public class CardData
         inPlay = card.inPlay;
         faceUp = card.faceUp;
     }
+
+    /// <summary>
+    /// Transfer stored data into <paramref name="card"/>
+    /// </summary>
+    /// <param name="card"></param>
+    public void TransferData(Card card)
+    {
+        card.Restore(suit, rank);
+        card.inPlay = inPlay;
+        card.faceUp = faceUp;
+    }
 }
