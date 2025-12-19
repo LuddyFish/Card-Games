@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerObject : MonoBehaviour, IDataPersistence
+public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
 {
     private BlackjackGameManager BJGM => BlackjackGameManager.Instance;
     private Cardbox Box => Cardbox.Instance;
@@ -49,11 +49,6 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
         }
 
         data.players[index] = new(this.data);
-    }
-
-    public void SaveStats(ref PlayerGameStats stats)
-    {
-
     }
 
     void Update()

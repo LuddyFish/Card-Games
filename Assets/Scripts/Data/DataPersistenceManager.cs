@@ -18,13 +18,13 @@ public class DataScriptEditor : Editor
 
         DataPersistenceManager script = (DataPersistenceManager)target;
         if (GUILayout.Button("Save Game"))
-            script.SaveGame();
+            script.Save(script.data, script.GameDataPersistenceObjects);
         if (GUILayout.Button("Destroy Save"))
             script.DestroySaveFile(script.data.handler);
 
         GUILayout.Space(10);
         if (GUILayout.Button("Save Stats"))
-            script.SaveStats();
+            script.Save(script.stats, script.PlayerStatsPersistenceObjects);
         if (GUILayout.Button("Destroy Stats"))
             script.DestroySaveFile(script.stats.handler);
     }
@@ -32,35 +32,22 @@ public class DataScriptEditor : Editor
 
 #endif
 
-public class DataPersistenceManager : MonoBehaviour
+public class DataPersistenceManager : DataPersistenceBase
 {
     public static DataPersistenceManager Instance { get; private set; }
 
-    public DataComponents<GameData> data;
-    public DataComponents<PlayerGameStats> stats;
+    public DataComponent<GameData> data;
+    public DataComponent<PlayerGameStats> stats;
 
-    private List<IDataPersistence> DataPersistenceObjects => FindAllDataPersistenceObjects();
+    public List<IDataPersistence<GameData>> GameDataPersistenceObjects => FindAllDataPersistenceObjects<GameData>();
+    public List<IDataPersistence<PlayerGameStats>> PlayerStatsPersistenceObjects => FindAllDataPersistenceObjects<PlayerGameStats>();
 
-    [System.Serializable]
-    public class DataComponents<T> where T : class
-    {
-        [SerializeField] private string fileName;
-        public string FilePath => Path.Combine(Application.persistentDataPath, fileName);
-
-        [HideInInspector] public T data;
-        public FileDataHandler<T> handler;
-
-        public void SetHandler() =>
-            handler = new FileDataHandler<T>
-            (Application.persistentDataPath, fileName);
-    }
-
-    private void Awake()
+    protected override void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            base.Awake();
         }
         else
             Destroy(this);
@@ -74,7 +61,7 @@ public class DataPersistenceManager : MonoBehaviour
         set { _enterGameState = value; }
     }
 
-    public void Init()
+    public override void Init()
     {
         data.SetHandler();
         Debug.Log("Data file can be found at: " + data.FilePath);
@@ -82,96 +69,64 @@ public class DataPersistenceManager : MonoBehaviour
         Debug.Log("Stats file can be found at: " + stats.FilePath);
 
         if (EnterGameState == 1)
-            LoadGame();
+            Load(data, GameDataPersistenceObjects);
         else
-            NewGame();
+            New(data);
     }
 
-    #region Game
-    public void NewGame()
+    protected override void LoadAll()
     {
-        Debug.Log("Instatiating new Game Data");
-        data.data = new GameData();
+        Load(data, GameDataPersistenceObjects);
+        Load(stats, PlayerStatsPersistenceObjects);
     }
 
-    public void LoadGame()
+    protected override void SaveAll()
     {
-        // load any saved data from a file
-        data.data = data.handler.Load();
-
-        // if no data can be loaded, initilise data
-        if (data.data == null)
-            NewGame();
-
-        // push loaded data to all other scripts
-        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
-            dataPersistenceObj.LoadData(data.data);
-
-        Debug.Log("Loaded game data");
+        Save(data, GameDataPersistenceObjects);
+        Save(stats, PlayerStatsPersistenceObjects);
     }
 
-    public void SaveGame()
+    protected override void DestroyAll()
     {
-        // if game data was deleted for some reason
-        if (data.data == null)
-        {
-            NewGame();
-        }
-        else
-        {
-            // update existing variables from static classes
-            data.data.SaveTableAndDeckData();
-        }
-
-        // pass the data to other scripts so they can update
-        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
-            dataPersistenceObj.SaveData(ref data.data);
-
-        // save that data to a file
-        data.handler.Save(data.data);
-
-        Debug.Log("Saved game data");
+        data.handler?.Delete();
+        stats.handler?.Delete();
     }
-    #endregion
 
-    #region Stats
-    public void NewStats()
+    public void New<T>(DataComponent<T> component) where T : class, new()
     {
-        Debug.Log("Instatiating new Player Game Stats");
-        stats.data = new PlayerGameStats();
+        Debug.Log($"Instatiating new {typeof(T).Name}");
+        component.New();
     }
-
-    public PlayerGameStats GetStats()
+    public void Load<T>(DataComponent<T> component, List<IDataPersistence<T>> dataPersistenceObjects) where T : class, new()
     {
-        if (stats.data == null)
-            NewStats();
+        component.Load();
+        foreach (var dataPersistenceObj in dataPersistenceObjects)
+            dataPersistenceObj.LoadData(component.data);
 
-        Debug.Log("Retrieving Player Game Stats");
-        return stats.data;
+        Debug.Log($"Loaded {typeof(T).Name}");
     }
 
-    public void SaveStats()
+    public void Save<T>(DataComponent<T> component, List<IDataPersistence<T>> dataPersistenceObjects) where T : class, new()
     {
-        if (stats.data == null)
-            NewStats();
+        if (component.data == null)
+            component.New();
 
-        // pass the data to other scripts so they can update
-        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
-           dataPersistenceObj.SaveStats(ref stats.data); 
+        foreach (var dataPersistenceObj in dataPersistenceObjects)
+            dataPersistenceObj.SaveData(ref component.data);
 
-        // save those stats to a file
-        stats.handler.Save(stats.data);
+        component.Save();
 
-        Debug.Log("Saved player game stats");
+        Debug.Log($"Saved {typeof(T).Name}");
     }
-    #endregion
-
+    
     /// <summary>
     /// <b>WARNING:</b> Only do this if you're sure you want to remove the existing data
     /// </summary>
     public void DestroySaveFile<T>(FileDataHandler<T> handler) where T : class
     {
         // if handler doesn't point to a file, then determine it's type to be deleted
+        handler?.Delete();
+
         if (handler == null)
         {
             Debug.Log($"Could not find {typeof(T).Name} save file");
@@ -190,29 +145,22 @@ public class DataPersistenceManager : MonoBehaviour
                     return;
             }
         }
-        else
-        {
-            handler.Delete();
-        }
 
         Debug.Log($"Deleted {typeof(T).Name} save data");
     }
 
-    private void OnApplicationQuit()
+    protected override void OnApplicationQuit()
     {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MainMenu"))
-        {
-            SaveGame();
-            SaveStats();
-        }
+            SaveAll();
     }
 
-    private List<IDataPersistence> FindAllDataPersistenceObjects()
+    private List<IDataPersistence<T>> FindAllDataPersistenceObjects<T>() where T : class
     {
-        IEnumerable<IDataPersistence> dataPersistenceObjects = 
+        IEnumerable<IDataPersistence<T>> dataPersistenceObjects = 
             FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
-            .OfType<IDataPersistence>();
+            .OfType<IDataPersistence<T>>();
 
-        return new List<IDataPersistence>(dataPersistenceObjects);
+        return new List<IDataPersistence<T>>(dataPersistenceObjects);
     }
 }

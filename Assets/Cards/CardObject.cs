@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CardObject : MonoBehaviour, IDataPersistence
+public class CardObject : MonoBehaviour, IDataPersistence<GameData>
 {
     SpriteRenderer rend;
 
@@ -32,11 +32,6 @@ public class CardObject : MonoBehaviour, IDataPersistence
         }
 
         data.cards[index] = new(card);
-    }
-
-    public void SaveStats(ref PlayerGameStats stats)
-    {
-
     }
 
     void Update()

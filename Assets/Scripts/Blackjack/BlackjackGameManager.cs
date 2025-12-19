@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlackjackGameManager : MonoBehaviour, IDataPersistence
+public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, IDataPersistence<PlayerGameStats>
 {
     public static BlackjackGameManager Instance { get; private set; }
 
@@ -141,9 +141,14 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence
         data.SaveBlackjackData();
     }
 
-    public void SaveStats(ref PlayerGameStats stats)
+    public void LoadData(PlayerGameStats data)
     {
-        stats.blackjackGames += roundsPlayed;
+
+    }
+
+    public void SaveData(ref PlayerGameStats data)
+    {
+        data.blackjackGames += roundsPlayed;
         // TODO: add stats.blackjackWins to the identified player
     }
     #endregion
