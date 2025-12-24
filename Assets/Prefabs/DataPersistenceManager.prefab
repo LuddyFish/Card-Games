@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
   data:
-    fileName: save_data.game
+    _fileName: save_data.game
     data:
       players: []
       playerTurn: 0
@@ -53,6 +53,4 @@ MonoBehaviour:
       cards: []
       blackjackScores: []
   stats:
-    fileName: player_stats.game
-  dataFileName: save_data.game
-  statsFileName: player_stats.game
+    _fileName: player_stats.game

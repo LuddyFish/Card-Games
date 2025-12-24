@@ -35,7 +35,7 @@ public class Dealer : MonoBehaviour
         if (HaveHighestScore())
         {
             Manager.Stay();
-            Table.RestPlayer(me.data); // Pre-initative rest
+            Manager.table.RestPlayer(me.data); // Pre-initative rest
         }
         else
             Manager.HitMe();
