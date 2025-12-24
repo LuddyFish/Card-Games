@@ -33,7 +33,7 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
 
     public void LoadData(GameData data)
     {
-        var cardsById = Deck.Cards.ToDictionary(c => c.Id);
+        var cardsById = BJGM.deck.Cards.ToDictionary(c => c.Id);
         foreach (var player in data.players)
             if (this.data.ComparePlayer(player.id))
                 player.TransferData(this.data, cardsById);
@@ -65,8 +65,8 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
     /// <returns>Returns it's index position or <c>-1</c> if it can't</returns>
     public int GetPositionInTable()
     {
-        for (int i = 0; i < Table.Players.Length; i++)
-            if (data.ComparePlayer(Table.Players[i]))
+        for (int i = 0; i < BJGM.table.Players.Length; i++)
+            if (data.ComparePlayer(BJGM.table.Players[i]))
                 return i;
         return -1;
     }

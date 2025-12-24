@@ -22,30 +22,25 @@ public class GameData
         public int wins;
     }
 
-    public GameData()
-    {
-        SaveTableAndDeckData();
-        SaveBlackjackData();
-    }
+    public GameData() { }
 
-    /// <summary>
-    /// Save specific data from <see cref="Table"/> and <see cref="Deck"/>.
-    /// </summary>
-    public void SaveTableAndDeckData()
+    public GameData(Table table, Deck deck)
     {
         // pre-emptive reset
         players.Clear();
         cards.Clear();
 
         // set table/player variables
-        foreach (Player player in Table.Players)
+        foreach (Player player in table.Players)
             players.Add(new(player));
-        playerTurn = Table.playerTurn;
-        startingCardCount = Table.startingCardCount;
+        playerTurn = table.playerTurn;
+        startingCardCount = table.startingCardCount;
 
         // set deck/card variables
-        foreach (Card card in Deck.Cards)
+        foreach (Card card in deck.Cards)
             cards.Add(new(card));
+
+        SaveBlackjackData();
     }
 
     public void SaveBlackjackData()

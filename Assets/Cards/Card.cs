@@ -37,6 +37,7 @@ public class Card
         Heart = 1,
         Diamond = 2,
         Club = 3,
+        Joker = -1
     }
 
     public enum Ranks
@@ -54,6 +55,7 @@ public class Card
         jack = 11,
         queen = 12,
         king = 13,
+        joker = -1
     }
 
     /// <summary>
@@ -92,7 +94,8 @@ public class Card
             (int)Suits.Diamond => "Diamond",
             (int)Suits.Club => "Club",
             (int)Suits.Spade => "Spade",
-            _ => "Heart"
+            (int)Suits.Heart => "Heart",
+            _ => "Joker"
         };
     }
 
@@ -162,6 +165,7 @@ public class Card
             Ranks.seven => 7,
             Ranks.eight => 8,
             Ranks.nine => 9,
+            Ranks.joker => 0,
             _ => 10
         };
     }

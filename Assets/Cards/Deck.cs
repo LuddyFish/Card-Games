@@ -6,67 +6,62 @@ using UnityEngine;
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
 /// </summary>
-public static class Deck
+public class Deck
 {
     /// <summary>
     /// Whole deck of cards. This should not be modified!
     /// </summary>
-    public static Card[] Cards { get; private set; }
+    public Card[] Cards { get; private set; }
     /// <summary>
-    /// Deck of cards that can be selected from
+    /// Sudo deck of cards that tracks whether or not cards are available<br/>
+    /// to be drawn from the deck or not
     /// </summary>
-    public static List<Card> Pool { get; private set; }
+    private readonly List<Card> _pool;
+
     // How many suits and ranks
-    private static int suitCount = 4;
-    private static int rankCount = 13;
+    private readonly int _suitCount = 4;
+    private readonly int _rankCount = 13;
 
-    /// <summary>
-    /// Box where the physical <c>GameObject</c>s are stored
-    /// </summary>
-    private static Cardbox Box => Cardbox.Instance;
-    private static CardAudio Audio => CardAudio.Instance;
+    Cardbox Box => Cardbox.Instance;
+    CardAudio Audio => CardAudio.Instance;
 
-    /// <summary>
-    /// Initialise the deck
-    /// </summary>
-    public static void InitDeck()
+    public Deck(int? suitCount = null, int? rankCount = null)
     {
-        suitCount = Enum.GetNames(typeof(Card.Suits)).Length;
-        rankCount = Enum.GetNames(typeof(Card.Ranks)).Length;
-        Cards = new Card[suitCount * rankCount];
-        for (int s = 0; s < suitCount; s++)
-            for (int r = 1; r <= rankCount; r++)
-                Cards[s * rankCount + r - 1] = new Card(s, r);
-        Pool = new List<Card>();
-        Box.Init();
+        _suitCount = suitCount ?? _suitCount;
+        _rankCount = rankCount ?? _rankCount;
+        Cards = new Card[_suitCount * _rankCount];
+        for (int s = 0; s < _suitCount; s++)
+            for (int r = 1; r <= _rankCount; r++)
+                Cards[s * _rankCount + r - 1] = new Card(s, r, s * _rankCount + r);
+        _pool = new();
     }
 
     /// <summary>
     /// Reset the cards in the pool to choose from.
     /// </summary>
-    public static void NewDeck()
+    public void NewDeck()
     {
         PlayCardSound(Audio.sources[0], 3);
-        Pool.Clear();
+        _pool.Clear();
         foreach (Card card in Cards)
-            Pool.Add(card);
+            _pool.Add(card);
     }
 
     /// <summary>
     /// Reset the cards in the pool to choose from but leaves all cards 
     /// </summary>
-    public static void NewSoftDeck()
+    public void NewSoftDeck()
     {
         if (Box != null)
         {
             PlayCardSound(Audio.sources[0], 3);
-            Pool.Clear();
+            _pool.Clear();
             for (int i = 0; i < Cards.Length; i++)
             {
                 var card = Box.cards[i].GetComponent<CardObject>();
                 if (!card.inHand)
                 {
-                    Pool.Add(card.card);
+                    _pool.Add(card.card);
                     Box.ReturnCard(Box.cards[i].transform);
                 }
             }
@@ -80,7 +75,7 @@ public static class Deck
     /// </summary>
     /// <param name="card"></param>
     /// <returns>Index position of card</returns>
-    private static int FindCardIndex(Card card)
+    private int FindCardIndex(Card card)
     {
         for (int i = 0; i < Cards.Length; i++)
             if (Cards[i] == card)
@@ -89,73 +84,75 @@ public static class Deck
     }
 
     /// <summary>
-    /// Get a random card from <see cref="Pool"/>
+    /// Get a random card from <see cref="_pool"/>
     /// </summary>
-    /// <returns>Returns a random card in <see cref="Pool"/></returns>
-    private static Card GetRandomCard()
+    /// <returns>Returns a random card in <see cref="_pool"/></returns>
+    private Card GetRandomCard()
     {
-        int index = UnityEngine.Random.Range(0, Pool.Count);
-        return Pool.ElementAt(index);
+        int index = UnityEngine.Random.Range(0, _pool.Count);
+        return _pool.ElementAt(index);
     }
 
     /// <summary>
-    /// Get a random card in <see cref="Pool"/>
+    /// Get a random card in <see cref="_pool"/>
     /// </summary>
     /// <returns>A card</returns>
-    public static Card DealRandomCard()
+    public Card DealRandomCard()
     {
         if (IsDeckEmpty()) NewSoftDeck(); // Ensures that can deal cards.
-        int index = UnityEngine.Random.Range(0, Pool.Count);
+        int index = UnityEngine.Random.Range(0, _pool.Count);
         PlayCardSound(Box.cards[index], 1);
-        Card card = Pool.ElementAt(index);
-        Pool.RemoveAt(index);
+        Card card = _pool.ElementAt(index);
+        _pool.RemoveAt(index);
         return card;
     }
 
     /// <summary>
     /// Deal a batch of cards
     /// </summary>
-    public static void Deal()
+    /// <param name="table">The game Table which to deal to</param>
+    public void Deal(Table table)
     {
-        var dealer = Table.GetDealer();
+        var dealer = table.GetDealer();
         int cardsDealt = 0;
         PlayCardSound(Audio.sources[0], 4);
-        while (!IsDeckEmpty() && cardsDealt < Table.Players.Length * Table.startingCardCount)
+        while (!IsDeckEmpty() && cardsDealt < table.Players.Length * table.startingCardCount)
         {
-            int playerIndex = (cardsDealt + dealer + 1) % Table.Players.Length;
+            int playerIndex = (cardsDealt + dealer + 1) % table.Players.Length;
             Card card = GetRandomCard();
-            Table.Players[playerIndex].Hand.Add(card);
+            table.Players[playerIndex].Hand.Add(card);
             Cards[FindCardIndex(card)].inPlay = true;
-            Pool.Remove(card);
+            _pool.Remove(card);
             cardsDealt++;
         }
     }
 
     /// <summary>
-    /// Check how many cards remain in <see cref="Pool"/>
+    /// Check how many cards remain in <see cref="_pool"/>
     /// </summary>
-    /// <returns>Returns <c>True</c> if no cards remain in <see cref="Pool"/></returns>
-    public static bool IsDeckEmpty()
+    /// <returns>Returns <c>True</c> if no cards remain in <see cref="_pool"/></returns>
+    public bool IsDeckEmpty()
     {
-        return Pool.Count <= 0;
+        return _pool.Count <= 0;
     }
 
     /// <summary>
-    /// Check if there is enough remaining number of cards in <see cref="Pool"/> <br/>
-    /// without having to reshuffle cards back into <see cref="Pool"/>
+    /// Check if there is enough remaining number of cards in <see cref="_pool"/> <br/>
+    /// without having to reshuffle cards back into <see cref="_pool"/>
     /// </summary>
-    /// <returns>Returns <c>True</c> if not enough cards remain in <see cref="Pool"/></returns>
-    public static bool NotEnoughCards()
+    /// <param name="cardsToDeal">Number of cards that need to be dealt</param>
+    /// <returns>Returns <c>True</c> if not enough cards remain in <see cref="_pool"/></returns>
+    public bool NotEnoughCards(int cardsToDeal)
     {
-        return Pool.Count < Table.Players.Length * Table.startingCardCount;
+        return _pool.Count < cardsToDeal;
     }
 
-    public static void PlayCardSound(GameObject card, int srcNum)
+    public void PlayCardSound(GameObject card, int srcNum)
     {
         Audio?.Play(card.GetComponent<AudioSource>(), Audio.audios[srcNum]);
     }
 
-    public static void PlayCardSound(AudioSource src, int srcNum)
+    public void PlayCardSound(AudioSource src, int srcNum)
     {
         Audio?.Play(src, Audio.audios[srcNum]);
     }

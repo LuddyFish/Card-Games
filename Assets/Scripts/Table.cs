@@ -1,27 +1,34 @@
 /// <summary>
 /// Class <see cref="Table"/> is responsible for retaining Player data during the game
 /// </summary>
-public static class Table
+public class Table
 {
     /// <summary>
     /// Players of the game sorted in a specified rotation
     /// </summary>
-    public static Player[] Players { get; private set; }
+    public Player[] Players { get; private set; }
     /// <summary>
     /// Who's turn it is
     /// </summary>
-    public static int playerTurn;
+    public int playerTurn = 0;
 
     /// <summary>
     /// Number of cards in starting hand
     /// </summary>
-    public static int startingCardCount = 5;
+    public int startingCardCount = 5;
+
+    public Table(Player[] players, int? playerTurn = null, int? startingCardCount = null)
+    {
+        Players = players;
+        this.playerTurn = playerTurn ?? this.playerTurn;
+        this.startingCardCount = startingCardCount ?? this.startingCardCount;
+    }
 
     /// <summary>
     /// Creates a new table with the given players
     /// </summary>
     /// <param name="players">All the players entering the game</param>
-    public static void NewTable(Player[] players)
+    public void NewTable(Player[] players)
     {
         Players = new Player[players.Length];
         for (int i = 0; i < players.Length; i++)
@@ -33,7 +40,7 @@ public static class Table
     /// </summary>
     /// <param name="index">Player number</param>
     /// <returns>Returns the specified Player</returns>
-    public static Player GetPlayer(int index)
+    public Player GetPlayer(int index)
     {
         int playerNumber = index % Players.Length;
         return Players[playerNumber];
@@ -44,7 +51,7 @@ public static class Table
     /// </summary>
     /// <param name="position"></param>
     /// <param name="player"></param>
-    public static void SetPlayer(int position, Player player)
+    public void SetPlayer(int position, Player player)
     {
         Players[position] = player;
     }
@@ -52,7 +59,7 @@ public static class Table
     /// <summary>
     /// Move to the next player in the rotation
     /// </summary>
-    public static void NextPlayerTurn()
+    public void NextPlayerTurn()
     {
         RestPlayer(Players[playerTurn]);
         playerTurn = (playerTurn + 1) % Players.Length;
@@ -63,7 +70,7 @@ public static class Table
     /// Return the dealer's number in rotation
     /// </summary>
     /// <returns>The Player set as the dealer's position number</returns>
-    public static int GetDealer()
+    public int GetDealer()
     {
         for (int i = 0; i < Players.Length; i++)
             if (Players[i].isDealer) 
@@ -77,7 +84,7 @@ public static class Table
     /// Set the dealer
     /// </summary>
     /// <param name="player"></param>
-    public static void SetDealer(Player player)
+    public void SetDealer(Player player)
     {
         player.isDealer = true;
     }
@@ -87,7 +94,7 @@ public static class Table
     /// </summary>
     /// <param name="previous">The Player currently set dealer</param>
     /// <param name="current">The Player next to be set dealer</param>
-    public static void SwapDealer(Player previous, Player current)
+    public void SwapDealer(Player previous, Player current)
     {
         previous.isDealer = false;
         SetDealer(current);
@@ -96,7 +103,7 @@ public static class Table
     /// <summary>
     /// Change the dealer to the next person in rotation
     /// </summary>
-    public static void GetNextDealer()
+    public void GetNextDealer()
     {
         int currentDealer = GetDealer();
         int nextDealer = currentDealer++ % Players.Length;
@@ -107,7 +114,7 @@ public static class Table
     /// Set the Player's turn as active
     /// </summary>
     /// <param name="player"></param>
-    public static void WakePlayer(Player player)
+    public void WakePlayer(Player player)
     {
         player.isMyTurn = true;
     }
@@ -116,7 +123,7 @@ public static class Table
     /// Set the Player's turn as disabled
     /// </summary>
     /// <param name="player"></param>
-    public static void RestPlayer(Player player)
+    public void RestPlayer(Player player)
     {
         player.isMyTurn = false;
     }
