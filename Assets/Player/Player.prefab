@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
   cards: []
+  collectTime: 0.5
 --- !u!1 &7577667778405786663
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,4 +92,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandLayout
   width: 5
-  spacing: 0
+  spacing: 0.2
