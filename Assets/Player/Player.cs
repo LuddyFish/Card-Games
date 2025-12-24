@@ -5,10 +5,11 @@ using System.Collections.Generic;
 /// </summary>
 public class Player
 {
-    public int id { get; private set; }
-    public static int nextId = 0;
+    private readonly int _id;
+    public int Id => _id;
+    private static int _nextId = 0;
 
-    public string Name { get; set; }
+    public string name;
     public List<Card> Hand { get; private set; }
 
     public bool isMyTurn = false;
@@ -16,13 +17,13 @@ public class Player
 
     public Player(string name, int? id = null)
     {
-        this.id = id ?? nextId;
+        _id = id ?? _nextId;
         if (id is null)
-            nextId++;
-        else if (id.Value >= nextId)
-            nextId = id.Value + 1;
+            _nextId++;
+        else if (id.Value >= _nextId)
+            _nextId = id.Value + 1;
 
-        Name = name;
+        this.name = name;
         Hand = new List<Card>();
     }
 
@@ -30,29 +31,29 @@ public class Player
     /// Determines if this Player has the same id as <paramref name="other"/>
     /// </summary>
     /// <param name="other"></param>
-    /// <returns>Returns true if both players share the same <see cref="id"/></returns>
+    /// <returns>Returns true if both players share the same <see cref="Id"/></returns>
     public bool ComparePlayer(Player other)
     {
-        return this.id == other.id;
+        return this.Id == other.Id;
     }
 
     /// <summary>
     /// Determines if this Player has the same id as <paramref name="other"/>
     /// </summary>
     /// <param name="other">ID of other player</param>
-    /// <returns>Returns true if both players share the same <see cref="id"/></returns>
-    public bool ComparePlayer(int id)
+    /// <returns>Returns true if both players share the same <see cref="Id"/></returns>
+    public bool ComparePlayer(int Id)
     {
-        return this.id == id;
+        return this.Id == Id;
     }
 
     /// <summary>
     /// Determines if this Player has the same name as <paramref name="other"/>
     /// </summary>
     /// <param name="other"></param>
-    /// <returns>Returns true if both players share the same <see cref="Name"/></returns>
+    /// <returns>Returns true if both players share the same <see cref="name"/></returns>
     public bool CompareName(Player other)
     {
-        return this.Name == other.Name;
+        return this.name == other.name;
     }
 }

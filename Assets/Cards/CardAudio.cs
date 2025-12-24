@@ -31,4 +31,10 @@ public class CardAudio : AudioPlayer
         foreach (var card in Cardbox.Instance.cards)
             sources.Add(card.GetComponent<AudioSource>());
     }
+
+    void OnDestroy()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
 }

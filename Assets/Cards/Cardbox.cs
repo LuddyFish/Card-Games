@@ -94,4 +94,10 @@ public class Cardbox : MonoBehaviour
                 return i;
         return 0;
     }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 }

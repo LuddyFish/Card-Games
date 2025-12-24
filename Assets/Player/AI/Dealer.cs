@@ -7,12 +7,12 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerObject))]
 public class Dealer : MonoBehaviour
 {
-    private BlackjackGameManager Manager => BlackjackGameManager.Instance;
+    BlackjackGameManager Manager => BlackjackGameManager.Instance;
     PlayerObject me;
 
     [Min(0)]
     public float thinkingTime = 1f;
-    private bool performingAction = false;
+    private bool _performingAction = false;
 
     void Start()
     {
@@ -22,9 +22,9 @@ public class Dealer : MonoBehaviour
     void Update()
     {
         if (!Manager.PlayersActive) return;
-        if (me.data.isMyTurn && !performingAction)
+        if (me.data.isMyTurn && !_performingAction)
         {
-            performingAction = true;
+            _performingAction = true;
             StartCoroutine(TryToWin());
         }
     }
@@ -39,7 +39,7 @@ public class Dealer : MonoBehaviour
         }
         else
             Manager.HitMe();
-        performingAction = false;
+        _performingAction = false;
     }
 
     bool HaveHighestScore()

@@ -5,16 +5,41 @@ public class BlackjackScores : MonoBehaviour
 {
     BlackjackGameManager BJGM => BlackjackGameManager.Instance;
 
-    private Text numbers;
-    private GameObject bust;
+    private Text _numbers;
+    private GameObject _bust;
 
-    private int score = 0;
-    private int wins = 0;
+    private int _score = 0;
+    public int Scores
+    {
+        get
+        {
+            return _score;
+        }
+        set
+        {
+            _score = value;
+            UpdateText();
+            if (_score > 21) ToggleBust(true);
+        }
+    }
+    private int _wins = 0;
+    public int Wins
+    {
+        get
+        {
+            return _wins;
+        }
+        set
+        {
+            _wins = value;
+            UpdateText();
+        }
+    }
 
     void Start()
     {
-        numbers = transform.Find("Numbers").GetComponent<Text>();
-        bust = transform.Find("Bust").gameObject;
+        _numbers = transform.Find("Numbers").GetComponent<Text>();
+        _bust = transform.Find("Bust").gameObject;
         UpdateText();
 
         if (name.Contains("Dealer"))
@@ -25,34 +50,11 @@ public class BlackjackScores : MonoBehaviour
 
     private void UpdateText()
     {
-        numbers.text = $"{score}\n{wins}";
-    }
-
-    public int GetScore()
-    {
-        return score;
-    }
-
-    public void SetScore(int score)
-    {
-        this.score = score;
-        UpdateText();
-        if (this.score > 21) ToggleBust(true);
-    }
-
-    public int GetWins()
-    {
-        return wins;
-    }
-
-    public void SetWins(int wins)
-    {
-        this.wins = wins;
-        UpdateText();
+        _numbers.text = $"{_score}\n{_wins}";
     }
 
     public void ToggleBust(bool? cond)
     {
-        bust.SetActive(cond ?? !bust.activeSelf);
+        _bust.SetActive(cond ?? !_bust.activeSelf);
     }
 }

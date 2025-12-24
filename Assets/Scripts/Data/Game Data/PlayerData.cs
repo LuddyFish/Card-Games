@@ -17,9 +17,9 @@ public class PlayerData
     {
         cardIds = new();
 
-        id = player.id;
-        name = player.Name;
-        cardIds = player.Hand.Select(c => c.id).ToList();
+        id = player.Id;
+        name = player.name;
+        cardIds = player.Hand.Select(c => c.Id).ToList();
 
         isMyTurn = player.isMyTurn;
         isDealer = player.isDealer;
@@ -31,7 +31,7 @@ public class PlayerData
     /// <param name="player"></param>
     public void TransferData(Player player, Dictionary<int, Card> cardById)
     {
-        player.Name = name;
+        player.name = name;
 
         player.Hand.Clear();
         foreach (var id in cardIds)

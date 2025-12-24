@@ -5,25 +5,25 @@ using UnityEngine.UI;
 public class MainMenuManager : MonoBehaviour
 {
     public Transform buttonList;
-    private GameObject[] buttonObjs;
-    private Button[] buttons;
+    private GameObject[] _buttonObjs;
+    private Button[] _buttons;
 
     void Start()
     {
-        buttonObjs = new GameObject[buttonList.childCount];
-        buttons = new Button[buttonList.childCount];
-        for (int i = 0; i < buttons.Length; i++)
+        _buttonObjs = new GameObject[buttonList.childCount];
+        _buttons = new Button[buttonList.childCount];
+        for (int i = 0; i < _buttons.Length; i++)
         {
-            buttonObjs[i] = buttonList.GetChild(i).gameObject;
-            buttons[i] = buttonList.GetChild(i).GetComponent<Button>();
+            _buttonObjs[i] = buttonList.GetChild(i).gameObject;
+            _buttons[i] = buttonList.GetChild(i).GetComponent<Button>();
         }
     }
 
     void Update()
     {
-        buttonObjs[0].SetActive(StoredGame());
-        buttonObjs[2].SetActive(false);
-        buttons[3].interactable = false;
+        _buttonObjs[0].SetActive(StoredGame());
+        _buttonObjs[2].SetActive(false);
+        _buttons[3].interactable = false;
     }
 
     bool StoredGame()

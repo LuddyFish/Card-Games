@@ -12,7 +12,7 @@ public class CardData
 
     public CardData(Card card)
     {
-        id = card.id;
+        id = card.Id;
         suit = card.Suit;
         rank = card.Rank;
         inPlay = card.inPlay;

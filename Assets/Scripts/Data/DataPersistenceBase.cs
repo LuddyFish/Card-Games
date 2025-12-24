@@ -22,16 +22,16 @@ public abstract class DataPersistenceBase : MonoBehaviour
 [System.Serializable]
 public class DataComponent<T> where T : class, new()
 {
-    [SerializeField] private string fileName;
+    [SerializeField] private string _fileName;
     public string FilePath =>
-        Path.Combine(Application.persistentDataPath, fileName);
+        Path.Combine(Application.persistentDataPath, _fileName);
 
     [HideInInspector] public T data;
     public FileDataHandler<T> handler;
 
     public void SetHandler() =>
         handler = new FileDataHandler<T>
-        (Application.persistentDataPath, fileName);
+        (Application.persistentDataPath, _fileName);
 
     public void New() =>
         data = new T();

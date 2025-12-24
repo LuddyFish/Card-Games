@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
 {
-    private BlackjackGameManager BJGM => BlackjackGameManager.Instance;
-    private Cardbox Box => Cardbox.Instance;
-    private CardAudio CardAudio => CardAudio.Instance;
+    BlackjackGameManager BJGM => BlackjackGameManager.Instance;
+    Cardbox Box => Cardbox.Instance;
+    CardAudio CardAudio => CardAudio.Instance;
 
-    private Transform hand;
+    private Transform _hand;
 
     public Player data;
     [HideInInspector] public List<CardObject> cards;
@@ -19,7 +19,7 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
 
     void Start()
     {
-        hand = transform.Find("Hand").transform;
+        _hand = transform.Find("Hand").transform;
         data = new Player(name);
         cards = new List<CardObject>();
 
@@ -33,7 +33,7 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
 
     public void LoadData(GameData data)
     {
-        var cardsById = Deck.Cards.ToDictionary(c => c.id);
+        var cardsById = Deck.Cards.ToDictionary(c => c.Id);
         foreach (var player in data.players)
             if (this.data.ComparePlayer(player.id))
                 player.TransferData(this.data, cardsById);
@@ -72,32 +72,33 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
     }
 
     /// <summary>
-    /// Retrieve all cards in <see cref="data"/> and add it to <see cref="hand"/><br/>
-    /// Also resets <see cref="hand"/> to avoid mistakes
+    /// Retrieve all cards in <see cref="data"/> and add it to <see cref="_hand"/><br/>
+    /// Also resets <see cref="_hand"/> to avoid mistakes
     /// </summary>
     public void SetHand()
     {
+        var objsById = Box.cards
+            .Select(obj => obj.GetComponent<CardObject>())
+            .ToDictionary(obj => obj.card.Id);
+
         foreach (var card in data.Hand)
-            foreach (var obj in Box.cards)
-                if (obj.name == card.GetName())
-                {
-                    obj.transform.SetParent(hand);
-                    break;
-                }
+            if (objsById.TryGetValue(card.Id, out var obj))
+                obj.transform.SetParent(_hand);
+
         SetCards();
     }
 
     /// <summary>
-    /// Set all cards in <see cref="hand"/> to <see cref="cards"/>
+    /// Set all cards in <see cref="_hand"/> to <see cref="cards"/>
     /// </summary>
     private void SetCards()
     {
         cards.Clear(); // Pre-emptive removal to avoid dupliactes
 
-        var layout = hand.GetComponent<HandLayout>();
-        for (int i = 0; i < hand.childCount; i++)
+        var layout = _hand.GetComponent<HandLayout>();
+        for (int i = 0; i < _hand.childCount; i++)
         {
-            Transform child = hand.GetChild(i);
+            Transform child = _hand.GetChild(i);
             CardObject obj = child.GetComponent<CardObject>();
             obj.inHand = true;
             cards.Add(obj);
@@ -120,20 +121,20 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
     }
 
     /// <summary>
-    /// Remove all cards from <see cref="data"/> and <see cref="hand"/>
+    /// Remove all cards from <see cref="data"/> and <see cref="_hand"/>
     /// </summary>
     public void DiscardCards()
     {
         data.Hand.Clear();
-        while (hand.childCount > 0)
-            RemoveFromHand(hand.GetChild(0));
+        while (_hand.childCount > 0)
+            RemoveFromHand(_hand.GetChild(0));
         foreach (var card in cards)
             card.Hide();
         cards.Clear();
     }
 
     /// <summary>
-    /// Turn all cards in <see cref="hand"/> face up
+    /// Turn all cards in <see cref="_hand"/> face up
     /// </summary>
     public void RevealHand()
     {

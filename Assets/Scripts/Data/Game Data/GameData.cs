@@ -62,8 +62,8 @@ public class GameData
 
         for (int i = 0; i < blackjackScores.Length; i++)
         {
-            blackjackScores[i].score = scores[i].GetScore();
-            blackjackScores[i].wins = scores[i].GetWins();
+            blackjackScores[i].score = scores[i].Scores;
+            blackjackScores[i].wins = scores[i].Wins;
         }
     }
 }

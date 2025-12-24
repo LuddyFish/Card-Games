@@ -13,24 +13,24 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
 
     // --- UI ---
     [Space(12)]
-    [SerializeField] private Button[] buttons;
-    [SerializeField] private GameObject winTextBox;
+    [SerializeField] private Button[] _buttons;
+    [SerializeField] private GameObject _winTextBox;
     private Text winText;
     [HideInInspector] public List<BlackjackScores> PlayerScores { get; private set; } = new();
 
-    [SerializeField] private GameObject pausedScreen;
+    [SerializeField] private GameObject _pausedScreen;
     [HideInInspector] public bool isPaused = false;
 
     // --- Internal Data ---
-    private int roundsPlayed = 0;
-    private List<int> playerInitialWins = new();
+    private int _roundsPlayed = 0;
+    private List<int> _playerInitialWins = new();
 
     // --- Conditions ---
-    private int phase = 0;
-    private bool dealerTurn = false;
-    private bool waitingforPhase = true;
+    private int _phase = 0;
+    private bool _dealerTurn = false;
+    private bool _waitingforPhase = true;
 
-    public bool PlayersActive => phase == 2;
+    public bool PlayersActive => _phase == 2;
 
     // --- Events ---
     public Action onDeal;
@@ -56,7 +56,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
         AddEventSubscribers();
 
         StartPhase(4);
-        waitingforPhase = false;
+        _waitingforPhase = false;
     }
 
     void SetPlayerData()
@@ -74,15 +74,15 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
         Deck.InitDeck();
         if (DataPersistenceManager.Instance?.EnterGameState == 0)
             Table.startingCardCount = 2;
-        winText = winTextBox.GetComponentInChildren<Text>();
+        winText = _winTextBox.GetComponentInChildren<Text>();
         HideWinText();
         
         foreach (var scorer in PlayerScores)
         {
-            scorer.SetScore(0);
-            scorer.SetWins(0);
+            scorer.Scores = 0;
+            scorer.Wins = 0;
             scorer.ToggleBust(false);
-            playerInitialWins.Add(scorer.GetWins());
+            _playerInitialWins.Add(scorer.Wins);
         }
 
 
@@ -131,8 +131,8 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
         // --- Players ---
         for (int i = 0; i < PlayerScores.Count && i < data.blackjackScores.Length; i++)
         {
-            PlayerScores[i].SetScore(data.blackjackScores[i].score);
-            PlayerScores[i].SetWins(data.blackjackScores[i].wins);
+            PlayerScores[i].Scores = data.blackjackScores[i].score;
+            PlayerScores[i].Wins = data.blackjackScores[i].wins;
         }
     }
 
@@ -148,7 +148,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
 
     public void SaveData(ref PlayerGameStats data)
     {
-        data.blackjackGames += roundsPlayed;
+        data.blackjackGames += _roundsPlayed;
         // TODO: add stats.blackjackWins to the identified player
     }
     #endregion
@@ -156,26 +156,26 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
     #region Runtime
     void Update()
     {
-        if (!waitingforPhase)
+        if (!_waitingforPhase)
         {
-            switch (phase)
+            switch (_phase)
             {
                 case 0:
-                    waitingforPhase = true;
+                    _waitingforPhase = true;
                     DelayStartPhase(1, 0.5f);
                     break;
                 case 1:
-                    waitingforPhase = true;
+                    _waitingforPhase = true;
                     DelayStartPhase(2, 0.2f);
                     break;
                 case 2:
                     break;
                 case 3:
-                    waitingforPhase = true;
+                    _waitingforPhase = true;
                     DelayStartPhase(4, 3f);
                     break;
                 case 4:
-                    waitingforPhase = true;
+                    _waitingforPhase = true;
                     if (Deck.NotEnoughCards())
                         DelayStartPhase(0, 0.75f);
                     else
@@ -184,10 +184,16 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
             }
         }
 
-        foreach (var button in buttons)
+        foreach (var button in _buttons)
         {
             button.interactable = Table.playerTurn != 0;
         }
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     /// <summary>
@@ -219,7 +225,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
     /// </param>
     void StartPhase(int phase)
     {
-        this.phase = phase;
+        this._phase = phase;
         Debug.Log("Enacting phase: " + phase);
         switch (phase)
         {
@@ -234,16 +240,16 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
                 // If is dealer's turn and don't enact their first turn
                 if (Table.playerTurn == 0)
                 {
-                    if (dealerTurn) {
+                    if (_dealerTurn) {
                         StartPhase(3);
                         return;
                     }
-                    dealerTurn = true;
+                    _dealerTurn = true;
                     Players[0].cards[0].Reveal();
                     Players[0].cards[1].Hide();
                 }
                 Table.NextPlayerTurn();
-                PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
+                PlayerScores[Table.playerTurn].Scores = GetPlayerScore(Players[Table.playerTurn]);
                 break;
             case 3:
                 DisplayWinner(GetWinner());
@@ -267,7 +273,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
     {
         yield return new WaitForSeconds(t);
         StartPhase(phase);
-        waitingforPhase = false;
+        _waitingforPhase = false;
     }
 
     /// <summary>
@@ -285,7 +291,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
     {
         Deck.Deal();
         onDeal?.Invoke();
-        dealerTurn = false;
+        _dealerTurn = false;
     }
 
     /// <summary>
@@ -297,7 +303,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
         HideWinText();
         foreach (var text in PlayerScores)
         {
-            text.SetScore(0);
+            text.Scores = 0;
             text.ToggleBust(false);
         }
     }
@@ -376,7 +382,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
     public void DisplayWinner(PlayerObject player)
     {
         winText.text = player != null ? $"{player.name} Wins!" : "Everyone's bust...";
-        winTextBox.SetActive(true);
+        _winTextBox.SetActive(true);
     }
 
     /// <summary>
@@ -385,12 +391,12 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
     /// <param name="player"></param>
     public void IncrementWinsTally(int player)
     {
-        if (player >= 0) PlayerScores[player].SetWins(PlayerScores[player].GetWins() + 1);
+        if (player >= 0) PlayerScores[player].Wins = PlayerScores[player].Wins + 1;
     }
 
     public void HideWinText()
     {
-        winTextBox.SetActive(false);
+        _winTextBox.SetActive(false);
     }
 
     /// <summary>
@@ -420,14 +426,14 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
         Players[Table.playerTurn].data.Hand.Add(Deck.DealRandomCard());
         Players[Table.playerTurn].SetHand();
         Players[Table.playerTurn].RevealHand();
-        PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
+        PlayerScores[Table.playerTurn].Scores = GetPlayerScore(Players[Table.playerTurn]);
         if (CanHit(Players[Table.playerTurn]) != 1)
             StartPhase(2);
     }
 
     public void Stay()
     {
-        PlayerScores[Table.playerTurn].SetScore(GetPlayerScore(Players[Table.playerTurn]));
+        PlayerScores[Table.playerTurn].Scores = GetPlayerScore(Players[Table.playerTurn]);
         StartPhase(2);
     }
 
@@ -439,7 +445,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
 
     private void SetPause()
     {
-        pausedScreen.SetActive(isPaused);
+        _pausedScreen.SetActive(isPaused);
         Time.timeScale = isPaused ? 0 : 1;
     }
     #endregion

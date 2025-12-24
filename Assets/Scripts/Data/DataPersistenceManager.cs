@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,12 +44,11 @@ public class DataPersistenceManager : DataPersistenceBase
     protected override void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-            base.Awake();
-        }
         else
             Destroy(this);
+
+        base.Awake();
     }
 
     [Tooltip("State values:\n0: New game\n1: Resume game")]
@@ -147,6 +145,12 @@ public class DataPersistenceManager : DataPersistenceBase
         }
 
         Debug.Log($"Deleted {typeof(T).Name} save data");
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     protected override void OnApplicationQuit()

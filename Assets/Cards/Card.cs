@@ -3,8 +3,9 @@
 /// </summary>
 public class Card
 {
-    public int id { get; private set; }
-    private static int nextId = 0;
+    private readonly int _id;
+    public int Id => _id;
+    private static int _nextId = 0;
 
     public int Suit { get; private set; }
     public int Rank { get; private set; }
@@ -20,11 +21,11 @@ public class Card
 
     public Card(int Suit, int Rank, int? id = null)
     {
-        this.id = id ?? nextId;
+        this._id = id ?? _nextId;
         if (id is null)
-            nextId++;
-        else if (id.Value >= nextId)
-            nextId = id.Value + 1;
+            _nextId++;
+        else if (id.Value >= _nextId)
+            _nextId = id.Value + 1;
 
         this.Suit = Suit;
         this.Rank = Rank;
@@ -116,20 +117,20 @@ public class Card
     /// Determines if this card is the same id as <paramref name="other"/>
     /// </summary>
     /// <param name="other">Card to compare to</param>
-    /// <returns>Returns true if card has the same <see cref="Card.id"/></returns>
+    /// <returns>Returns true if card has the same <see cref="Card.Id"/></returns>
     public bool CompareCard(Card other)
     {
-        return this.id == other.id;
+        return this.Id == other.Id;
     }
 
     /// <summary>
     /// Determines if this card is the same id as <paramref name="other"/>
     /// </summary>
-    /// <param name="id">ID of the other card</param>
-    /// <returns>Returns true if card has the same <see cref="Card.id"/></returns>
-    public bool CompareCard(int id)
+    /// <param name="Id">ID of the other card</param>
+    /// <returns>Returns true if card has the same <see cref="Card.Id"/></returns>
+    public bool CompareCard(int Id)
     {
-        return this.id == id;
+        return this.Id == Id;
     }
 
     /// <summary>

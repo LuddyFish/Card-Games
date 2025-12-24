@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CardObject : MonoBehaviour, IDataPersistence<GameData>
 {
-    SpriteRenderer rend;
+    SpriteRenderer _rend;
 
     public Card card;
     public Sprite front, back;
@@ -12,7 +12,7 @@ public class CardObject : MonoBehaviour, IDataPersistence<GameData>
 
     void Start()
     {
-        rend = GetComponent<SpriteRenderer>();
+        _rend = GetComponent<SpriteRenderer>();
     }
 
     public void LoadData(GameData data)
@@ -36,7 +36,7 @@ public class CardObject : MonoBehaviour, IDataPersistence<GameData>
 
     void Update()
     {
-        rend.sprite = card.faceUp ? front : back;
+        _rend.sprite = card.faceUp ? front : back;
     }
 
     /// <summary>
