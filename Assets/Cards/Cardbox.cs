@@ -6,11 +6,10 @@ public class Cardbox : MonoBehaviour
     public static Cardbox Instance { get; private set; }
 
     public GameObject cardPrefab;
-
-    public Sprite back;
-    public Sprite[] face = new Sprite[52];
+    public CardDeckSet cardSet;
 
     [HideInInspector] public List<GameObject> cards = new();
+    [SerializeField] private bool _isHighContrastMode = false;
 
     [Space(10)]
     public Vector2 discardLocation;
@@ -26,12 +25,12 @@ public class Cardbox : MonoBehaviour
 
     public void Init()
     {
-        for (int i = 0; i < face.Length; i++)
+        for (int i = 0; i < cardSet.cards.Count; i++)
         {
             GameObject card = Instantiate(cardPrefab, transform);
             var obj = card.GetComponent<CardObject>();
             obj.card = Deck.Cards[i];
-            SetCardSprite(obj);
+            SetCard(obj, cardSet.cards[i]);
             ReturnCard(card.transform);
             cards.Add(card);
         }
@@ -43,23 +42,12 @@ public class Cardbox : MonoBehaviour
     /// Set the correct sprite on the card
     /// </summary>
     /// <param name="card">The <c>CardObject</c> that acts as its memory</param>
-    private void SetCardSprite(CardObject card)
+    private void SetCard(CardObject card, CardDefinition value)
     {
-        // Set the front face
-        foreach (var sprite in face)
-        {
-            if (sprite.name.Contains(card.card.ConvertRankToString()) && 
-                sprite.name.Contains(card.card.ConvertSuitToString().ToLower())
-            )
-            {
-                card.front = sprite;
-                card.card.inPlay = true;
-                card.CheckCard();
-                break;
-            }
-        }
-        // Set the back cover
-        card.back = back;
+        card.front = _isHighContrastMode ? value.highContrast : value.lowContrast;
+        card.back = _isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
+        card.card.inPlay = true;
+        card.CheckCard();
     }
 
     public void ReturnCard(Transform card)

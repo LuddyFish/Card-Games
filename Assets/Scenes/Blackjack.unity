@@ -700,11 +700,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2696710899de85940900c10bf3b138ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlackjackGameManager
-  buttons:
-  - {fileID: 1408033846}
-  - {fileID: 259276652}
-  winTextBox: {fileID: 1406850870}
-  pausedScreen: {fileID: 1626272279}
+  _buttons: []
+  _winTextBox: {fileID: 0}
+  _pausedScreen: {fileID: 0}
   isPaused: 0
 --- !u!114 &793172129
 MonoBehaviour:
@@ -1116,11 +1114,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
---- !u!1 &1626272279 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5905389594496292690, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
-  m_PrefabInstance: {fileID: 6556169816172301968}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1626272280 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7779877519520816258, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}

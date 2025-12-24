@@ -321,9 +321,7 @@ public class BlackjackGameManager : MonoBehaviour, IDataPersistence<GameData>, I
         {
             int value = Card.BlackjackValue((Card.Ranks)card.card.Rank);
             if (value == 1)
-            {
                 ace = true;
-            }
             score += value;
         }
         if (ace && score + 10 <= 21) // Account for the fact that ace is a value of 1 OR 11
