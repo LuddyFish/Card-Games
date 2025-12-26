@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
 {
-    BlackjackGameManager BJGM => BlackjackGameManager.Instance;
+    [SerializeField] private CardGameContext _gameContext;
     Cardbox Box => Cardbox.Instance;
     CardAudio CardAudio => CardAudio.Instance;
 
@@ -24,16 +24,16 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
         cards = new List<CardObject>();
 
         if (TryGetComponent<Dealer>(out _))
-            BJGM?.SetPlayer(this, 0);
+            _gameContext.ActiveGame.SetPlayer(this, 0);
         else
-            BJGM?.SetPlayer(this);
-        BJGM.onDeal += SetHand;
-        BJGM.onReset += DiscardCards;
+            _gameContext.ActiveGame.SetPlayer(this);
+        _gameContext.ActiveGame.onDeal += SetHand;
+        _gameContext.ActiveGame.onReset += DiscardCards;
     }
 
     public void LoadData(GameData data)
     {
-        var cardsById = BJGM.deck.Cards.ToDictionary(c => c.Id);
+        var cardsById = _gameContext.Deck.Cards.ToDictionary(c => c.Id);
         foreach (var player in data.players)
             if (this.data.ComparePlayer(player.id))
                 player.TransferData(this.data, cardsById);
@@ -65,8 +65,8 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
     /// <returns>Returns it's index position or <c>-1</c> if it can't</returns>
     public int GetPositionInTable()
     {
-        for (int i = 0; i < BJGM.table.Players.Length; i++)
-            if (data.ComparePlayer(BJGM.table.Players[i]))
+        for (int i = 0; i < _gameContext.Table.Players.Length; i++)
+            if (data.ComparePlayer(_gameContext.Table.Players[i]))
                 return i;
         return -1;
     }
@@ -151,6 +151,6 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
     /// <returns>The sum value of all my cards</returns>
     public int GetScore()
     {
-        return BJGM.GetPlayerScore(this);
+        return _gameContext.ActiveGame.GetPlayerScore(this);
     }
 }

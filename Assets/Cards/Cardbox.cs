@@ -5,7 +5,7 @@ public class Cardbox : MonoBehaviour
 {
     public static Cardbox Instance { get; private set; }
 
-    BlackjackGameManager BJGM => BlackjackGameManager.Instance;
+    [SerializeField] private CardGameContext _gameContext;
 
     public GameObject cardPrefab;
     public CardDeckSet cardSet;
@@ -25,18 +25,18 @@ public class Cardbox : MonoBehaviour
             Destroy(this);
     }
 
-    public void Init()
+    void Start()
     {
         for (int i = 0; i < cardSet.cards.Count; i++)
         {
             GameObject card = Instantiate(cardPrefab, transform);
             var obj = card.GetComponent<CardObject>();
-            obj.card = BJGM.deck.Cards[i];
+            obj.card = _gameContext.Deck.Cards[i];
             SetCard(obj, cardSet.cards[i]);
             ReturnCard(card.transform);
             cards.Add(card);
         }
-        if (BJGM != null) BJGM.onShuffle += ReturnCardsToDeck;
+        _gameContext.ActiveGame.onShuffle += ReturnCardsToDeck;
         CardAudio.Instance?.SetCardSRCs();
     }
 
@@ -61,7 +61,7 @@ public class Cardbox : MonoBehaviour
 
     public void ReturnCardsToDeck()
     {
-        BJGM.deck.PlayCardSound(CardAudio.Instance.sources[0], 4);
+        _gameContext.Deck.PlayCardSound(CardAudio.Instance.sources[0], 4);
         foreach (var card in cards)
         {
             ReturnCard(card.transform);

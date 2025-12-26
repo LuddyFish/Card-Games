@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7416533777078078344}
   - component: {fileID: 6133800917558021539}
   m_Layer: 0
-  m_Name: Deck
+  m_Name: CardManager
   m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

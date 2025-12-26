@@ -45,7 +45,7 @@ public class CardObject : MonoBehaviour, IDataPersistence<GameData>
     /// <returns>Returns it's index position or <c>-1</c> if it can't</returns>
     public int GetCardInDeck()
     {
-        var deck = BlackjackGameManager.Instance.deck;
+        var deck = BlackjackGameManager.Instance.DeckHandler;
         for (int i = 0; i < deck.Cards.Length; i++)
             if (card.CompareCard(deck.Cards[i]))
                 return i;
