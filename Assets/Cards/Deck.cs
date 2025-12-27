@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
 /// </summary>
-public class Deck
+public class Deck : IDataPersistence<GameData>
 {
     /// <summary>
     /// Whole deck of cards. This should not be modified!
@@ -19,21 +18,31 @@ public class Deck
     private readonly List<Card> _pool;
 
     // How many suits and ranks
-    private readonly int _suitCount = 4;
-    private readonly int _rankCount = 13;
+    private readonly int _suitCount;
+    private readonly int _rankCount;
 
     Cardbox Box => Cardbox.Instance;
     CardAudio Audio => CardAudio.Instance;
 
-    public Deck(int? suitCount = null, int? rankCount = null)
+    public Deck(int suitCount = 4, int rankCount = 13)
     {
-        _suitCount = suitCount ?? _suitCount;
-        _rankCount = rankCount ?? _rankCount;
+        _suitCount = suitCount;
+        _rankCount = rankCount;
         Cards = new Card[_suitCount * _rankCount];
         for (int s = 0; s < _suitCount; s++)
             for (int r = 1; r <= _rankCount; r++)
                 Cards[s * _rankCount + r - 1] = new Card(s, r, s * _rankCount + r);
         _pool = new();
+    }
+
+    public void LoadData(GameData data)
+    {
+        Cards = data.LoadCards(Cards.ToDictionary(c => c.Id));
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.SaveDeckData(this);
     }
 
     /// <summary>
@@ -116,7 +125,7 @@ public class Deck
         var dealer = table.GetDealer();
         int cardsDealt = 0;
         PlayCardSound(Audio.sources[0], 4);
-        while (!IsDeckEmpty() && cardsDealt < table.Players.Length * table.startingCardCount)
+        while (!IsDeckEmpty() && cardsDealt < table.Players.Length * table.StartingCardCount)
         {
             int playerIndex = (cardsDealt + dealer + 1) % table.Players.Length;
             Card card = GetRandomCard();

@@ -8,8 +8,16 @@ public abstract class CardGameManager : MonoBehaviour
     // --- Table Properties ---
     [SerializeField] private CardGameContext _context;
 
-    public Deck DeckHandler { get; protected set; }
-    public Table TableHandler { get; protected set; }
+    private Table _table;
+    public Table TableHandler {
+        get { return _table; }
+        protected set { _table = value; }
+    }
+    private Deck _deck;
+    public Deck DeckHandler { 
+        get { return _deck; }
+        protected set { _deck = value; }
+    }
 
     /// <summary>
     /// Prefab <b>must</b> include <see cref="Cardbox"/>
@@ -20,22 +28,31 @@ public abstract class CardGameManager : MonoBehaviour
     // --- Players ---
     [HideInInspector] public List<PlayerObject> Players { get; private set; } = new();
     protected List<Player> _playerDatas = new();
+    private int _minPlayerCount = 2;
+    public int MinPlayerCount
+    {
+        get { return _minPlayerCount; }
+        set { _minPlayerCount = value; }
+    }
 
     // --- Internal Data ---
     [SerializeField] private int _startingCardCount = 5;
 
     // --- Conditions ---
+    private bool _isWaitingForSetup = true;
+    protected bool IsWaitingForSetup => _isWaitingForSetup;
     private bool _isDealerTurn = false;
     protected bool IsDealerTurn
     {
-        get => _isDealerTurn;
-        set => _isDealerTurn = value;
+        get { return _isDealerTurn; }
+        set { _isDealerTurn = value; }
     }
 
     // --- Events ---
-    public Action onDeal;
-    public Action onShuffle;
-    public Action onReset;
+    public Action OnGameLoaded;
+    public Action OnDeal;
+    public Action OnShuffle;
+    public Action OnReset;
 
     #region Set Up
     protected virtual void Awake()
@@ -48,10 +65,19 @@ public abstract class CardGameManager : MonoBehaviour
 
     protected virtual IEnumerator Start()
     {
-        yield return new WaitForEndOfFrame();
+        _isWaitingForSetup = true;
+        yield return new WaitUntil(() => Players.Count >= MinPlayerCount);
+        InitGame();
+        _isWaitingForSetup = false;
+    }
+
+    protected virtual void InitGame()
+    {
         SetPlayerData();
         SetDataVariables();
         AddEventSubscribers();
+
+        OnGameLoaded?.Invoke();
     }
 
     protected virtual void SetPlayerData()
@@ -59,21 +85,27 @@ public abstract class CardGameManager : MonoBehaviour
         foreach (var player in Players)
             _playerDatas.Add(player.data);
         TableHandler = new(
-            players: _playerDatas.ToArray(),
-            startingCardCount: _startingCardCount
+            Players: _playerDatas.ToArray(),
+            StartingCardCount: _startingCardCount
         );
+        _context.Table = TableHandler;
     }
 
     protected virtual void SetDataVariables()
     {
         DeckHandler = new();
-        Instantiate(_cardManagerPrefab);
+        _context.Deck = DeckHandler;
+
+        var cardManager = Instantiate(_cardManagerPrefab);
+        var cardbox = cardManager.GetComponent<Cardbox>();
+        OnGameLoaded += cardbox.Init;
+
         DataPersistenceManager.Instance.Init();
     }
 
     protected virtual void AddEventSubscribers()
     {
-        onShuffle += DeckHandler.NewDeck;
+        OnShuffle += DeckHandler.NewDeck;
     }
 
     protected virtual void OnDestroy()
@@ -87,22 +119,29 @@ public abstract class CardGameManager : MonoBehaviour
     public void SetPlayer(PlayerObject player)
     {
         Players.Add(player);
-        Debug.Log($"Added {player.name} to list of Players");
+        Debug.Log($"Added {player.name} to list of Players. Total: {Players.Count}");
     }
 
     public void SetPlayer(PlayerObject player, int priority)
     {
         Players.Insert(priority, player);
-        Debug.Log($"Added {player.name} to list of Players at position {priority}");
+        Debug.Log($"Added {player.name} to list of Players at position {priority}. Total: {Players.Count}");
     }
     #endregion
+
+    #region Runtime
+    protected virtual void Update()
+    {
+        if (IsWaitingForSetup)
+            return;
+    }
 
     /// <summary>
     /// Refills the deck
     /// </summary>
     protected virtual void Reshuffle()
     {
-        onShuffle?.Invoke();
+        OnShuffle?.Invoke();
     }
 
     /// <summary>
@@ -111,7 +150,7 @@ public abstract class CardGameManager : MonoBehaviour
     protected virtual void Deal()
     {
         DeckHandler.Deal(TableHandler);
-        onDeal?.Invoke();
+        OnDeal?.Invoke();
         IsDealerTurn = false;
     }
 
@@ -120,8 +159,9 @@ public abstract class CardGameManager : MonoBehaviour
     /// </summary>
     protected virtual void ClearHands()
     {
-        onReset?.Invoke();
+        OnReset?.Invoke();
     }
 
     public abstract int GetPlayerScore(PlayerObject player);
+    #endregion
 }

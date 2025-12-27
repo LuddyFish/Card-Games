@@ -27,8 +27,8 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
             _gameContext.ActiveGame.SetPlayer(this, 0);
         else
             _gameContext.ActiveGame.SetPlayer(this);
-        _gameContext.ActiveGame.onDeal += SetHand;
-        _gameContext.ActiveGame.onReset += DiscardCards;
+        _gameContext.ActiveGame.OnDeal += SetHand;
+        _gameContext.ActiveGame.OnReset += DiscardCards;
     }
 
     public void LoadData(GameData data)

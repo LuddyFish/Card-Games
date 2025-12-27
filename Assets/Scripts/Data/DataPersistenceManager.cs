@@ -38,15 +38,17 @@ public class DataPersistenceManager : DataPersistenceBase
     public DataComponent<GameData> data;
     public DataComponent<PlayerGameStats> stats;
 
-    public List<IDataPersistence<GameData>> GameDataPersistenceObjects => FindAllDataPersistenceObjects<GameData>();
-    public List<IDataPersistence<PlayerGameStats>> PlayerStatsPersistenceObjects => FindAllDataPersistenceObjects<PlayerGameStats>();
+    public List<IDataPersistence<GameData>> GameDataPersistenceObjects => 
+        FindAllDataPersistenceObjects<GameData>();
+    public List<IDataPersistence<PlayerGameStats>> PlayerStatsPersistenceObjects => 
+        FindAllDataPersistenceObjects<PlayerGameStats>();
 
     protected override void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
-            Destroy(this);
+            Destroy(this.gameObject);
 
         base.Awake();
     }

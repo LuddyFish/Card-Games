@@ -25,31 +25,42 @@ public class Cardbox : MonoBehaviour
             Destroy(this);
     }
 
-    void Start()
+    public void Init()
     {
         for (int i = 0; i < cardSet.cards.Count; i++)
         {
             GameObject card = Instantiate(cardPrefab, transform);
             var obj = card.GetComponent<CardObject>();
             obj.card = _gameContext.Deck.Cards[i];
-            SetCard(obj, cardSet.cards[i]);
+            SetCardContrast(obj, cardSet.cards[i]);
+            SetCard(obj);
             ReturnCard(card.transform);
             cards.Add(card);
         }
-        _gameContext.ActiveGame.onShuffle += ReturnCardsToDeck;
+
+        _gameContext.ActiveGame.OnShuffle += ReturnCardsToDeck;
         CardAudio.Instance?.SetCardSRCs();
+    }
+
+    /// <summary>
+    /// Set the correct card internal properties
+    /// </summary>
+    /// <param name="card">The <c>CardObject</c> that acts as its memory</param>
+    private void SetCard(CardObject card)
+    {
+        card.card.inPlay = true;
+        card.CheckCard();
     }
 
     /// <summary>
     /// Set the correct sprite on the card
     /// </summary>
     /// <param name="card">The <c>CardObject</c> that acts as its memory</param>
-    private void SetCard(CardObject card, CardDefinition value)
+    /// <param name="value">The card template "rules"</param>
+    private void SetCardContrast(CardObject card, CardDefinition value)
     {
         card.front = _isHighContrastMode ? value.highContrast : value.lowContrast;
         card.back = _isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
-        card.card.inPlay = true;
-        card.CheckCard();
     }
 
     public void ReturnCard(Transform card)

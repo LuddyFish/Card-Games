@@ -1,7 +1,10 @@
+using System;
+using System.Linq;
+
 /// <summary>
 /// Class <see cref="Table"/> is responsible for retaining Player data during the game
 /// </summary>
-public class Table
+public class Table : IDataPersistence<GameData>
 {
     /// <summary>
     /// Players of the game sorted in a specified rotation
@@ -10,29 +13,47 @@ public class Table
     /// <summary>
     /// Who's turn it is
     /// </summary>
-    public int playerTurn = 0;
+    public int PlayerTurn { get; private set; }
 
     /// <summary>
     /// Number of cards in starting hand
     /// </summary>
-    public int startingCardCount = 5;
+    public int StartingCardCount { get; private set; }
 
-    public Table(Player[] players, int? playerTurn = null, int? startingCardCount = null)
+    public Table(Player[] Players, int PlayerTurn = 0, int StartingCardCount = 5)
     {
-        Players = players;
-        this.playerTurn = playerTurn ?? this.playerTurn;
-        this.startingCardCount = startingCardCount ?? this.startingCardCount;
+        NewTable(Players);
+
+        if (PlayerTurn < 0 || PlayerTurn >= Players.Length)
+            throw new ArgumentOutOfRangeException(nameof(PlayerTurn));
+        this.PlayerTurn = PlayerTurn;
+
+        if (StartingCardCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(StartingCardCount));
+        this.StartingCardCount = StartingCardCount;
     }
 
     /// <summary>
     /// Creates a new table with the given players
     /// </summary>
     /// <param name="players">All the players entering the game</param>
-    public void NewTable(Player[] players)
+    private void NewTable(Player[] players)
     {
         Players = new Player[players.Length];
         for (int i = 0; i < players.Length; i++)
-            SetPlayer(i, players[i]);
+            Players[i] = players[i];
+    }
+
+    public void LoadData(GameData data)
+    {
+        Players = data.LoadPlayers(Players.ToDictionary(p => p.Id));
+        PlayerTurn = data.playerTurn;
+        StartingCardCount = data.startingCardCount;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.SaveTableData(this);
     }
 
     /// <summary>
@@ -47,23 +68,18 @@ public class Table
     }
 
     /// <summary>
-    /// Sets the player position in the rotation
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="player"></param>
-    public void SetPlayer(int position, Player player)
-    {
-        Players[position] = player;
-    }
-
-    /// <summary>
     /// Move to the next player in the rotation
     /// </summary>
     public void NextPlayerTurn()
     {
-        RestPlayer(Players[playerTurn]);
-        playerTurn = (playerTurn + 1) % Players.Length;
-        WakePlayer(Players[playerTurn]);
+        RestPlayer(Players[PlayerTurn]);
+        PlayerTurn = (PlayerTurn + 1) % Players.Length;
+        WakePlayer(Players[PlayerTurn]);
+    }
+
+    public void SetPlayerTurn(int playerNum)
+    {
+        PlayerTurn = playerNum;
     }
 
     /// <summary>

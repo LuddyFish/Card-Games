@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 419235b3526810e48b2f0235ff0b5c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
+  _gameContext: {fileID: 11400000, guid: 81c1dda567dc8cc48850eaca48b5be90, type: 2}
   cards: []
   collectTime: 0.5
 --- !u!1 &7577667778405786663

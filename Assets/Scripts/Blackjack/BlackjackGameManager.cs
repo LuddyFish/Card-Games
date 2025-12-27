@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +23,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
 
     // --- Conditions ---
     private int _phase = 0;
-    private bool _waitingforPhase = true;
+    private bool _waitingForPhase = false;
 
     public bool PlayersActive => _phase == 2;
 
@@ -39,16 +37,10 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
             Destroy(this);
     }
 
-    protected override IEnumerator Start()
+    protected override void InitGame()
     {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => Players.Count >= 2);
-
-        yield return base.Start();
-
-        Debug.Break();
+        base.InitGame();
         StartPhase(4);
-        _waitingforPhase = false;
     }
 
     protected override void SetPlayerData()
@@ -71,20 +63,6 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         
         base.SetDataVariables();
     }
-    #endregion
-
-    #region Other variables subscribing
-    public void SetScorer(BlackjackScores scorer)
-    {
-        PlayerScores.Add(scorer);
-        Debug.Log($"Added {scorer.name} to list of Scorers");
-    }
-
-    public void SetScorer(BlackjackScores scorer, int priority)
-    {
-        PlayerScores.Insert(priority, scorer);
-        Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}");
-    }
 
     protected override void OnDestroy()
     {
@@ -94,18 +72,23 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     }
     #endregion
 
+    #region Other variables subscribing
+    public void SetScorer(BlackjackScores scorer)
+    {
+        PlayerScores.Add(scorer);
+        Debug.Log($"Added {scorer.name} to list of Scorers. Total: {PlayerScores.Count}");
+    }
+
+    public void SetScorer(BlackjackScores scorer, int priority)
+    {
+        PlayerScores.Insert(priority, scorer);
+        Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}. Total: {PlayerScores.Count}");
+    }
+    #endregion
+
     #region Data Saving
     public void LoadData(GameData data)
     {
-        // --- Table ---
-        TableHandler = new(
-            players: _playerDatas.ToArray(), 
-            playerTurn: data.playerTurn,
-            startingCardCount: data.startingCardCount
-        );
-
-        // --- Players ---
-
         for (int i = 0; i < PlayerScores.Count && i < data.blackjackScores.Length; i++)
         {
             PlayerScores[i].Scores = data.blackjackScores[i].score;
@@ -131,29 +114,32 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     #endregion
 
     #region Runtime
-    private void Update()
+    protected override void Update()
     {
-        if (!_waitingforPhase)
+        if (IsWaitingForSetup)
+            return;
+
+        if (!_waitingForPhase)
         {
             switch (_phase)
             {
                 case 0:
-                    _waitingforPhase = true;
+                    _waitingForPhase = true;
                     DelayStartPhase(1, 0.5f);
                     break;
                 case 1:
-                    _waitingforPhase = true;
+                    _waitingForPhase = true;
                     DelayStartPhase(2, 0.2f);
                     break;
                 case 2:
                     break;
                 case 3:
-                    _waitingforPhase = true;
+                    _waitingForPhase = true;
                     DelayStartPhase(4, 3f);
                     break;
                 case 4:
-                    _waitingforPhase = true;
-                    if (DeckHandler.NotEnoughCards(TableHandler.Players.Length * TableHandler.startingCardCount))
+                    _waitingForPhase = true;
+                    if (DeckHandler.NotEnoughCards(TableHandler.Players.Length * TableHandler.StartingCardCount))
                         DelayStartPhase(0, 0.75f);
                     else
                         DelayStartPhase(1, 0.2f);
@@ -162,9 +148,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         }
 
         foreach (var button in _buttons)
-        {
-            button.interactable = TableHandler.playerTurn != 0;
-        }
+            button.interactable = TableHandler.PlayerTurn != 0;
     }
 
     /// <summary>
@@ -196,7 +180,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     /// </param>
     private void StartPhase(int phase)
     {
-        this._phase = phase;
+        _phase = phase;
         Debug.Log("Enacting phase: " + phase);
         switch (phase)
         {
@@ -205,11 +189,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
                 break;
             case 1:
                 Deal();
-                TableHandler.playerTurn = TableHandler.GetDealer();
+                TableHandler.SetPlayerTurn(TableHandler.GetDealer());
                 break;
             case 2:
                 // If is dealer's turn and don't enact their first turn
-                if (TableHandler.playerTurn == 0)
+                if (TableHandler.PlayerTurn == 0)
                 {
                     if (IsDealerTurn) {
                         StartPhase(3);
@@ -220,7 +204,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
                     Players[0].cards[1].Hide();
                 }
                 TableHandler.NextPlayerTurn();
-                PlayerScores[TableHandler.playerTurn].Scores = GetPlayerScore(Players[TableHandler.playerTurn]);
+                PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
                 break;
             case 3:
                 DisplayWinner(GetWinner());
@@ -244,7 +228,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     {
         yield return new WaitForSeconds(t);
         StartPhase(phase);
-        _waitingforPhase = false;
+        _waitingForPhase = false;
     }
 
     protected override void ClearHands()
@@ -371,17 +355,17 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     #region External Event Subscribers
     public void HitMe()
     {
-        Players[TableHandler.playerTurn].data.Hand.Add(DeckHandler.DealRandomCard());
-        Players[TableHandler.playerTurn].SetHand();
-        Players[TableHandler.playerTurn].RevealHand();
-        PlayerScores[TableHandler.playerTurn].Scores = GetPlayerScore(Players[TableHandler.playerTurn]);
-        if (CanHit(Players[TableHandler.playerTurn]) != 1)
+        Players[TableHandler.PlayerTurn].data.Hand.Add(DeckHandler.DealRandomCard());
+        Players[TableHandler.PlayerTurn].SetHand();
+        Players[TableHandler.PlayerTurn].RevealHand();
+        PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
+        if (CanHit(Players[TableHandler.PlayerTurn]) != 1)
             StartPhase(2);
     }
 
     public void Stay()
     {
-        PlayerScores[TableHandler.playerTurn].Scores = GetPlayerScore(Players[TableHandler.playerTurn]);
+        PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
         StartPhase(2);
     }
 

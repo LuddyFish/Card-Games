@@ -26,21 +26,49 @@ public class GameData
 
     public GameData(Table table, Deck deck)
     {
-        // pre-emptive reset
-        players.Clear();
-        cards.Clear();
+        SaveTableData(table);
+        SaveDeckData(deck);
+        SaveBlackjackData();
+    }
 
-        // set table/player variables
+    public void SaveTableData(Table table)
+    {
+        players.Clear();
+
         foreach (Player player in table.Players)
             players.Add(new(player));
-        playerTurn = table.playerTurn;
-        startingCardCount = table.startingCardCount;
+        playerTurn = table.PlayerTurn;
+        startingCardCount = table.StartingCardCount;
+    }
 
-        // set deck/card variables
+    public Player[] LoadPlayers(Dictionary<int, Player> playerById)
+    {
+        List<Player> list = new();
+
+        foreach (var pData in players)
+            if (playerById.TryGetValue(pData.id, out var player))
+                list.Add(player);
+
+        return list.ToArray();
+    }
+
+    public void SaveDeckData(Deck deck)
+    {
+        cards.Clear();
+
         foreach (Card card in deck.Cards)
             cards.Add(new(card));
+    }
 
-        SaveBlackjackData();
+    public Card[] LoadCards(Dictionary<int, Card> cardById)
+    {
+        List<Card> list = new();
+
+        foreach (var cData in cards)
+            if (cardById.TryGetValue(cData.id, out var card))
+                list.Add(card);
+
+        return list.ToArray();
     }
 
     public void SaveBlackjackData()

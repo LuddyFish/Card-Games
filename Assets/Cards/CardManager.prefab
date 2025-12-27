@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ae406bc57b6e344bdc7e53d77951fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cardbox
+  _gameContext: {fileID: 11400000, guid: 81c1dda567dc8cc48850eaca48b5be90, type: 2}
   cardPrefab: {fileID: 4514296869395623950, guid: f94cdf4a4c86be3408ef341cf8ce0b22, type: 3}
   cardSet: {fileID: 11400000, guid: d17bd59dfbc03664baf81725be481bba, type: 2}
   cards: []
