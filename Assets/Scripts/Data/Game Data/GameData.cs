@@ -28,7 +28,6 @@ public class GameData
     {
         SaveTableData(table);
         SaveDeckData(deck);
-        SaveBlackjackData();
     }
 
     public void SaveTableData(Table table)
@@ -71,16 +70,9 @@ public class GameData
         return list.ToArray();
     }
 
-    public void SaveBlackjackData()
+    public void SaveBlackjackData(BlackjackGameManager BJGM)
     {
-        // clear the save if it has already been set
-        if (BlackjackGameManager.Instance == null)
-        {
-            blackjackScores = null;
-            return;
-        }
-
-        var scores = BlackjackGameManager.Instance.PlayerScores;
+        var scores = BJGM.PlayerScores;
         blackjackScores = new BlackjackScore[scores.Count];
 
         for (int i = 0; i < blackjackScores.Length; i++)

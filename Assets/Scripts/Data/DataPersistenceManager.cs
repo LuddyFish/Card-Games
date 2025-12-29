@@ -74,19 +74,19 @@ public class DataPersistenceManager : DataPersistenceBase
             New(data);
     }
 
-    protected override void LoadAll()
+    public override void LoadAll()
     {
         Load(data, GameDataPersistenceObjects);
         Load(stats, PlayerStatsPersistenceObjects);
     }
 
-    protected override void SaveAll()
+    public override void SaveAll()
     {
         Save(data, GameDataPersistenceObjects);
         Save(stats, PlayerStatsPersistenceObjects);
     }
 
-    protected override void DestroyAll()
+    public override void DestroyAll()
     {
         data.handler?.Delete();
         stats.handler?.Delete();

@@ -19,9 +19,8 @@ public abstract class CardGameManager : MonoBehaviour
         protected set { _deck = value; }
     }
 
-    /// <summary>
-    /// Prefab <b>must</b> include <see cref="Cardbox"/>
-    /// </summary>
+    [SerializeField] private CardDeckSet _cardSet;
+
     [Tooltip("This GameObject must contain a \"Cardbox\" script")]
     [SerializeField] private GameObject _cardManagerPrefab;
 
@@ -93,11 +92,12 @@ public abstract class CardGameManager : MonoBehaviour
 
     protected virtual void SetDataVariables()
     {
-        DeckHandler = new();
+        DeckHandler = new(set: _cardSet);
         _context.Deck = DeckHandler;
 
         var cardManager = Instantiate(_cardManagerPrefab);
         var cardbox = cardManager.GetComponent<Cardbox>();
+        cardbox.cardSet = _cardSet;
         OnGameLoaded += cardbox.Init;
 
         DataPersistenceManager.Instance.Init();

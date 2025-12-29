@@ -24,14 +24,18 @@ public class Deck : IDataPersistence<GameData>
     Cardbox Box => Cardbox.Instance;
     CardAudio Audio => CardAudio.Instance;
 
-    public Deck(int suitCount = 4, int rankCount = 13)
+    public Deck(int suitCount = 4, int rankCount = 13, CardDeckSet set = null)
     {
         _suitCount = suitCount;
         _rankCount = rankCount;
         Cards = new Card[_suitCount * _rankCount];
-        for (int s = 0; s < _suitCount; s++)
-            for (int r = 1; r <= _rankCount; r++)
-                Cards[s * _rankCount + r - 1] = new Card(s, r, s * _rankCount + r);
+        if (set == null)
+            for (int s = 0; s < _suitCount; s++)
+                for (int r = 1; r <= _rankCount; r++)
+                    Cards[s * _rankCount + r - 1] = new Card(s, r, s * _rankCount + r);
+        else
+            for (int i = 0; i < Cards.Length; i++)
+                Cards[i] = new(set.cards[i].suit, set.cards[i].rank);
         _pool = new();
     }
 

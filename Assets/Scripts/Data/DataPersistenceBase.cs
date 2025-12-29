@@ -4,9 +4,9 @@ using UnityEngine;
 public abstract class DataPersistenceBase : MonoBehaviour
 {
     public abstract void Init();
-    protected abstract void LoadAll();
-    protected abstract void SaveAll();
-    protected abstract void DestroyAll();
+    public abstract void LoadAll();
+    public abstract void SaveAll();
+    public abstract void DestroyAll();
 
     protected virtual void Awake()
     {

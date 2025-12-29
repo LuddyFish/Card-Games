@@ -98,7 +98,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
 
     public void SaveData(ref GameData data)
     {
-        data.SaveBlackjackData();
+        data.SaveBlackjackData(this);
     }
 
     public void LoadData(PlayerGameStats data)
@@ -109,7 +109,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     public void SaveData(ref PlayerGameStats data)
     {
         data.blackjackGames += _roundsPlayed;
-        // TODO: add stats.blackjackWins to the identified player
+        // TODO: add data.blackjackWins to the identified player
     }
     #endregion
 

@@ -25,7 +25,7 @@ public class CardObject : MonoBehaviour, IDataPersistence<GameData>
     public void SaveData(ref GameData data)
     {
         int index = GetCardInDeck();
-        if (index == -1)
+        if (index <= -1)
         {
             Debug.LogError($"Could not find card: \"{name}\" id in Deck");
             return;
@@ -51,6 +51,7 @@ public class CardObject : MonoBehaviour, IDataPersistence<GameData>
                 return i;
         return -1;
     }
+
     /// <summary>
     /// Activates/Deactivates the <c>gameObject</c> depending on if it is <c>inPlay</c>
     /// </summary>
