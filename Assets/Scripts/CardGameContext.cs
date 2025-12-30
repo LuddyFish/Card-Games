@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameManager", menuName = "Game Manager")]
@@ -6,13 +7,19 @@ public class CardGameContext : ScriptableObject
     public Table Table;
     public Deck Deck;
 
-    [HideInInspector] public CardGameManager ActiveGame;
+    public CardGameManager ActiveGame { get; private set; }
 
+    public Dictionary<Player, PlayerObject> PlayerMap { get; } = new();
+    public Dictionary<Card, CardObject> CardMap { get; } = new();
+        
     public void SetGame(CardGameManager game)
     {
         ActiveGame = game;
         Deck = game.DeckHandler;
         Table = game.TableHandler;
+
+        PlayerMap.Clear();
+        CardMap.Clear();
     }
 
     public void ClearGame()
@@ -20,5 +27,8 @@ public class CardGameContext : ScriptableObject
         ActiveGame = null;
         Deck = null;
         Table = null;
+
+        PlayerMap.Clear();
+        CardMap.Clear();
     }
 }

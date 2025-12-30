@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Cardbox : MonoBehaviour
@@ -17,12 +20,19 @@ public class Cardbox : MonoBehaviour
     public Vector2 discardLocation;
     [SerializeField] private float discardTime = 0.5f;
 
-    void Awake()
+    public Action OnDealAnimationCompletion;
+
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
             Destroy(this);
+    }
+
+    private void Start()
+    {
+        _gameContext.ActiveGame.DeckHandler.OnCardDealt += AnimateDeal;
     }
 
     public void Init()
@@ -32,6 +42,8 @@ public class Cardbox : MonoBehaviour
             GameObject card = Instantiate(cardPrefab, transform);
             var obj = card.GetComponent<CardObject>();
             obj.card = _gameContext.Deck.Cards[i];
+            _gameContext.CardMap.Add(obj.card, obj);
+
             SetCardContrast(obj, cardSet.cards[i]);
             SetCard(obj);
             ReturnCard(card.transform);
@@ -63,10 +75,46 @@ public class Cardbox : MonoBehaviour
         card.back = _isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
     }
 
+    private void GiftCard(PlayerObject player, CardObject card)
+    {
+        card.inHand = true;
+        player.cards.Add(card);
+        
+        var layout = player.GetComponent<HandLayout>();
+        card.transform.SetParent(layout.transform);
+        layout.ReceiveCard(card.transform, player.cards.Count - 1, player.collectTime);
+        StartCoroutine(InvokeAnimationSend(player.collectTime));
+        card.GetComponent<SpriteRenderer>().sortingOrder = player.cards.Count - 1;
+    }
+
+    private void AnimateDeal(Player player, Card card)
+    {
+        if (!_gameContext.PlayerMap.TryGetValue(player, out var playerObj))
+        {
+            Debug.LogError($"PlayerObject not registered for {player}");
+            return;
+        }
+        if (!_gameContext.CardMap.TryGetValue(card, out var cardObj))
+        {
+            Debug.LogError($"CardObject not registered for {card}");
+            return;
+        }
+
+        GiftCard(playerObj, cardObj);
+    }
+
+    private IEnumerator InvokeAnimationSend(float time)
+    {
+        yield return new WaitForSeconds(time);
+        OnDealAnimationCompletion?.Invoke();
+    }
+
     public void ReturnCard(Transform card)
     {
         card.SetParent(transform);
-        card.GetComponent<CardObject>().discarded = false;
+        var obj = card.GetComponent<CardObject>();
+        obj.inHand = false;
+        obj.discarded = false;
         AnimationUtilities.Lerp(card, card.position, transform.position, discardTime);
     }
 

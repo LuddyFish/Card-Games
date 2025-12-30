@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class CardGameManager : MonoBehaviour
@@ -26,7 +27,6 @@ public abstract class CardGameManager : MonoBehaviour
 
     // --- Players ---
     [HideInInspector] public List<PlayerObject> Players { get; private set; } = new();
-    protected List<Player> _playerDatas = new();
     private int _minPlayerCount = 2;
     public int MinPlayerCount
     {
@@ -36,6 +36,9 @@ public abstract class CardGameManager : MonoBehaviour
 
     // --- Internal Data ---
     [SerializeField] private int _startingCardCount = 5;
+    [Tooltip("<b>False</b>: deal all cards simultaneously" +
+        "\n<b>True</b>: deal all cards one at a time")]
+    [SerializeField] private bool _dealSequentially = true;
 
     // --- Conditions ---
     private bool _isWaitingForSetup = true;
@@ -82,9 +85,9 @@ public abstract class CardGameManager : MonoBehaviour
     protected virtual void SetPlayerData()
     {
         foreach (var player in Players)
-            _playerDatas.Add(player.data);
+            _context.PlayerMap.Add(player.data, player);
         TableHandler = new(
-            Players: _playerDatas.ToArray(),
+            Players: _context.PlayerMap.Keys.ToArray(),
             StartingCardCount: _startingCardCount
         );
         _context.Table = TableHandler;
@@ -149,9 +152,33 @@ public abstract class CardGameManager : MonoBehaviour
     /// </summary>
     protected virtual void Deal()
     {
-        DeckHandler.Deal(TableHandler);
-        OnDeal?.Invoke();
+        if (_dealSequentially)
+        {
+            DeckHandler.DealContinuous(TableHandler, true);
+            OnDeal?.Invoke();
+        }
+        else
+            StartCoroutine(DealSequential(_startingCardCount));
         IsDealerTurn = false;
+    }
+
+    protected IEnumerator DealSequential(int rounds)
+    {
+        bool dealt = false;
+        void Handler() => dealt = true;
+        Cardbox.Instance.OnDealAnimationCompletion += Handler;
+
+        for (int i = 0; i < rounds; i++)
+            for (int j = 0; j < TableHandler.Players.Length; j++)
+            {
+                dealt = false;
+                DeckHandler.DealSegmented(TableHandler);
+                yield return new WaitUntil(() => dealt);
+            }
+
+        Cardbox.Instance.OnDealAnimationCompletion -= Handler;
+
+        OnDeal?.Invoke();
     }
 
     /// <summary>

@@ -29,7 +29,7 @@ public static class AnimationUtilities
     /// <param name="obj">The object to move</param>
     /// <param name="origin">Start position</param>
     /// <param name="target">End position</param>
-    /// <param name="duration">Length of time to perform rotation</param>
+    /// <param name="duration">Length of time to perform action</param>
     public static Coroutine Lerp(Transform obj, Vector2 origin, Vector2 target, float duration)
         => Runner.StartCoroutine(LerpLinear(obj, origin, target, duration));
 
@@ -52,7 +52,7 @@ public static class AnimationUtilities
     /// <param name="origin">Start position</param>
     /// <param name="target">End position</param>
     /// <param name="point">The position to arc around</param>
-    /// <param name="duration">Length of time to perform rotation</param>
+    /// <param name="duration">Length of time to perform action</param>
     /// <returns></returns>
     public static Coroutine SlerpAroundPoint(Transform obj, Vector3 origin, Vector3 target, Vector3 point, float duration)
         => Runner.StartCoroutine(LerpAround(obj, origin, target, point, duration));

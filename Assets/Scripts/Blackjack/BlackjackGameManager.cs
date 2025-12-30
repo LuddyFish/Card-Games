@@ -355,11 +355,13 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     #region External Event Subscribers
     public void HitMe()
     {
-        Players[TableHandler.PlayerTurn].data.Hand.Add(DeckHandler.DealRandomCard());
-        Players[TableHandler.PlayerTurn].SetHand();
-        Players[TableHandler.PlayerTurn].RevealHand();
-        PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
-        if (CanHit(Players[TableHandler.PlayerTurn]) != 1)
+        PlayerObject player = Players[TableHandler.PlayerTurn];
+        player.data.Hand.Add(DeckHandler.DealRandomCard());
+        player.SetHand();
+        player.SetCards();
+        player.RevealHand();
+        PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(player);
+        if (CanHit(player) != 1)
             StartPhase(2);
     }
 

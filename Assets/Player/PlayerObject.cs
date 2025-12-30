@@ -27,7 +27,9 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
             _gameContext.ActiveGame.SetPlayer(this, 0);
         else
             _gameContext.ActiveGame.SetPlayer(this);
+
         _gameContext.ActiveGame.OnDeal += SetHand;
+        _gameContext.ActiveGame.OnDeal += SetCards;
         _gameContext.ActiveGame.OnReset += DiscardCards;
     }
 
@@ -72,26 +74,19 @@ public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
     }
 
     /// <summary>
-    /// Retrieve all cards in <see cref="data"/> and add it to <see cref="_hand"/><br/>
-    /// Also resets <see cref="_hand"/> to avoid mistakes
+    /// Retrieve all cards in <see cref="data"/> and set the objects parents as <see cref="_hand"/>
     /// </summary>
     public void SetHand()
     {
-        var objsById = Box.cards
-            .Select(obj => obj.GetComponent<CardObject>())
-            .ToDictionary(obj => obj.card.Id);
-
         foreach (var card in data.Hand)
-            if (objsById.TryGetValue(card.Id, out var obj))
+            if (_gameContext.CardMap.TryGetValue(card, out var obj))
                 obj.transform.SetParent(_hand);
-
-        SetCards();
     }
 
     /// <summary>
-    /// Set all cards in <see cref="_hand"/> to <see cref="cards"/>
+    /// Collect all card objects in <see cref="_hand"/> and aligns them
     /// </summary>
-    private void SetCards()
+    public void SetCards()
     {
         cards.Clear(); // Pre-emptive removal to avoid dupliactes
 

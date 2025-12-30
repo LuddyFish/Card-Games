@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,6 +24,8 @@ public class Deck : IDataPersistence<GameData>
 
     Cardbox Box => Cardbox.Instance;
     CardAudio Audio => CardAudio.Instance;
+
+    public event Action<Player, Card> OnCardDealt;
 
     public Deck(int suitCount = 4, int rankCount = 13, CardDeckSet set = null)
     {
@@ -50,7 +53,7 @@ public class Deck : IDataPersistence<GameData>
     }
 
     /// <summary>
-    /// Reset the cards in the pool to choose from.
+    /// Reset the cards in the pool to choose from
     /// </summary>
     public void NewDeck()
     {
@@ -107,7 +110,7 @@ public class Deck : IDataPersistence<GameData>
     }
 
     /// <summary>
-    /// Get a random card in <see cref="_pool"/>
+    /// Get a random card in <see cref="_pool"/> and then remove it
     /// </summary>
     /// <returns>A card</returns>
     public Card DealRandomCard()
@@ -121,15 +124,19 @@ public class Deck : IDataPersistence<GameData>
     }
 
     /// <summary>
-    /// Deal a batch of cards
+    /// Deal a batch of cards all at once
     /// </summary>
     /// <param name="table">The game Table which to deal to</param>
-    public void Deal(Table table)
+    /// <param name="fillHands">Does the deck reshuffle if there were not enough cards?</param>
+    public void DealContinuous(Table table, bool fillHands = false)
     {
         var dealer = table.GetDealer();
         int cardsDealt = 0;
+        bool CardsNeedDealing() => cardsDealt < table.Players.Length * table.StartingCardCount;
+
         PlayCardSound(Audio.sources[0], 4);
-        while (!IsDeckEmpty() && cardsDealt < table.Players.Length * table.StartingCardCount)
+        Deal:
+        while (!IsDeckEmpty() && CardsNeedDealing())
         {
             int playerIndex = (cardsDealt + dealer + 1) % table.Players.Length;
             Card card = GetRandomCard();
@@ -138,6 +145,27 @@ public class Deck : IDataPersistence<GameData>
             _pool.Remove(card);
             cardsDealt++;
         }
+        
+        if (fillHands && CardsNeedDealing())
+        {
+            NewSoftDeck();
+            goto Deal;
+        }
+    }
+
+    /// <summary>
+    /// Deal a singular card (used as part of a segment)
+    /// </summary>
+    /// <param name="table">The game Table which to deal to</param>
+    public void DealSegmented(Table table)
+    {
+        var player = table.Players[table.PlayerTurn];
+        var card = DealRandomCard();
+        
+        player.Hand.Add(card);
+        OnCardDealt?.Invoke(player, card);
+
+        table.SetPlayerTurn((table.PlayerTurn + 1) % table.Players.Length);
     }
 
     /// <summary>
