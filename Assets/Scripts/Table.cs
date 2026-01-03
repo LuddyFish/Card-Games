@@ -67,6 +67,11 @@ public class Table : IDataPersistence<GameData>
         return Players[playerNumber];
     }
 
+    public Player GetPlayerWhoseTurn()
+    {
+        return Players[PlayerTurn];
+    }
+
     /// <summary>
     /// Move to the next player in the rotation
     /// </summary>

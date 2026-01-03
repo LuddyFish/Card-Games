@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 [System.Serializable]
 public class GameData
@@ -68,17 +67,5 @@ public class GameData
                 list.Add(card);
 
         return list.ToArray();
-    }
-
-    public void SaveBlackjackData(BlackjackGameManager BJGM)
-    {
-        var scores = BJGM.PlayerScores;
-        blackjackScores = new BlackjackScore[scores.Count];
-
-        for (int i = 0; i < blackjackScores.Length; i++)
-        {
-            blackjackScores[i].score = scores[i].Scores;
-            blackjackScores[i].wins = scores[i].Wins;
-        }
     }
 }

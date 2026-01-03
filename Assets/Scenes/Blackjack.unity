@@ -704,6 +704,7 @@ MonoBehaviour:
   _cardSet: {fileID: 11400000, guid: d17bd59dfbc03664baf81725be481bba, type: 2}
   _cardManagerPrefab: {fileID: 5669062867936209645, guid: 07a6b587a5b4ccb4796f526e011e925d, type: 3}
   _startingCardCount: 2
+  _dealSequentially: 1
   _buttons:
   - {fileID: 1408033846}
   - {fileID: 259276652}
@@ -1471,6 +1472,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dealer Scoreboard
       objectReference: {fileID: 0}
+    - target: {fileID: 9158872791316800085, guid: 6921b2e9c36518243bee9541b2838f97, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 8765504357242450754}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1595,6 +1600,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0697b7be426926d428505d2078edca0e, type: 3}
+--- !u!114 &4887889194346437767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6511470332136786916, guid: 0697b7be426926d428505d2078edca0e, type: 3}
+  m_PrefabInstance: {fileID: 4887889194346437766}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419235b3526810e48b2f0235ff0b5c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
 --- !u!1001 &6556169816172301968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1912,6 +1928,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Scoreboard
       objectReference: {fileID: 0}
+    - target: {fileID: 9158872791316800085, guid: 6921b2e9c36518243bee9541b2838f97, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 4887889194346437767}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1979,6 +1999,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77f2af2dfba1a8141999109c7784b78b, type: 3}
+--- !u!114 &8765504357242450754 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5071465574796292251, guid: 77f2af2dfba1a8141999109c7784b78b, type: 3}
+  m_PrefabInstance: {fileID: 8765504357242450753}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419235b3526810e48b2f0235ff0b5c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

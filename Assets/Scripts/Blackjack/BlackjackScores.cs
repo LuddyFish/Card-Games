@@ -3,58 +3,36 @@ using UnityEngine.UI;
 
 public class BlackjackScores : MonoBehaviour
 {
-    BlackjackGameManager BJGM => BlackjackGameManager.Instance;
+    public PlayerObject playerObject;
+    BlackjackPlayerState State => BlackjackGameManager.Instance.GetState(playerObject.data);
 
     private Text _numbers;
     private GameObject _bust;
 
-    private int _score = 0;
-    public int Scores
-    {
-        get
-        {
-            return _score;
-        }
-        set
-        {
-            _score = value;
-            UpdateText();
-            if (_score > 21) ToggleBust(true);
-        }
-    }
-    private int _wins = 0;
-    public int Wins
-    {
-        get
-        {
-            return _wins;
-        }
-        set
-        {
-            _wins = value;
-            UpdateText();
-        }
-    }
+    private bool _gameIsLoaded = false;
 
-    void Start()
+    private void Start()
     {
         _numbers = transform.Find("Numbers").GetComponent<Text>();
         _bust = transform.Find("Bust").gameObject;
-        UpdateText();
 
-        if (name.Contains("Dealer"))
-            BJGM.SetScorer(this, 0);
-        else
-            BJGM.SetScorer(this);
+        void ConfirmLoaded() => _gameIsLoaded = true;
+        BlackjackGameManager.Instance.OnGameLoaded += ConfirmLoaded;
     }
 
-    private void UpdateText()
+    private void Update()
     {
-        _numbers.text = $"{_score}\n{_wins}";
+        if (!_gameIsLoaded) return;
+        
+        Refresh();
     }
 
-    public void ToggleBust(bool? cond)
+    /// <summary>
+    /// Updates the text fields to match the Player's current <see cref="BlackjackPlayerState"/>
+    /// </summary>
+    public void Refresh()
     {
-        _bust.SetActive(cond ?? !_bust.activeSelf);
+        _numbers.text = $"{State.Scores}\n{State.Wins}";
+        _bust.SetActive(State.IsBust);
     }
 }

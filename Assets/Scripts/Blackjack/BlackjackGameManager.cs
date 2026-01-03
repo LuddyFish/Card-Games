@@ -12,7 +12,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     [SerializeField] private Button[] _buttons;
     [SerializeField] private GameObject _winTextBox;
     private Text winText;
-    [HideInInspector] public List<BlackjackScores> PlayerScores { get; private set; } = new();
+    private readonly Dictionary<Player, BlackjackPlayerState> _blackjackStates = new();
 
     [SerializeField] private GameObject _pausedScreen;
     [HideInInspector] public bool isPaused = false;
@@ -47,12 +47,9 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     {
         base.SetPlayerData();
 
-        foreach (var scorer in PlayerScores)
+        foreach (var player in TableHandler.Players)
         {
-            scorer.Scores = 0;
-            scorer.Wins = 0;
-            scorer.ToggleBust(false);
-            _playerInitialWins.Add(scorer.Wins);
+            _blackjackStates[player] = new();
         }
     }
 
@@ -72,33 +69,25 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     }
     #endregion
 
-    #region Other variables subscribing
-    public void SetScorer(BlackjackScores scorer)
-    {
-        PlayerScores.Add(scorer);
-        Debug.Log($"Added {scorer.name} to list of Scorers. Total: {PlayerScores.Count}");
-    }
-
-    public void SetScorer(BlackjackScores scorer, int priority)
-    {
-        PlayerScores.Insert(priority, scorer);
-        Debug.Log($"Added {scorer.name} to list of Scorers at position {priority}. Total: {PlayerScores.Count}");
-    }
-    #endregion
-
     #region Data Saving
     public void LoadData(GameData data)
     {
-        for (int i = 0; i < PlayerScores.Count && i < data.blackjackScores.Length; i++)
+        for (int i = 0; i < TableHandler.Players.Length && i < data.blackjackScores.Length; i++)
         {
-            PlayerScores[i].Scores = data.blackjackScores[i].score;
-            PlayerScores[i].Wins = data.blackjackScores[i].wins;
+            _blackjackStates[TableHandler.GetPlayer(i)].Scores = data.blackjackScores[i].score;
+            _blackjackStates[TableHandler.GetPlayer(i)].Wins = data.blackjackScores[i].wins;
         }
     }
 
     public void SaveData(ref GameData data)
     {
-        data.SaveBlackjackData(this);
+        data.blackjackScores = new GameData.BlackjackScore[_blackjackStates.Count];
+
+        for (int i = 0; i < data.blackjackScores.Length; i++)
+        {
+            data.blackjackScores[i].score = _blackjackStates[TableHandler.GetPlayer(i)].Scores;
+            data.blackjackScores[i].wins = _blackjackStates[TableHandler.GetPlayer(i)].Wins;
+        }
     }
 
     public void LoadData(PlayerGameStats data)
@@ -204,7 +193,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
                     Players[0].cards[1].Hide();
                 }
                 TableHandler.NextPlayerTurn();
-                PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
+                _blackjackStates[TableHandler.GetPlayerWhoseTurn()].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
                 break;
             case 3:
                 DisplayWinner(GetWinner());
@@ -231,14 +220,19 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         _waitingForPhase = false;
     }
 
+    public BlackjackPlayerState GetState(Player player)
+    {
+        return _blackjackStates[player];
+    }
+
     protected override void ClearHands()
     {
         base.ClearHands();
         HideWinText();
-        foreach (var text in PlayerScores)
+        foreach (var text in _blackjackStates.Values)
         {
             text.Scores = 0;
-            text.ToggleBust(false);
+            text.IsBust = false;
         }
     }
 
@@ -323,7 +317,8 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     /// <param name="player"></param>
     public void IncrementWinsTally(int player)
     {
-        if (player >= 0) PlayerScores[player].Wins = PlayerScores[player].Wins + 1;
+        if (player >= 0)
+            _blackjackStates[TableHandler.GetPlayer(player)].Wins++;
     }
 
     public void HideWinText()
@@ -360,14 +355,15 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         player.SetHand();
         player.SetCards();
         player.RevealHand();
-        PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(player);
+        _blackjackStates[player.data].Scores = GetPlayerScore(player);
         if (CanHit(player) != 1)
             StartPhase(2);
     }
 
     public void Stay()
     {
-        PlayerScores[TableHandler.PlayerTurn].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
+        PlayerObject player = Players[TableHandler.PlayerTurn];
+        _blackjackStates[player.data].Scores = GetPlayerScore(player);
         StartPhase(2);
     }
 
