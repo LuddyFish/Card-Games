@@ -79,8 +79,8 @@ public class Cardbox : MonoBehaviour
     {
         card.inHand = true;
         player.cards.Add(card);
-        
-        var layout = player.GetComponent<HandLayout>();
+
+        var layout = player.transform.GetChild(0).GetComponent<HandLayout>();
         card.transform.SetParent(layout.transform);
         layout.ReceiveCard(card.transform, player.cards.Count - 1, player.collectTime);
         StartCoroutine(InvokeAnimationSend(player.collectTime));

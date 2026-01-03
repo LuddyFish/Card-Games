@@ -159,13 +159,13 @@ public class Deck : IDataPersistence<GameData>
     /// <param name="table">The game Table which to deal to</param>
     public void DealSegmented(Table table)
     {
+        table.SetPlayerTurn((table.PlayerTurn + 1) % table.Players.Length);
+        Debug.Log($"Dealing to player {table.PlayerTurn}");
         var player = table.Players[table.PlayerTurn];
         var card = DealRandomCard();
         
         player.Hand.Add(card);
         OnCardDealt?.Invoke(player, card);
-
-        table.SetPlayerTurn((table.PlayerTurn + 1) % table.Players.Length);
     }
 
     /// <summary>

@@ -152,7 +152,7 @@ public abstract class CardGameManager : MonoBehaviour
     /// </summary>
     protected virtual void Deal()
     {
-        if (_dealSequentially)
+        if (!_dealSequentially)
         {
             DeckHandler.DealContinuous(TableHandler, true);
             OnDeal?.Invoke();

@@ -186,6 +186,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
                 {
                     if (IsDealerTurn) {
                         StartPhase(3);
+                        _waitingForPhase = false;
                         return;
                     }
                     IsDealerTurn = true;
