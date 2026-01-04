@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class BlackjackPlayerState
 {
     public int Scores;

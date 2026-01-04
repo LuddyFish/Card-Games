@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,10 +23,44 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     private List<int> _playerInitialWins = new();
 
     // --- Conditions ---
-    private int _phase = 0;
-    private bool _waitingForPhase = false;
+    /// <summary>
+    /// <list type="bullet">
+    /// <item>
+    ///     <term>0</term>
+    ///     <description>Reset the game</description>
+    /// </item>
+    /// <item>
+    ///     <term>1</term>
+    ///     <description>Deal a set of cards</description>
+    /// </item>
+    /// <item>
+    ///     <term>2</term>
+    ///     <description>Go to next Player's turn</description>
+    /// </item>
+    /// <item>
+    ///     <term>3</term>
+    ///     <description>Determine the winner</description>
+    /// </item>
+    /// <item>
+    ///     <term>4</term>
+    ///     <description>Clear Hand</description>
+    /// </item>
+    /// </list>
+    /// </summary>
+    private enum Phase
+    {
+        Reset,
+        Deal,
+        PlayerTurn,
+        RoundEnd,
+        Clear
+    }
+    private Phase _phase = Phase.Reset;
 
-    public bool PlayersActive => _phase == 2;
+    public bool PlayersActive => _phase == Phase.PlayerTurn;
+
+    // --- Events ---
+    private Action OnPhaseComplete;
 
     #region Set Up
     protected override void Awake()
@@ -40,7 +75,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     protected override void InitGame()
     {
         base.InitGame();
-        StartPhase(4);
+        StartPhase(Phase.Clear);
     }
 
     protected override void SetPlayerData()
@@ -108,99 +143,76 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         if (IsWaitingForSetup)
             return;
 
-        if (!_waitingForPhase)
-        {
-            switch (_phase)
-            {
-                case 0:
-                    _waitingForPhase = true;
-                    DelayStartPhase(1, 0.5f);
-                    break;
-                case 1:
-                    _waitingForPhase = true;
-                    DelayStartPhase(2, 0.2f);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    _waitingForPhase = true;
-                    DelayStartPhase(4, 3f);
-                    break;
-                case 4:
-                    _waitingForPhase = true;
-                    if (DeckHandler.NotEnoughCards(TableHandler.Players.Length * TableHandler.StartingCardCount))
-                        DelayStartPhase(0, 0.75f);
-                    else
-                        DelayStartPhase(1, 0.2f);
-                    break;
-            }
-        }
-
         foreach (var button in _buttons)
             button.interactable = TableHandler.PlayerTurn != 0;
+    }
+
+    #region Phase Logic
+    private void AdvancePhase()
+    {
+        _phase = GetNextPhase(_phase);
+        DelayStartPhase(_phase, GetPhaseDelayTime(_phase));
+    }
+
+    private Phase GetNextPhase(Phase current)
+    {
+        return current switch
+        {
+            Phase.Reset =>      Phase.Deal,
+            Phase.Deal =>       Phase.PlayerTurn,
+            Phase.PlayerTurn => Phase.RoundEnd,
+            Phase.RoundEnd =>   Phase.Clear,
+            Phase.Clear =>      DeckHandler.NotEnoughCards(TableHandler.Players.Length * TableHandler.StartingCardCount) ? Phase.Reset : Phase.Deal,
+            _ =>                Phase.Reset
+        };
+    }
+
+    private float GetPhaseDelayTime(Phase current)
+    {
+        return current switch
+        {
+            Phase.Reset         => 0.75f,
+            Phase.Deal          => 0.5f,
+            Phase.PlayerTurn    => 0.2f,
+            Phase.RoundEnd      => 0.1f,
+            Phase.Clear         => 3f,
+            _                   => 0f
+        };
     }
 
     /// <summary>
     /// Enacts a specified stage of the game
     /// </summary>
-    /// <param name="phase">
-    /// <list type="bullet">
-    /// <item>
-    ///     <term>0</term>
-    ///     <description>Reset the game</description>
-    /// </item>
-    /// <item>
-    ///     <term>1</term>
-    ///     <description>Deal a set of cards</description>
-    /// </item>
-    /// <item>
-    ///     <term>2</term>
-    ///     <description>Go to next Player's turn</description>
-    /// </item>
-    /// <item>
-    ///     <term>3</term>
-    ///     <description>Determine the winner</description>
-    /// </item>
-    /// <item>
-    ///     <term>4</term>
-    ///     <description>Clear Hand</description>
-    /// </item>
-    /// </list>
-    /// </param>
-    private void StartPhase(int phase)
+    /// <param name="phase">Refer to <see cref="Phase"/> for phase numbers</param>
+    private void StartPhase(Phase phase)
     {
+        Debug.Log("Enacting phase: " + (int)phase);
         _phase = phase;
-        Debug.Log("Enacting phase: " + phase);
+
+        OnPhaseComplete = null;
+
         switch (phase)
         {
-            case 0:
+            case Phase.Reset:
+                OnPhaseComplete += AdvancePhase;
                 Reshuffle();
                 break;
-            case 1:
+            case Phase.Deal:
+                OnPhaseComplete += AdvancePhase;
                 Deal();
                 TableHandler.SetPlayerTurn(TableHandler.GetDealer());
                 break;
-            case 2:
-                // If is dealer's turn and don't enact their first turn
-                if (TableHandler.PlayerTurn == 0)
-                {
-                    if (IsDealerTurn) {
-                        StartPhase(3);
-                        _waitingForPhase = false;
-                        return;
-                    }
-                    IsDealerTurn = true;
-                    Players[0].cards[0].Reveal();
-                    Players[0].cards[1].Hide();
-                }
-                TableHandler.NextPlayerTurn();
-                _blackjackStates[TableHandler.GetPlayerWhoseTurn()].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
+            case Phase.PlayerTurn:
+                StartPlayerTurn();
                 break;
-            case 3:
+            case Phase.RoundEnd:
+                OnPhaseComplete += AdvancePhase;
+                _roundsPlayed++;
                 DisplayWinner(GetWinner());
                 IncrementWinsTally(GetWinnerIndex());
                 break;
-            case 4:
+            case Phase.Clear:
+                OnPhaseComplete += AdvancePhase;
                 ClearHands();
                 break;
         }
@@ -209,17 +221,56 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     /// <summary>
     /// Enacts a specific stage of the game after <paramref name="t"/> seconds
     /// </summary>
-    /// <param name="phase">Refer to <see cref="StartPhase(int)"/> for phase numbers</param>
+    /// <param name="phase">Refer to <see cref="Phase"/> for phase numbers</param>
     /// <param name="t">Time to wait</param>
     /// <returns></returns>
-    private Coroutine DelayStartPhase(int phase, float t) => StartCoroutine(DelayPhase(phase, t));
+    private Coroutine DelayStartPhase(Phase phase, float t) => StartCoroutine(DelayPhase(phase, t));
 
-    private IEnumerator DelayPhase(int phase, float t)
+    private IEnumerator DelayPhase(Phase phase, float t)
     {
         yield return new WaitForSeconds(t);
         StartPhase(phase);
-        _waitingForPhase = false;
     }
+    #endregion
+
+    protected override void Reshuffle()
+    {
+        base.Reshuffle();
+        OnPhaseComplete?.Invoke();
+    }
+
+    protected override void Deal()
+    {
+        base.Deal();
+        OnPhaseComplete?.Invoke();
+    }
+
+    #region Player Turn
+    private void StartPlayerTurn()
+    {
+        // If it is Dealer's turn, then don't enact their first turn
+        if (TableHandler.PlayerTurn == 0)
+        {
+            if (IsDealerTurn)
+            {
+                StartPhase(Phase.RoundEnd);
+                return;
+            }
+            IsDealerTurn = true;
+            // Show Dealer's first card
+            Players[0].cards[0].Reveal();
+            Players[0].cards[1].Hide();
+        }
+
+        TableHandler.NextPlayerTurn();
+        _blackjackStates[TableHandler.GetPlayerWhoseTurn()].Scores = GetPlayerScore(Players[TableHandler.PlayerTurn]);
+    }
+
+    public void EndPlayerTurn()
+    {
+        OnPhaseComplete?.Invoke();
+    }
+    #endregion
 
     public BlackjackPlayerState GetState(Player player)
     {
@@ -235,6 +286,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
             text.Scores = 0;
             text.IsBust = false;
         }
+        OnPhaseComplete?.Invoke();
     }
 
     /// <summary>
@@ -358,14 +410,14 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         player.RevealHand();
         _blackjackStates[player.data].Scores = GetPlayerScore(player);
         if (CanHit(player) != 1)
-            StartPhase(2);
+            StartPhase(Phase.PlayerTurn);
     }
 
     public void Stay()
     {
         PlayerObject player = Players[TableHandler.PlayerTurn];
         _blackjackStates[player.data].Scores = GetPlayerScore(player);
-        StartPhase(2);
+        StartPhase(Phase.PlayerTurn);
     }
 
     public void TogglePause(bool pause)
