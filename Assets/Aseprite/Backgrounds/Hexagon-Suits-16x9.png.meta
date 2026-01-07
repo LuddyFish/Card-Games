@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b7bcf497766cd7f46b62a29f7a90dc5a
+guid: e0f455f11212b2f45a45c0943126dcaa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 787328680233315558
-    second: Hexagon-Suits-Alt-16x9_0
+      213: 4784810154170819503
+    second: Hexagon-Suits-Alt-1270x720_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hexagon-Suits-Alt-16x9-Large
+      name: Hexagon-Suits-16x9-Large
       rect:
         serializedVersion: 2
         x: 0
@@ -128,14 +128,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6eca8c263472dea00800000000000000
-      internalID: 787328680233315558
+      spriteID: fa3a805fb7f076240800000000000000
+      internalID: 4784810154170819503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hexagon-Suits-Alt-16x9-Medium
+      name: Hexagon-Suits-16x9-Small
       rect:
         serializedVersion: 2
         x: 0
@@ -150,30 +150,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de768abddd34cf5409274bfe74cbf019
-      internalID: -898296445
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Hexagon-Suits-Alt-16x9-Small
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 320
-        height: 180
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d8af13f8dfdf65a4680bda949321fa62
-      internalID: 374111715
+      spriteID: 5653c7e8e8ee8af4c9afcf269f26aff8
+      internalID: 283399946
       vertices: []
       indices: 
       edges: []
@@ -182,7 +160,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 81a1acae9d4afd84d85d90a975739a37
+    spriteID: 1ed570ac2b1e1044fbc5c5cdf36ddc04
     internalID: 0
     vertices: []
     indices: 
@@ -192,9 +170,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hexagon-Suits-Alt-16x9-Large: 787328680233315558
-      Hexagon-Suits-Alt-16x9-Medium: -898296445
-      Hexagon-Suits-Alt-16x9-Small: 374111715
+      Hexagon-Suits-16x9-Large: 4784810154170819503
+      Hexagon-Suits-16x9-Small: 283399946
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -199,8 +199,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
                 break;
             case Phase.Deal:
                 OnPhaseComplete += AdvancePhase;
-                Deal();
-                TableHandler.SetPlayerTurn(TableHandler.GetDealer());
+                StartCoroutine(Deal());
                 break;
             case Phase.PlayerTurn:
                 StartPlayerTurn();
@@ -239,10 +238,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         OnPhaseComplete?.Invoke();
     }
 
-    protected override void Deal()
+    protected override IEnumerator Deal()
     {
-        base.Deal();
+        yield return StartCoroutine(base.Deal());
         OnPhaseComplete?.Invoke();
+        TableHandler.SetPlayerTurn(TableHandler.GetDealer());
     }
 
     #region Player Turn
@@ -380,23 +380,16 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     }
 
     /// <summary>
-    /// Checks the players score
+    /// Checks the players score if less than 21
     /// </summary>
     /// <param name="player"></param>
-    /// <returns>
-    /// <c>0 =</c> greater than 21<br/> 
-    /// <c>1 =</c> less than 21<br/> 
-    /// <c>2 =</c> equals 21
-    /// </returns>
-    public int CanHit(PlayerObject player)
+    /// <returns>Returns <c>TRUE</c> if the player has less than 21</returns>
+    public bool CanHit(PlayerObject player)
     {
-        int score = GetPlayerScore(player);
-        if (score > 21)
-            return 0;
-        else if (score < 21)
-            return 1;
+        if (GetPlayerScore(player) >= 21)
+            return false;
         else
-            return 2;
+            return true;
     }
     #endregion
 
@@ -409,7 +402,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
         player.SetCards();
         player.RevealHand();
         _blackjackStates[player.data].Scores = GetPlayerScore(player);
-        if (CanHit(player) != 1)
+        if (!CanHit(player))
             StartPhase(Phase.PlayerTurn);
     }
 

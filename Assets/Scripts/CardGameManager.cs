@@ -150,15 +150,14 @@ public abstract class CardGameManager : MonoBehaviour
     /// <summary>
     /// Deal cards to all players
     /// </summary>
-    protected virtual void Deal()
+    protected virtual IEnumerator Deal()
     {
         if (!_dealSequentially)
-        {
             DeckHandler.DealContinuous(TableHandler, true);
-            OnDeal?.Invoke();
-        }
         else
-            StartCoroutine(DealSequential(_startingCardCount));
+            yield return StartCoroutine(DealSequential(_startingCardCount));
+
+        OnDeal?.Invoke();
         IsDealerTurn = false;
     }
 
@@ -177,8 +176,6 @@ public abstract class CardGameManager : MonoBehaviour
             }
 
         Cardbox.Instance.OnDealAnimationCompletion -= Handler;
-
-        OnDeal?.Invoke();
     }
 
     /// <summary>
