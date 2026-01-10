@@ -24,9 +24,19 @@ public class BackgroundColours : ScriptableObject
         throw new NullReferenceException($"Could not find a colour with the name: {name}");
     }
 
-    public string[] GetNameList()
+    public BackgroundColour Get(int index)
+    {
+        return _colours[index];
+    }
+
+    public string[] GetNameArray()
     {
         return _colours.ConvertAll(c => c.name).ToArray();
+    }
+
+    public List<string> GetNameList()
+    {
+        return _colours.ConvertAll(c => c.name);
     }
 
     public void Remove(string name)

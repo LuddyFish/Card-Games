@@ -8,33 +8,9 @@ public static class SceneUtilities
     {
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
-            LoadScene(nextSceneIndex);
+            SceneManager.LoadScene(nextSceneIndex);
         else
-            LoadScene(0);
-    }
-
-    public static void LoadScene(string name)
-    {
-        try
-        {
-            SceneManager.LoadScene(name);
-        }
-        catch
-        {
-            Debug.LogError($"Could not load scene \"{name}\"");
-        }
-    }
-
-    public static void LoadScene(int num)
-    {
-        try
-        {
-            SceneManager.LoadScene(num);
-        }
-        catch
-        {
-            Debug.LogError($"Could not load scene index {num}");
-        }
+            SceneManager.LoadScene(0);
     }
 
     public static Scene GetScene(string name)

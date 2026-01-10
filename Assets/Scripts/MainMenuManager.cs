@@ -23,7 +23,6 @@ public class MainMenuManager : MonoBehaviour
     {
         _buttonObjs[0].SetActive(StoredGame());
         _buttonObjs[2].SetActive(false);
-        _buttons[3].interactable = false;
     }
 
     bool StoredGame()

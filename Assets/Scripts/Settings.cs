@@ -2,18 +2,21 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour, IDataPersistence<PlayerSettings>
 {
-    [Range(0f, 1f)]
-    public float volume;
+    [field: SerializeField, Range(0f, 1f)]
+    public float Volume { get; set; }
 
-    private BackgroundColours.BackgroundColour _selectedColour;
-    public BackgroundColours BGColours;
+    [HideInInspector] public BackgroundColours.BackgroundColour selectedColour;
+    [field: SerializeField]
+    public BackgroundColours BGColours { get; set; }
+    [SerializeField] private Material _BGMaterial;
 
-    public bool highContrast;
+    [field: SerializeField]
+    public bool HighContrast { get; set; }
 
     private void Reset()
     {
-        volume = 1f;
-        highContrast = false;
+        Volume = 1f;
+        HighContrast = false;
     }
 
     public void LoadData(PlayerSettings data)
@@ -26,8 +29,27 @@ public class Settings : MonoBehaviour, IDataPersistence<PlayerSettings>
 
     }
 
+    private void SetBGMaterial()
+    {
+        _BGMaterial.SetColor("_PrimaryColour", selectedColour.primary);
+        _BGMaterial.SetColor("_SecondaryColour", selectedColour.secondary);
+    }
+
     public void SetNewBGColour(BackgroundColours.BackgroundColour newColour)
     {
-        _selectedColour = newColour;
+        selectedColour = newColour;
+        SetBGMaterial();
+    }
+
+    public void SetNewBGColour(string newColour)
+    {
+        selectedColour = BGColours.Get(newColour);
+        SetBGMaterial();
+    }
+
+    public void SetNewBGColour(int newColour)
+    {
+        selectedColour = BGColours.Get(newColour);
+        SetBGMaterial();
     }
 }

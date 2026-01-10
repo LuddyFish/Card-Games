@@ -82,7 +82,7 @@ Material:
     m_Colors:
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _PrimaryColour: {r: 0.1803922, g: 0.5450981, b: 0.3411765, a: 1}
+    - _PrimaryColour: {r: 0.18039216, g: 0.54509807, b: 0.34117648, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondaryColour: {r: 0, g: 0.3921569, b: 0, a: 1}
   m_BuildTextureStacks: []
