@@ -1963,7 +1963,9 @@ MonoBehaviour:
   enterGameState: 0
   addSaveAll: 1
   goToNewScene: 1
-  sceneName: MainMenu
+  sceneToLoad:
+    _sceneAsset: {fileID: 102900000, guid: e8b28458e44e07246a7bcda97e4550e3, type: 3}
+    _sceneName: MainMenu
 --- !u!1001 &8722943567941348273
 PrefabInstance:
   m_ObjectHideFlags: 0

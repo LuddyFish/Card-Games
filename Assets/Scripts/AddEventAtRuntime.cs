@@ -10,9 +10,50 @@ using UnityEditor;
 [CustomEditor(typeof(AddEventAtRuntime))]
 public class OnClickEditor : Editor
 {
+    SerializedProperty sceneField;
+
+    private void OnEnable()
+    {
+        sceneField = serializedObject.FindProperty("sceneToLoad");
+    }
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        serializedObject.Update();
+        AddEventAtRuntime script = (AddEventAtRuntime)target;
+
+        GUI.enabled = false;
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Script"));
+        GUI.enabled = true;
+
+        EditorGUILayout.LabelField("Data Add Requirements", EditorStyles.boldLabel);
+
+        var AEGS = EditorGUILayout.Toggle("Add Enter Game State", script.addEnterGameState);
+        script.addEnterGameState = AEGS;
+        if ( AEGS )
+        {
+            var EGS = EditorGUILayout.IntField(
+                new GUIContent("Enter Game State", "0 = New Game\n1 = Resume Old Game"), 
+                script.enterGameState
+            );
+            script.enterGameState = EGS;
+        }
+
+        EditorGUILayout.Space();
+
+        var ASA = EditorGUILayout.Toggle("Add Save All", script.addSaveAll);
+        script.addSaveAll = ASA;
+
+        EditorGUILayout.Space();
+
+        var GTNS = EditorGUILayout.Toggle("Go To New Scene", script.goToNewScene);
+        script.goToNewScene = GTNS;
+        if ( GTNS )
+        {
+            EditorGUILayout.PropertyField(sceneField);
+        }
+
+        serializedObject.ApplyModifiedProperties();
     }
 }
 
@@ -30,13 +71,13 @@ public class AddEventAtRuntime : MonoBehaviour
     private Button button;
 
     [Header("Data Add Requirements")]
-    [SerializeField] private bool addEnterGameState = false;
-    [Tooltip("0 = New Game\n1 = Resume Old Game"), SerializeField] private int enterGameState = 0;
+    public bool addEnterGameState = false;
+    [Tooltip("0 = New Game\n1 = Resume Old Game")] public int enterGameState = 0;
     [Space(10)]
-    [SerializeField] private bool addSaveAll = false;
+    public bool addSaveAll = false;
     [Space(10)]
-    [SerializeField] private bool goToNewScene = false;
-    [SerializeField] private string sceneName = string.Empty;
+    public bool goToNewScene = false;
+    public SceneField sceneToLoad;
 
     private void Start()
     {
@@ -45,7 +86,7 @@ public class AddEventAtRuntime : MonoBehaviour
 
         if (addEnterGameState) AddEnterGameState();
         if (addSaveAll) AddSaveAll();
-        if (goToNewScene) SwitchScene(sceneName);
+        if (goToNewScene) SwitchScene(sceneToLoad);
     }
 
     private void AddEnterGameState()
@@ -63,7 +104,7 @@ public class AddEventAtRuntime : MonoBehaviour
         button.onClick.AddListener(dataManager.SaveAll);
     }
 
-    private void SwitchScene(string scene)
+    private void SwitchScene(SceneField scene)
     {
         void GoScene() => sceneSwitcher.GoToScene(scene);
         button.onClick.AddListener(GoScene);

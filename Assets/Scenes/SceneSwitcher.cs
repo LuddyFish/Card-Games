@@ -13,6 +13,11 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
+    public void GoToScene(SceneField scene)
+    {
+        SceneManager.LoadScene(scene.SceneName);
+    }
+
     public void AddScene(string name)
     {
         SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
@@ -21,6 +26,11 @@ public class SceneSwitcher : MonoBehaviour
     public void AddScene(int index)
     {
         SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+    }
+
+    public void AddScene(SceneField scene)
+    {
+        SceneManager.LoadSceneAsync(scene.SceneName, LoadSceneMode.Additive);
     }
 
     public void GoToAsyncScene(string name)
@@ -33,6 +43,11 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadSceneAsync(index);
     }
 
+    public void GoToAsyncScene(SceneField scene)
+    {
+        SceneManager.LoadSceneAsync(scene.SceneName);
+    }
+
     public void UnloadScene(string name)
     {
         SceneManager.UnloadSceneAsync(SceneUtilities.GetScene(name));
@@ -41,6 +56,11 @@ public class SceneSwitcher : MonoBehaviour
     public void UnloadScene(int index)
     {
         SceneManager.UnloadSceneAsync(SceneUtilities.GetScene(index));
+    }
+
+    public void UnloadScene(SceneField scene)
+    {
+        SceneManager.UnloadSceneAsync(SceneUtilities.GetScene(scene.SceneName));
     }
 
     public void Quit()
