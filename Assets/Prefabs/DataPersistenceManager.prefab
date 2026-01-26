@@ -54,3 +54,9 @@ MonoBehaviour:
       blackjackScores: []
   stats:
     _fileName: player_stats.game
+  settings:
+    _fileName: player_settings.game
+    data:
+      volume: 1
+      backgroundId: Default
+      highConstrast: 0

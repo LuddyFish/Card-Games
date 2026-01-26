@@ -26,6 +26,12 @@ public class DataScriptEditor : Editor
             script.Save(script.stats, script.PlayerStatsPersistenceObjects);
         if (GUILayout.Button("Destroy Stats"))
             script.DestroySaveFile(script.stats.handler);
+
+        GUILayout.Space(10);
+        if (GUILayout.Button("Save Settings"))
+            script.Save(script.settings, script.PlayerSettingsPersistenceObjects);
+        if (GUILayout.Button("Destroy Settings"))
+            script.DestroySaveFile(script.settings.handler);
     }
 }
 
@@ -37,11 +43,14 @@ public class DataPersistenceManager : DataPersistenceBase
 
     public DataComponent<GameData> data;
     public DataComponent<PlayerGameStats> stats;
+    public DataComponent<PlayerSettings> settings;
 
     public List<IDataPersistence<GameData>> GameDataPersistenceObjects => 
         FindAllDataPersistenceObjects<GameData>();
     public List<IDataPersistence<PlayerGameStats>> PlayerStatsPersistenceObjects => 
         FindAllDataPersistenceObjects<PlayerGameStats>();
+    public List<IDataPersistence<PlayerSettings>> PlayerSettingsPersistenceObjects =>
+        FindAllDataPersistenceObjects<PlayerSettings>();
 
     protected override void Awake()
     {
@@ -78,18 +87,21 @@ public class DataPersistenceManager : DataPersistenceBase
     {
         Load(data, GameDataPersistenceObjects);
         Load(stats, PlayerStatsPersistenceObjects);
+        Load(settings, PlayerSettingsPersistenceObjects);
     }
 
     public override void SaveAll()
     {
         Save(data, GameDataPersistenceObjects);
         Save(stats, PlayerStatsPersistenceObjects);
+        Save(settings, PlayerSettingsPersistenceObjects);
     }
 
     public override void DestroyAll()
     {
-        data.handler?.Delete();
-        stats.handler?.Delete();
+        DestroySaveFile(data.handler);
+        DestroySaveFile(stats.handler);
+        DestroySaveFile(settings.handler);
     }
 
     public override void DestroySaveFile<T>(FileDataHandler<T> handler) where T : class
@@ -109,6 +121,10 @@ public class DataPersistenceManager : DataPersistenceBase
                 case var t when t == typeof(PlayerGameStats):
                     stats.SetHandler();
                     stats.handler.Delete();
+                    break;
+                case var t when t == typeof(PlayerSettings):
+                    settings.SetHandler();
+                    settings.handler.Delete();
                     break;
                 default: 
                     Debug.LogError($"Class {typeof(T).Name} is not supported"); 

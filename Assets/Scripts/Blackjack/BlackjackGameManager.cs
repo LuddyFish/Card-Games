@@ -151,6 +151,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
     private void AdvancePhase()
     {
         _phase = GetNextPhase(_phase);
+        Debug.Log("Next phase is: " + _phase);
         DelayStartPhase(_phase, GetPhaseDelayTime(_phase));
     }
 
@@ -209,6 +210,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>,
                 _roundsPlayed++;
                 DisplayWinner(GetWinner());
                 IncrementWinsTally(GetWinnerIndex());
+                OnPhaseComplete?.Invoke();
                 break;
             case Phase.Clear:
                 OnPhaseComplete += AdvancePhase;

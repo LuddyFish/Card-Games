@@ -353,11 +353,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -366,7 +366,7 @@ PrefabInstance:
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7150207360536820178}
+      objectReference: {fileID: 2010108418}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -381,7 +381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: set_EnterGameState
+      value: GoToScene
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -389,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DataPersistenceManager, Assembly-CSharp
+      value: SceneSwitcher, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -397,7 +397,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Blackjack
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
@@ -462,13 +466,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 781520802291555269, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 890823909}
   m_SourcePrefab: {fileID: 100100000, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
 --- !u!224 &890823907 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7436610701280811507, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
   m_PrefabInstance: {fileID: 890823906}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &890823908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 781520802291555269, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
+  m_PrefabInstance: {fileID: 890823906}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &890823909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890823908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa22ae8924a3d34692e53a61192ea1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
+  addEnterGameState: 1
+  enterGameState: 1
+  addSaveAll: 0
+  goToNewScene: 1
+  sceneName: Blackjack
 --- !u!1001 &1081628801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1193,11 +1222,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -1206,7 +1235,7 @@ PrefabInstance:
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7150207360536820178}
+      objectReference: {fileID: 2010108418}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -1221,7 +1250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: set_EnterGameState
+      value: GoToScene
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -1229,7 +1258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DataPersistenceManager, Assembly-CSharp
+      value: SceneSwitcher, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -1237,7 +1266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 
+      value: Blackjack
       objectReference: {fileID: 0}
     - target: {fileID: 2577947015063661036, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
@@ -1302,13 +1331,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 781520802291555269, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4086528807497416824}
   m_SourcePrefab: {fileID: 100100000, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
 --- !u!224 &4086528807497416822 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7436610701280811507, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
   m_PrefabInstance: {fileID: 4086528807497416821}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4086528807497416823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 781520802291555269, guid: 13e06e2259730bf49abe27a188e760a8, type: 3}
+  m_PrefabInstance: {fileID: 4086528807497416821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4086528807497416824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4086528807497416823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa22ae8924a3d34692e53a61192ea1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
+  addEnterGameState: 1
+  enterGameState: 0
+  addSaveAll: 0
+  goToNewScene: 1
+  sceneName: Blackjack
 --- !u!1001 &7150207360536820177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1366,17 +1420,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
---- !u!114 &7150207360536820178 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9100673275125227501, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-  m_PrefabInstance: {fileID: 7150207360536820177}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b88943d214f44e4396294cdbcbc5d83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

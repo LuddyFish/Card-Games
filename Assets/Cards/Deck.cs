@@ -160,7 +160,6 @@ public class Deck : IDataPersistence<GameData>
     public void DealSegmented(Table table)
     {
         table.SetPlayerTurn((table.PlayerTurn + 1) % table.Players.Length);
-        Debug.Log($"Dealing to player {table.PlayerTurn}");
         var player = table.Players[table.PlayerTurn];
         var card = DealRandomCard();
         
