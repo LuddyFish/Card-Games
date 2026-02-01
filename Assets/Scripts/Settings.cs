@@ -21,12 +21,16 @@ public class Settings : MonoBehaviour, IDataPersistence<PlayerSettings>
 
     public void LoadData(PlayerSettings data)
     {
-
+        Volume = data.volume;
+        SetNewBGColour(data.backgroundId);
+        HighContrast = data.highConstrast;
     }
 
     public void SaveData(ref PlayerSettings data)
     {
-
+        data.volume = Volume;
+        data.backgroundId = selectedColour.name;
+        data.highConstrast = HighContrast;
     }
 
     private void SetBGMaterial()

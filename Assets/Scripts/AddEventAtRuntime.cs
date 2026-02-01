@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 #if UNITY_EDITOR
@@ -45,13 +43,48 @@ public class OnClickEditor : Editor
         script.addSaveAll = ASA;
 
         EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Scene Switch", EditorStyles.boldLabel);
 
-        var GTNS = EditorGUILayout.Toggle("Go To New Scene", script.goToNewScene);
-        script.goToNewScene = GTNS;
-        if ( GTNS )
+        #region Scenes
+        EditorGUIUtility.labelWidth = 100;
+        float width = EditorGUIUtility.currentViewWidth / 3f;
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUI.BeginChangeCheck();
+        var GTNS = EditorGUILayout.Toggle("Go To New Scene", script.goToNewScene, GUILayout.Width(width));
+        if (EditorGUI.EndChangeCheck() && GTNS)
+        {
+            script.goToNewScene = GTNS;
+            script.addScene = false;
+            script.removeScene = false;
+        }
+
+        EditorGUI.BeginChangeCheck();
+        var AS = EditorGUILayout.Toggle("Add Scene", script.addScene, GUILayout.Width(width));
+        if (EditorGUI.EndChangeCheck() && AS)
+        {
+            script.addScene = AS;
+            script.goToNewScene = false;
+            script.removeScene = false;
+        }
+
+        EditorGUI.BeginChangeCheck();
+        var RS = EditorGUILayout.Toggle("Remove Scene", script.removeScene, GUILayout.Width(width));
+        if (EditorGUI.EndChangeCheck() && RS)
+        {
+            script.removeScene = RS;
+            script.goToNewScene = false;
+            script.addScene = false;
+        }
+
+        EditorGUILayout.EndHorizontal();
+        EditorGUIUtility.labelWidth = 0;
+
+        if ( GTNS || AS || RS )
         {
             EditorGUILayout.PropertyField(sceneField);
         }
+        #endregion
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -61,7 +94,9 @@ public class OnClickEditor : Editor
 
 /// <summary>
 /// This script is for <see cref="Button"/> <c>GameObject</c>s that need to have an <br/> 
-/// event calling to <see cref="DataPersistenceManager"/>
+/// event calling to <see cref="DataPersistenceManager"/><br/>
+/// This script also ensures that <c>Scene Switches</c> occur last to ensure all other<br/>
+/// events have occured that are reliant on the current active scene
 /// </summary>
 [RequireComponent(typeof(Button))]
 public class AddEventAtRuntime : MonoBehaviour
@@ -75,8 +110,11 @@ public class AddEventAtRuntime : MonoBehaviour
     [Tooltip("0 = New Game\n1 = Resume Old Game")] public int enterGameState = 0;
     [Space(10)]
     public bool addSaveAll = false;
-    [Space(10)]
+
+    [Header("Scene Switch")]
     public bool goToNewScene = false;
+    public bool addScene = false;
+    public bool removeScene = false;
     public SceneField sceneToLoad;
 
     private void Start()
@@ -86,7 +124,10 @@ public class AddEventAtRuntime : MonoBehaviour
 
         if (addEnterGameState) AddEnterGameState();
         if (addSaveAll) AddSaveAll();
+
         if (goToNewScene) SwitchScene(sceneToLoad);
+        else if (addScene) AddScene(sceneToLoad);
+        else if (removeScene) RemoveScene(sceneToLoad);
     }
 
     private void AddEnterGameState()
@@ -106,7 +147,22 @@ public class AddEventAtRuntime : MonoBehaviour
 
     private void SwitchScene(SceneField scene)
     {
-        void GoScene() => sceneSwitcher.GoToScene(scene);
-        button.onClick.AddListener(GoScene);
+        button.onClick.AddListener(
+            () => sceneSwitcher.GoToScene(scene)
+        );
+    }
+
+    private void AddScene(SceneField scene)
+    {
+        button.onClick.AddListener(
+            () => sceneSwitcher.AddScene(scene)
+        );
+    }
+
+    private void RemoveScene(SceneField scene)
+    {
+        button.onClick.AddListener(
+            () => sceneSwitcher.UnloadScene(scene)
+        );
     }
 }
