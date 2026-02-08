@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,9 +27,8 @@ public class MainMenuManager : MonoBehaviour
     bool StoredGame()
     {
         if (DataPersistenceManager.Instance != null)
-        {
-            return File.Exists(DataPersistenceManager.Instance.data.FilePath);
-        }
+            return DataPersistenceManager.Instance.HasSave<GameData>();
+
         return false;
     }
 }

@@ -26,16 +26,7 @@ public class OnClickEditor : Editor
 
         EditorGUILayout.LabelField("Data Add Requirements", EditorStyles.boldLabel);
 
-        var AEGS = EditorGUILayout.Toggle("Add Enter Game State", script.addEnterGameState);
-        script.addEnterGameState = AEGS;
-        if ( AEGS )
-        {
-            var EGS = EditorGUILayout.IntField(
-                new GUIContent("Enter Game State", "0 = New Game\n1 = Resume Old Game"), 
-                script.enterGameState
-            );
-            script.enterGameState = EGS;
-        }
+        EditorGUILayout.Toggle(script.resumeGame);
 
         EditorGUILayout.Space();
 
@@ -52,29 +43,38 @@ public class OnClickEditor : Editor
 
         EditorGUI.BeginChangeCheck();
         var GTNS = EditorGUILayout.Toggle("Go To New Scene", script.goToNewScene, GUILayout.Width(width));
-        if (EditorGUI.EndChangeCheck() && GTNS)
+        if (EditorGUI.EndChangeCheck())
         {
             script.goToNewScene = GTNS;
-            script.addScene = false;
-            script.removeScene = false;
+            if (GTNS)
+            {
+                script.addScene = false;
+                script.removeScene = false;
+            }
         }
 
         EditorGUI.BeginChangeCheck();
         var AS = EditorGUILayout.Toggle("Add Scene", script.addScene, GUILayout.Width(width));
-        if (EditorGUI.EndChangeCheck() && AS)
+        if (EditorGUI.EndChangeCheck())
         {
             script.addScene = AS;
-            script.goToNewScene = false;
-            script.removeScene = false;
+            if (AS)
+            {
+                script.goToNewScene = false;
+                script.removeScene = false;
+            }
         }
 
         EditorGUI.BeginChangeCheck();
         var RS = EditorGUILayout.Toggle("Remove Scene", script.removeScene, GUILayout.Width(width));
-        if (EditorGUI.EndChangeCheck() && RS)
+        if (EditorGUI.EndChangeCheck())
         {
             script.removeScene = RS;
-            script.goToNewScene = false;
-            script.addScene = false;
+            if (RS)
+            {
+                script.goToNewScene = false;
+                script.addScene = false;
+            }
         }
 
         EditorGUILayout.EndHorizontal();
@@ -101,13 +101,12 @@ public class OnClickEditor : Editor
 [RequireComponent(typeof(Button))]
 public class AddEventAtRuntime : MonoBehaviour
 {
-    private DataPersistenceManager dataManager => DataPersistenceManager.Instance;
+    private DataPersistenceManager DataManager => DataPersistenceManager.Instance;
     private SceneSwitcher sceneSwitcher;
     private Button button;
 
     [Header("Data Add Requirements")]
-    public bool addEnterGameState = false;
-    [Tooltip("0 = New Game\n1 = Resume Old Game")] public int enterGameState = 0;
+    [Tooltip("0 = New Game | 1 = Resume Old Game")] public bool resumeGame = false;
     [Space(10)]
     public bool addSaveAll = false;
 
@@ -122,7 +121,7 @@ public class AddEventAtRuntime : MonoBehaviour
         button = GetComponent<Button>();
         sceneSwitcher = FindFirstObjectByType<SceneSwitcher>();
 
-        if (addEnterGameState) AddEnterGameState();
+        AddEnterGameState();
         if (addSaveAll) AddSaveAll();
 
         if (goToNewScene) SwitchScene(sceneToLoad);
@@ -137,12 +136,12 @@ public class AddEventAtRuntime : MonoBehaviour
 
     private void SetGameState()
     {
-        dataManager.EnterGameState = enterGameState;
+        DataManager.ResumeGame = resumeGame;
     }
 
     private void AddSaveAll()
     {
-        button.onClick.AddListener(dataManager.SaveAll);
+        button.onClick.AddListener(() => DataManager.SaveAll());
     }
 
     private void SwitchScene(SceneField scene)
