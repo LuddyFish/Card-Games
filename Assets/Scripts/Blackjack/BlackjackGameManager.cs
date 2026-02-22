@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlackjackGameManager : CardGameManager, IDataPersistence<GameData>, IDataPersistence<PlayerGameStats>
+public class BlackjackGameManager : CardGameManager, IDataPersistence
 {
     public static BlackjackGameManager Instance { get; private set; }
 

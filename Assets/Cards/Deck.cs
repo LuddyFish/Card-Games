@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
 /// </summary>
-public class Deck : IDataPersistence<GameData>
+public class Deck : IDataPersistence
 {
     /// <summary>
     /// Whole deck of cards. This should not be modified!

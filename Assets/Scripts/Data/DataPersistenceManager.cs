@@ -5,11 +5,38 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if UNITY_EDITOR
+
+using UnityEditor;
+
+[CustomEditor(typeof(DataPersistenceManager))]
+public class DataScriptEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+        GUILayout.Space(10);
+
+        DataPersistenceManager script = (DataPersistenceManager)target;
+        if (GUILayout.Button("Save Game"))
+            script.SaveGame();
+        if (GUILayout.Button("Destroy Save"))
+            script.DestroySaveFile();
+    }
+}
+
+#endif
+
 public class DataPersistenceManager : MonoBehaviour
 {
     public static DataPersistenceManager Instance { get; private set; }
 
-    private readonly Dictionary<Type, IDataComponent> _components = new();
+    [SerializeField] private string fileName;
+    [HideInInspector] public string FullPath => Path.Combine(Application.persistentDataPath, fileName);
+
+    private GameData gameData;
+    private List<IDataPersistence> DataPersistenceObjects => FindAllDataPersistenceObjects();
+    private FileDataHandler<GameData> dataHandler;
 
     [Tooltip("FALSE = New game | TRUE = Resume game")]
     private bool _resumeGame = false;
@@ -27,98 +54,86 @@ public class DataPersistenceManager : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    public void Register(IDataComponent component)
-    {
-        _components[component.DataType] = component;
-    }
-
     public void Init()
     {
-        foreach (IDataComponent component in _components.Values)
-        {
-            if (_resumeGame)
-                Load(component);
-            else
-                New(component);
-        }
+        SetDataHandler();
+        Debug.Log("File can be found at: " + Path.Combine(Application.persistentDataPath, fileName));
+        LoadGame();
     }
 
-    public void SaveAll()
+    private void SetDataHandler() => dataHandler = new FileDataHandler<GameData>(Application.persistentDataPath, fileName);
+
+    public void NewGame()
     {
-        foreach (IDataComponent component in _components.Values)
-        {
-            Save(component);
-        }
+        Debug.Log("Instatiating new Game Data");
+        gameData = new GameData();
     }
 
-    public void New(IDataComponent component)
+    public void LoadGame()
     {
-        component.New();
+        // load any saved data from a file
+        gameData = dataHandler.Load();
+
+        // if no data can be loaded, initilise data
+        if (gameData == null)
+            NewGame();
+
+        Debug.Log("Loading game data");
+
+        // push loaded data to all other scripts
+        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
+            dataPersistenceObj.LoadData(gameData);
+
+        Debug.Log("Loaded game data");
     }
 
-    public void Load(IDataComponent component)
+    public void SaveGame()
     {
-        component.Load();
-
-        var persistenceObjects = FindAllPersistenceObjects(component.DataType);
-        foreach (var dataObj in persistenceObjects)
-            dataObj.GetType()
-                .GetMethod("LoadData")
-                .Invoke(dataObj, new object[] { 
-                    GetComponentData(component) 
-                });
-    }
-
-    public void Save(IDataComponent component)
-{
-        var persistenceObjects = FindAllPersistenceObjects(component.DataType);
-
-        object data = GetComponentData(component);
-        foreach (var dataObj in persistenceObjects)
+        // if game data was deleted for some reason
+        if (gameData == null)
         {
-            object[] parameters = { data };
-            dataObj.GetType()
-                .GetMethod("SaveData")
-                .Invoke(dataObj, parameters);
-            data = parameters[0];
+            NewGame();
         }
 
-        SetComponentData(component, data);
+        // pass the data to other scripts so they can update
+        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
+            dataPersistenceObj.SaveData(ref gameData);
 
-        component.Save();
+        Debug.Log("Saving game data");
+
+        // save that data to a file
+        dataHandler.Save(gameData);
+
+        Debug.Log("Saved game data");
     }
 
-    private object GetComponentData(IDataComponent component)
+    /// <summary>
+    /// <b>WARNING:</b> Only do this if you're sure you want to remove the existing data
+    /// </summary>
+    public void DestroySaveFile()
     {
-        return component.GetType().GetProperty("Data").GetValue(component);
+        if (dataHandler == null) SetDataHandler();
+        dataHandler.Delete();
+        Debug.Log("Deleted game data");
     }
 
-    private void SetComponentData(IDataComponent component, object data)
+    public bool HasSave()
     {
-        component.GetType().GetProperty("Data").SetValue(component, data);
-    }
-
-    public bool HasSave<T>() where T : class, new()
-    {
-        if (_components.TryGetValue(typeof(T), out var component))
-            return File.Exists((component as DataComponent<T>).FilePath);
-
-        return false;
+        return dataHandler.Load() != null;
     }
 
     private void OnApplicationQuit()
     {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MainMenu"))
-            SaveAll();
+            SaveGame();
     }
 
-    private List<object> FindAllPersistenceObjects(Type dataType)
+    private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-        var target = typeof(IDataPersistence<>).MakeGenericType(dataType);
+        IEnumerable<IDataPersistence> dataPersistenceObjects =
+            FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .OfType<IDataPersistence>();
 
-        return FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
-            .Where(obj => target.IsAssignableFrom(obj.GetType()))
-            .Cast<object>()
-            .ToList();
+        return new List<IDataPersistence>(dataPersistenceObjects);
     }
 }

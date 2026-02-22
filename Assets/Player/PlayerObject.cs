@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerObject : MonoBehaviour, IDataPersistence<GameData>
+public class PlayerObject : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private CardGameContext _gameContext;
     Cardbox Box => Cardbox.Instance;

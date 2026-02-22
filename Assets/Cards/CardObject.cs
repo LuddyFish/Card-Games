@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CardObject : MonoBehaviour, IDataPersistence<GameData>
+public class CardObject : MonoBehaviour, IDataPersistence
 {
     SpriteRenderer _rend;
 

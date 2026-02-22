@@ -27,7 +27,7 @@ public class MainMenuManager : MonoBehaviour
     bool StoredGame()
     {
         if (DataPersistenceManager.Instance != null)
-            return DataPersistenceManager.Instance.HasSave<GameData>();
+            return DataPersistenceManager.Instance.HasSave();
 
         return false;
     }

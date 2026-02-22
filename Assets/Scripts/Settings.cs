@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Settings : MonoBehaviour, IDataPersistence<PlayerSettings>
+public class Settings : MonoBehaviour, IDataPersistence
 {
     [field: SerializeField, Range(0f, 1f)]
     public float Volume { get; set; }
@@ -19,18 +19,18 @@ public class Settings : MonoBehaviour, IDataPersistence<PlayerSettings>
         HighContrast = false;
     }
 
-    public void LoadData(PlayerSettings data)
+    public void LoadData(GameData data)
     {
-        Volume = data.volume;
-        SetNewBGColour(data.backgroundId);
-        HighContrast = data.highConstrast;
+        //Volume = data.volume;
+        //SetNewBGColour(data.backgroundId);
+        //HighContrast = data.highConstrast;
     }
 
-    public void SaveData(ref PlayerSettings data)
+    public void SaveData(ref GameData data)
     {
-        data.volume = Volume;
-        data.backgroundId = selectedColour.name;
-        data.highConstrast = HighContrast;
+        //data.volume = Volume;
+        //data.backgroundId = selectedColour.name;
+        //data.highConstrast = HighContrast;
     }
 
     private void SetBGMaterial()

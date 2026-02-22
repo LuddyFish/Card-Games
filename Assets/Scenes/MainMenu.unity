@@ -493,8 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa22ae8924a3d34692e53a61192ea1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
-  addEnterGameState: 1
-  enterGameState: 1
+  resumeGame: 0
   addSaveAll: 0
   goToNewScene: 1
   addScene: 0
@@ -721,6 +720,14 @@ PrefabInstance:
     - target: {fileID: 731991526138191903, guid: d3b1fb2ddae16bb4182dff27b33447a8, type: 3}
       propertyPath: m_Name
       value: PERSISTOBJECTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507872905124464367, guid: d3b1fb2ddae16bb4182dff27b33447a8, type: 3}
+      propertyPath: _dataComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507872905124464367, guid: d3b1fb2ddae16bb4182dff27b33447a8, type: 3}
+      propertyPath: '_dataComponents.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7361405687383421046, guid: d3b1fb2ddae16bb4182dff27b33447a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1419,8 +1426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa22ae8924a3d34692e53a61192ea1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
-  addEnterGameState: 1
-  enterGameState: 0
+  resumeGame: 0
   addSaveAll: 0
   goToNewScene: 1
   addScene: 0

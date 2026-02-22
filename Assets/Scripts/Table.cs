@@ -4,7 +4,7 @@ using System.Linq;
 /// <summary>
 /// Class <see cref="Table"/> is responsible for retaining Player data during the game
 /// </summary>
-public class Table : IDataPersistence<GameData>
+public class Table : IDataPersistence
 {
     /// <summary>
     /// Players of the game sorted in a specified rotation

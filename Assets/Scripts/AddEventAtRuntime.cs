@@ -30,8 +30,8 @@ public class OnClickEditor : Editor
 
         EditorGUILayout.Space();
 
-        var ASA = EditorGUILayout.Toggle("Add Save All", script.addSaveAll);
-        script.addSaveAll = ASA;
+        var ASG = EditorGUILayout.Toggle("Add Save Game", script.addSaveGame);
+        script.addSaveGame = ASG;
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Scene Switch", EditorStyles.boldLabel);
@@ -108,7 +108,7 @@ public class AddEventAtRuntime : MonoBehaviour
     [Header("Data Add Requirements")]
     [Tooltip("0 = New Game | 1 = Resume Old Game")] public bool resumeGame = false;
     [Space(10)]
-    public bool addSaveAll = false;
+    public bool addSaveGame = false;
 
     [Header("Scene Switch")]
     public bool goToNewScene = false;
@@ -122,7 +122,7 @@ public class AddEventAtRuntime : MonoBehaviour
         sceneSwitcher = FindFirstObjectByType<SceneSwitcher>();
 
         AddEnterGameState();
-        if (addSaveAll) AddSaveAll();
+        if (addSaveGame) AddSave();
 
         if (goToNewScene) SwitchScene(sceneToLoad);
         else if (addScene) AddScene(sceneToLoad);
@@ -139,9 +139,9 @@ public class AddEventAtRuntime : MonoBehaviour
         DataManager.ResumeGame = resumeGame;
     }
 
-    private void AddSaveAll()
+    private void AddSave()
     {
-        button.onClick.AddListener(() => DataManager.SaveAll());
+        button.onClick.AddListener(() => DataManager.SaveGame());
     }
 
     private void SwitchScene(SceneField scene)
