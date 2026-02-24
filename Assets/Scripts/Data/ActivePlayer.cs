@@ -1,8 +1,12 @@
 public static class ActivePlayer
 {
-    public static int id;
-    public static string name;
+    public static int Id { get; private set; }
+    public static string Name { get; private set; }
 
-    public static PlayerSettings settingsPreferences;
+    public static Settings PlayerSettings { get; private set; }
 
+    public static void SetSettings(Settings data)
+    {
+        PlayerSettings = data;
+    }
 }

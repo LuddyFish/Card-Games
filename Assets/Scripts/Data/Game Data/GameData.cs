@@ -3,6 +3,15 @@ using System.Collections.Generic;
 [System.Serializable]
 public class GameData
 {
+    // --- Player Settings 
+    public float volume;
+    public string backgroundId;
+    public bool highConstrast;
+
+    // --- Player Stats ---
+    public int blackjackWins;
+    public int blackjackGames;
+
     // --- Table Data ---
     public List<PlayerData> players = new();
     public int playerTurn;
@@ -21,12 +30,14 @@ public class GameData
         public int wins;
     }
 
-    public GameData() { }
-
-    public GameData(Table table, Deck deck)
+    public GameData()
     {
-        SaveTableData(table);
-        SaveDeckData(deck);
+        volume = 1.0f;
+        backgroundId = "Classic";
+        highConstrast = false;
+
+        blackjackGames = 0;
+        blackjackWins = 0;
     }
 
     public void SaveTableData(Table table)
@@ -67,5 +78,10 @@ public class GameData
                 list.Add(card);
 
         return list.ToArray();
+    }
+
+    public float GetBlackjackWinPercentage()
+    {
+        return (float)blackjackWins / blackjackGames;
     }
 }

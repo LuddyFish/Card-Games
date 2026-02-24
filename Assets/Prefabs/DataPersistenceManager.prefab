@@ -44,19 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b88943d214f44e4396294cdbcbc5d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
-  data:
-    _fileName: save_data.game
-    data:
-      players: []
-      playerTurn: 0
-      startingCardCount: 0
-      cards: []
-      blackjackScores: []
-  stats:
-    _fileName: player_stats.game
-  settings:
-    _fileName: player_settings.game
-    data:
-      volume: 1
-      backgroundId: Default
-      highConstrast: 0
+  fileName: game_data.json

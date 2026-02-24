@@ -102,7 +102,6 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         if (Instance == this)
             Instance = null;
     }
-    #endregion
 
     #region Data Saving
     public void LoadData(GameData data)
@@ -123,18 +122,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
             data.blackjackScores[i].score = _blackjackStates[TableHandler.GetPlayer(i)].Scores;
             data.blackjackScores[i].wins = _blackjackStates[TableHandler.GetPlayer(i)].Wins;
         }
-    }
 
-    public void LoadData(PlayerGameStats data)
-    {
-
-    }
-
-    public void SaveData(ref PlayerGameStats data)
-    {
         data.blackjackGames += _roundsPlayed;
         // TODO: add data.blackjackWins to the identified player
     }
+    #endregion
     #endregion
 
     #region Runtime

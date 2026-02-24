@@ -35,26 +35,26 @@ public class SettingsController : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        //_volumeSlider.GetComponent<Slider>().value = data.volume;
+        _volumeSlider.GetComponent<Slider>().value = data.volume;
 
-        //var dropdown = _BGCDropdown.GetComponent<Dropdown>();
-        //for (int i = 0; i < dropdown.options.Count; i++)
-        //{
-        //    if (dropdown.options[i].text == data.backgroundId)
-        //    {
-        //        dropdown.value = i;
-        //        break;
-        //    }
-        //}
+        var dropdown = _BGCDropdown.GetComponent<Dropdown>();
+        for (int i = 0; i < dropdown.options.Count; i++)
+        {
+            if (dropdown.options[i].text == data.backgroundId)
+            {
+                dropdown.value = i;
+                break;
+            }
+        }
 
-        //_contrastButton.GetComponent<Toggle>().isOn = data.highConstrast;
+        _contrastButton.GetComponent<Toggle>().isOn = data.highConstrast;
     }
 
     public void SaveData(ref GameData data)
     {
-        //data.volume = _volumeSlider.GetComponent<Slider>().value;
-        //data.backgroundId = _BGCDropdown.GetComponent<Dropdown>().options[
-        //    _BGCDropdown.GetComponent<Dropdown>().value].text;
-        //data.highConstrast = _contrastButton.GetComponent<Toggle>().isOn;
+        data.volume = _volumeSlider.GetComponent<Slider>().value;
+        data.backgroundId = _BGCDropdown.GetComponent<Dropdown>().options[
+            _BGCDropdown.GetComponent<Dropdown>().value].text;
+        data.highConstrast = _contrastButton.GetComponent<Toggle>().isOn;
     }
 }
