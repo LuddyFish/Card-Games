@@ -35,6 +35,8 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (DataPersistenceManager.Instance == null) return;
+
         var cardsById = _gameContext.Deck.Cards.ToDictionary(c => c.Id);
         foreach (var player in data.players)
             if (this.data.ComparePlayer(player.id))

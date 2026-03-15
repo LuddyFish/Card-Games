@@ -106,6 +106,8 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     #region Data Saving
     public void LoadData(GameData data)
     {
+        if (!DataPersistenceManager.Instance.ResumeGame) return;
+
         for (int i = 0; i < TableHandler.Players.Length && i < data.blackjackScores.Length; i++)
         {
             _blackjackStates[TableHandler.GetPlayer(i)].Scores = data.blackjackScores[i].score;
@@ -136,7 +138,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
             return;
 
         foreach (var button in _buttons)
-            button.interactable = TableHandler.PlayerTurn != 0;
+            button.interactable = TableHandler.PlayerTurn != 0 && _phase == Phase.PlayerTurn;
     }
 
     #region Phase Logic
@@ -235,8 +237,8 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     protected override IEnumerator Deal()
     {
         yield return StartCoroutine(base.Deal());
-        OnPhaseComplete?.Invoke();
         TableHandler.SetPlayerTurn(TableHandler.GetDealer());
+        OnPhaseComplete?.Invoke();
     }
 
     #region Player Turn
@@ -248,6 +250,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
             if (IsDealerTurn)
             {
                 StartPhase(Phase.RoundEnd);
+                IsDealerTurn = false;
                 return;
             }
             IsDealerTurn = true;

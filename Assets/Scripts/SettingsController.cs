@@ -21,7 +21,6 @@ public class SettingsController : MonoBehaviour, IDataPersistence
         var dropdown = _BGCDropdown.GetComponent<Dropdown>();
         dropdown.ClearOptions();
         dropdown.AddOptions(settings.BGColours.GetNameList());
-           
     }
 
     private void Update()

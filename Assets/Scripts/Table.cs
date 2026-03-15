@@ -46,6 +46,8 @@ public class Table : IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (DataPersistenceManager.Instance == null) return;
+
         Players = data.LoadPlayers(Players.ToDictionary(p => p.Id));
         PlayerTurn = data.playerTurn;
         StartingCardCount = data.startingCardCount;

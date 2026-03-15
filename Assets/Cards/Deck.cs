@@ -44,6 +44,8 @@ public class Deck : IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (DataPersistenceManager.Instance == null) return;
+
         Cards = data.LoadCards(Cards.ToDictionary(c => c.Id));
     }
 

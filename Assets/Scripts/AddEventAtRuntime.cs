@@ -26,7 +26,8 @@ public class OnClickEditor : Editor
 
         EditorGUILayout.LabelField("Data Add Requirements", EditorStyles.boldLabel);
 
-        EditorGUILayout.Toggle(script.resumeGame);
+        var ARG = EditorGUILayout.Toggle("Add Resume Game", script.resumeGame);
+        script.resumeGame = ARG;
 
         EditorGUILayout.Space();
 
@@ -136,7 +137,8 @@ public class AddEventAtRuntime : MonoBehaviour
 
     private void SetGameState()
     {
-        DataManager.ResumeGame = resumeGame;
+        if (DataManager != null)
+            DataManager.ResumeGame = resumeGame;
     }
 
     private void AddSave()

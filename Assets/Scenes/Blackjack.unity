@@ -1161,68 +1161,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408033844}
   m_CullTransparentMesh: 1
---- !u!1001 &1562292901
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6034992838042253966, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_Name
-      value: DataPersistenceManager (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564510590944643481, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
---- !u!1 &1562292902 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6034992838042253966, guid: ba480f44e749fe24ab99e12e8b25d2b2, type: 3}
-  m_PrefabInstance: {fileID: 1562292901}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1626272279 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5905389594496292690, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
@@ -1801,7 +1739,7 @@ PrefabInstance:
     - target: {fileID: 5921161691181072616, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1562292902}
+      objectReference: {fileID: 0}
     - target: {fileID: 5921161691181072616, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -1959,10 +1897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa22ae8924a3d34692e53a61192ea1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
-  addEnterGameState: 0
-  enterGameState: 0
-  addSaveAll: 1
+  resumeGame: 0
+  addSaveGame: 0
   goToNewScene: 1
+  addScene: 0
+  removeScene: 0
   sceneToLoad:
     _sceneAsset: {fileID: 102900000, guid: e8b28458e44e07246a7bcda97e4550e3, type: 3}
     _sceneName: MainMenu
@@ -2146,7 +2085,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 793172127}
-  - {fileID: 1562292901}
   - {fileID: 8765504357242450753}
   - {fileID: 4887889194346437766}
   - {fileID: 482285569}

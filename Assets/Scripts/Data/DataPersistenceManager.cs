@@ -119,6 +119,9 @@ public class DataPersistenceManager : MonoBehaviour
 
     public bool HasSave()
     {
+        if (dataHandler == null)
+            return false;
+
         return dataHandler.Load() != null;
     }
 

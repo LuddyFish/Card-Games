@@ -17,6 +17,8 @@ public class CardObject : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (DataPersistenceManager.Instance == null) return;
+
         foreach (var card in data.cards)
             if (this.card.CompareCard(card.id))
                 card.TransferData(this.card);
