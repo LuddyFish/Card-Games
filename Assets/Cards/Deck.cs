@@ -159,10 +159,10 @@ public class Deck : IDataPersistence
     /// Deal a singular card (used as part of a segment)
     /// </summary>
     /// <param name="table">The game Table which to deal to</param>
-    public void DealSegmented(Table table)
+    public void DealSegmented(Table table, int cardDealIndex)
     {
-        table.SetPlayerTurn((table.PlayerTurn + 1) % table.Players.Length);
-        var player = table.Players[table.PlayerTurn];
+        var playerToDealIndex = (table.GetDealer() + cardDealIndex + 1) % table.Players.Length;
+        var player = table.Players[playerToDealIndex];
         var card = DealRandomCard();
         
         player.Hand.Add(card);

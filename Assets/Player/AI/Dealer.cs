@@ -38,7 +38,15 @@ public class Dealer : MonoBehaviour
             Manager.TableHandler.RestPlayer(me.data); // Pre-initative rest
         }
         else
+        {
             Manager.HitMe();
+        }
+
+        // Force rest if can't continue
+        if (me.GetScore() >= 21)
+        {
+            Manager.TableHandler.RestPlayer(me.data);
+        }
         _performingAction = false;
     }
 

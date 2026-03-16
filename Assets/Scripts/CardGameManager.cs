@@ -171,7 +171,7 @@ public abstract class CardGameManager : MonoBehaviour
             for (int j = 0; j < TableHandler.Players.Length; j++)
             {
                 dealt = false;
-                DeckHandler.DealSegmented(TableHandler);
+                DeckHandler.DealSegmented(TableHandler, i * TableHandler.Players.Length + j);
                 yield return new WaitUntil(() => dealt);
             }
 

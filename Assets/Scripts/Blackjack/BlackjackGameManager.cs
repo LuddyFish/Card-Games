@@ -171,7 +171,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
             Phase.PlayerTurn    => 0.2f,
             Phase.RoundEnd      => 0.1f,
             Phase.Clear         => 3f,
-            _                   => 0f
+            _                   => 0.75f
         };
     }
 
