@@ -12,11 +12,14 @@ public class Cardbox : MonoBehaviour
 
     public GameObject cardPrefab;
     public CardDeckSet cardSet;
+    public JokerDefinition jokers;
 
     [HideInInspector] public List<GameObject> cards = new();
-    [SerializeField] private bool _isHighContrastMode = false;
+    [HideInInspector] public List<GameObject> jokerCards = new();
+    public bool isHighContrastMode = false;
 
     [Space(10)]
+    public Vector2 poolLocation;
     public Vector2 discardLocation;
     [SerializeField] private float discardTime = 0.5f;
 
@@ -54,6 +57,30 @@ public class Cardbox : MonoBehaviour
         CardAudio.Instance?.SetCardSRCs();
     }
 
+    public void InitJokers(int players, int startingCount) 
+    {
+        for (int i = 0; i < startingCount * players; i++)
+        {
+            CreateJokerCard();
+        }
+
+        CardAudio.Instance?.SetJokerCardSRCs();
+    }
+
+    public void CreateJokerCard()
+    {
+        GameObject card = Instantiate(cardPrefab, transform);
+        var obj = card.GetComponent<CardObject>();
+        obj.card = new Card(jokers.suit, jokers.rank);
+        _gameContext.CardMap.Add(obj.card, obj);
+
+        obj.front = jokers.faces[UnityEngine.Random.Range(0, jokers.faces.Length)];
+        obj.back = isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
+        SetCard(obj);
+        ReturnCard(obj.transform);
+        jokerCards.Add(card);
+    }
+
     /// <summary>
     /// Set the correct card internal properties
     /// </summary>
@@ -69,10 +96,15 @@ public class Cardbox : MonoBehaviour
     /// </summary>
     /// <param name="card">The <c>CardObject</c> that acts as its memory</param>
     /// <param name="value">The card template "rules"</param>
-    private void SetCardContrast(CardObject card, CardDefinition value)
+    public void SetCardContrast(CardObject card, CardDefinition value)
     {
-        card.front = _isHighContrastMode ? value.highContrast : value.lowContrast;
-        card.back = _isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
+        card.front = isHighContrastMode ? value.highContrast : value.lowContrast;
+        card.back = isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
+    }
+
+    public void SetJokerContrast(CardObject card)
+    {
+        card.back = isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
     }
 
     private void GiftCard(PlayerObject player, CardObject card)
@@ -85,6 +117,20 @@ public class Cardbox : MonoBehaviour
         layout.ReceiveCard(card.transform, player.cards.Count - 1, player.collectTime);
         StartCoroutine(InvokeAnimationSend(player.collectTime));
         card.GetComponent<SpriteRenderer>().sortingOrder = player.cards.Count - 1;
+    }
+
+    private void GiftJoker(PlayerObject player, CardObject card)
+    {
+        card.inHand = true;
+        player.jokers.Add(card);
+
+        var layout = player.transform.GetChild(1).GetComponent<HandLayout>();
+        card.transform.SetParent(layout.transform);
+        layout.ReceiveCard(card.transform, player.jokers.Count - 1, player.collectTime);
+        StartCoroutine(InvokeAnimationSend(player.collectTime));
+        card.gameObject.SetActive(true);
+        card.Reveal();
+        card.GetComponent<SpriteRenderer>().sortingOrder = player.jokers.Count - 1;
     }
 
     private void AnimateDeal(Player player, Card card)
@@ -100,7 +146,14 @@ public class Cardbox : MonoBehaviour
             return;
         }
 
-        GiftCard(playerObj, cardObj);
+        if (card.Suit != (int)Card.Suits.Joker) 
+        { 
+            GiftCard(playerObj, cardObj); 
+        }
+        else
+        {
+            GiftJoker(playerObj, cardObj);
+        }
     }
 
     private IEnumerator InvokeAnimationSend(float time)
@@ -115,7 +168,7 @@ public class Cardbox : MonoBehaviour
         var obj = card.GetComponent<CardObject>();
         obj.inHand = false;
         obj.discarded = false;
-        AnimationUtilities.Lerp(card, card.position, transform.position, discardTime);
+        AnimationUtilities.Lerp(card, card.position, poolLocation, discardTime);
     }
 
     public void ReturnCardsToDeck()
@@ -133,7 +186,15 @@ public class Cardbox : MonoBehaviour
         var obj = card.GetComponent<CardObject>();
         obj.inHand = false;
         obj.discarded = true;
-        AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime);
+        if (obj.card.Suit == (int)Card.Suits.Joker)
+        {
+            card.gameObject.SetActive(false);
+            card.position = discardLocation;
+        }
+        else
+        {
+            AnimationUtilities.Lerp(card, card.position, discardLocation, discardTime);
+        }
     }
 
     public int GetCardPosition(GameObject original)
@@ -142,6 +203,27 @@ public class Cardbox : MonoBehaviour
             if (original.name == cards[i].name)
                 return i;
         return 0;
+    }
+
+    public bool HasAvailableJoker()
+    {
+        foreach (var joker in jokerCards)
+            if (joker.transform.parent == transform)
+                return true;
+
+        return false;
+    }
+
+    public GameObject GetAvailableJoker()
+    {
+        if (!HasAvailableJoker())
+            CreateJokerCard();
+
+        foreach (var joker in jokerCards)
+            if (joker.transform.parent == transform)
+                return joker;
+
+        return null;
     }
 
     void OnDestroy()

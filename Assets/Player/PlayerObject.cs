@@ -9,19 +9,26 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     CardAudio CardAudio => CardAudio.Instance;
 
     private Transform _hand;
+    private Transform _jokerHand;
 
     public Player data;
     [HideInInspector] public List<CardObject> cards;
+    [HideInInspector] public List<CardObject> jokers;
 
     [Tooltip("How long it takes for a card to move into hand")]
     public float collectTime = 0.5f;
     private bool handRevealed = false;
 
+    // -- Blackjack data --
+    public int turnsWithoutJokers = 0;
+
     void Start()
     {
         _hand = transform.Find("Hand").transform;
+        _jokerHand = transform.Find("Joker Hand").transform;
         data = new Player(name);
         cards = new List<CardObject>();
+        jokers = new List<CardObject>();
 
         if (TryGetComponent<Dealer>(out _))
             _gameContext.ActiveGame.SetPlayer(this, 0);
@@ -29,7 +36,9 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
             _gameContext.ActiveGame.SetPlayer(this);
 
         _gameContext.ActiveGame.OnDeal += SetHand;
+        _gameContext.ActiveGame.OnDeal += SetJokerHand;
         _gameContext.ActiveGame.OnDeal += SetCards;
+        _gameContext.ActiveGame.OnDeal += SetJokerCards;
         _gameContext.ActiveGame.OnReset += DiscardCards;
     }
 
@@ -86,6 +95,16 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     }
 
     /// <summary>
+    /// Retrieve all <c>JOKER</c> cards in <see cref="data"/> and set the objects parents as <see cref="_jokerHand"/>
+    /// </summary>
+    public void SetJokerHand()
+    {
+        foreach (var card in data.Jokers)
+            if (_gameContext.CardMap.TryGetValue(card, out var obj))
+                obj.transform.SetParent(_jokerHand);
+    }
+
+    /// <summary>
     /// Collect all card objects in <see cref="_hand"/> and aligns them
     /// </summary>
     public void SetCards()
@@ -101,6 +120,25 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
             cards.Add(obj);
             layout.ReceiveCard(child, i, collectTime);
             child.GetComponent<SpriteRenderer>().sortingOrder = i; // Ensure that there's a layering
+        }
+    }
+
+    /// <summary>
+    /// Collect all <c>JOKER</c> card objects in <see cref="_jokerHand"/> and aligns them
+    /// </summary>
+    public void SetJokerCards()
+    {
+        jokers.Clear();
+
+        var layout = _jokerHand.GetComponent<HandLayout>();
+        for (int i = 0; i < _jokerHand.childCount; i++)
+        {
+            Transform child = _jokerHand.GetChild(i);
+            CardObject obj = child.GetComponent<CardObject>();
+            obj.inHand = true;
+            jokers.Add(obj);
+            layout.ReceiveCard(child, i, collectTime);
+            child.GetComponent<SpriteRenderer>().sortingOrder = i;
         }
     }
 

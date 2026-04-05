@@ -19,6 +19,9 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     [HideInInspector] public bool isPaused = false;
 
     // --- Internal Data ---
+    [Tooltip("How many turns to wait until you receive a joker when you have none")]
+    public int jokerRefreshRound = 5;
+
     private int _roundsPlayed = 0;
     private List<int> _playerInitialWins = new();
 
@@ -75,6 +78,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     protected override void InitGame()
     {
         base.InitGame();
+        foreach (var player in TableHandler.Players)
+        {
+            if (_context.PlayerMap.TryGetValue(player, out var playerObj))
+                GiftJoker(playerObj);
+        }
         StartPhase(Phase.Clear);
     }
 
@@ -238,6 +246,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     {
         yield return StartCoroutine(base.Deal());
         TableHandler.SetPlayerTurn(TableHandler.GetDealer());
+        foreach (var player in TableHandler.Players)
+        {
+            if (_context.PlayerMap.TryGetValue(player, out var playerObj))
+                GiftPityJoker(playerObj);
+        }
         OnPhaseComplete?.Invoke();
     }
 
@@ -286,6 +299,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         OnPhaseComplete?.Invoke();
     }
 
+    #region Scores
     /// <summary>
     /// Calculates the Player's total score
     /// </summary>
@@ -375,6 +389,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     {
         _winTextBox.SetActive(false);
     }
+    #endregion
 
     /// <summary>
     /// Checks the players score if less than 21
@@ -387,6 +402,31 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
             return false;
         else
             return true;
+    }
+
+    private void GiftJoker(PlayerObject player)
+    {
+        var joker = Cardbox.Instance.GetAvailableJoker().GetComponent<CardObject>().card;
+        _context.Deck.DealSpecific(player.data, joker);
+    }
+
+    public void GiftPityJoker(PlayerObject player)
+    {
+        if (player.jokers.Count > 0)
+        {
+            player.turnsWithoutJokers = 0;
+            return;
+        }
+
+        if (player.turnsWithoutJokers < jokerRefreshRound)
+        {
+            player.turnsWithoutJokers++;
+        }
+        else
+        {
+            player.turnsWithoutJokers = 0;
+            GiftJoker(player);
+        }
     }
     #endregion
 

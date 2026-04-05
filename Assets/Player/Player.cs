@@ -11,6 +11,7 @@ public class Player
 
     public string name;
     public List<Card> Hand { get; private set; }
+    public List<Card> Jokers { get; private set; }
 
     public bool isMyTurn = false;
     public bool isDealer = false;
@@ -25,6 +26,18 @@ public class Player
 
         this.name = name;
         Hand = new List<Card>();
+        Jokers = new List<Card>();
+    }
+
+    public string Print()
+    {
+        string cards = string.Empty;
+        for (int i = 1; i <= Hand.Count; i++)
+            cards += $"\tCard {i}:\n{Hand[i].Print()}\n";
+        for (int i = 1; i < Jokers.Count; i++)
+            cards += $"\tJoker {i}:\n{Jokers[i].Print()}\n";
+
+        return $"Name: {name}\nID: {Id}\nCards:\n{cards}\nIs My Turn: {isMyTurn}\nIs Dealer: {isDealer}";
     }
 
     /// <summary>

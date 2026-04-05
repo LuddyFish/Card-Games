@@ -32,6 +32,14 @@ public class CardAudio : AudioPlayer
             sources.Add(card.GetComponent<AudioSource>());
     }
 
+    public void SetJokerCardSRCs()
+    {
+        foreach (var card in Cardbox.Instance.jokerCards)
+        {
+            sources.Add(card.GetComponent<AudioSource>());
+        }
+    }
+
     void OnDestroy()
     {
         if (Instance == null)

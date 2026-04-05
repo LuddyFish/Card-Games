@@ -169,6 +169,16 @@ public class Deck : IDataPersistence
         OnCardDealt?.Invoke(player, card);
     }
 
+    public void DealSpecific(Player player, Card card)
+    {
+        if (card.Rank != (int)Card.Ranks.joker)
+            player.Hand.Add(card);
+        else
+            player.Jokers.Add(card);
+
+        OnCardDealt?.Invoke(player, card);
+    }
+
     /// <summary>
     /// Check how many cards remain in <see cref="_pool"/>
     /// </summary>

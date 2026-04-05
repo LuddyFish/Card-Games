@@ -58,6 +58,11 @@ public class Card
         joker = -1
     }
 
+    public string Print()
+    {
+        return $"Name: {GetName()}\nID: {Id}\ninPlay: {inPlay}\nFaceUp: {faceUp}";
+    }
+
     /// <summary>
     /// Takes the card's <see cref="Rank"/> and converts it to a string
     /// </summary>
@@ -109,7 +114,7 @@ public class Card
     {
         string suit = ConvertSuitToString();
         string rank = ConvertRankToString();
-        if (rank == "JOKER")
+        if (rank == "JOKER" || suit == "Joker")
         {
             return rank;
         }

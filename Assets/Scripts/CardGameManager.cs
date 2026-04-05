@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class CardGameManager : MonoBehaviour
 {
     // --- Table Properties ---
-    [SerializeField] private CardGameContext _context;
+    [SerializeField] protected CardGameContext _context;
 
     private Table _table;
     public Table TableHandler {
@@ -39,6 +39,8 @@ public abstract class CardGameManager : MonoBehaviour
     [Tooltip("<b>False</b>: deal all cards simultaneously" +
         "\n<b>True</b>: deal all cards one at a time")]
     [SerializeField] private bool _dealSequentially = true;
+    public int startingJokerCount = 2;
+    public int maxJokerCount = 3;
 
     // --- Conditions ---
     private bool _isWaitingForSetup = true;
@@ -102,6 +104,7 @@ public abstract class CardGameManager : MonoBehaviour
         var cardbox = cardManager.GetComponent<Cardbox>();
         cardbox.cardSet = _cardSet;
         OnGameLoaded += cardbox.Init;
+        OnGameLoaded += () => cardbox.InitJokers(Players.Count, startingJokerCount);
 
         DataPersistenceManager.Instance.Init();
     }

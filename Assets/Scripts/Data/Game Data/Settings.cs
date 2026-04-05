@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
 public class Settings : MonoBehaviour, IDataPersistence
 {
+    private Cardbox Box => Cardbox.Instance;
+
+    /* =================================== */
     [field: SerializeField, Range(0f, 1f)]
     public float Volume { get; set; }
 
@@ -57,5 +61,20 @@ public class Settings : MonoBehaviour, IDataPersistence
     {
         selectedColour = BGColours.Get(newColour);
         SetBGMaterial();
+    }
+
+    public void ToggleCardContrast()
+    {
+        if (Box == null) return;
+
+        Box.isHighContrastMode = HighContrast;
+        for (int i = 0; i < Box.cardSet.cards.Count; i++)
+        {
+            Box.SetCardContrast(Box.cards[i].GetComponent<CardObject>(), Box.cardSet.cards[i]);
+        }
+        foreach (var joker in Box.jokerCards)
+        {
+            Box.SetJokerContrast(joker.GetComponent<CardObject>());
+        }
     }
 }

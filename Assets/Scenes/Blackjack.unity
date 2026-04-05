@@ -234,7 +234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: -220}
+  m_AnchoredPosition: {x: 450, y: -120}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &259276652
@@ -802,12 +802,15 @@ MonoBehaviour:
   _cardManagerPrefab: {fileID: 5669062867936209645, guid: 07a6b587a5b4ccb4796f526e011e925d, type: 3}
   _startingCardCount: 2
   _dealSequentially: 1
+  startingJokerCount: 1
+  maxJokerCount: 3
   _buttons:
   - {fileID: 1408033846}
   - {fileID: 259276652}
   _winTextBox: {fileID: 1406850870}
   _pausedScreen: {fileID: 1626272279}
   isPaused: 0
+  jokerRefreshRound: 2
 --- !u!114 &793172129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,7 +1067,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: 220}
+  m_AnchoredPosition: {x: 450, y: 120}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1408033846
@@ -2062,6 +2065,10 @@ PrefabInstance:
     - target: {fileID: 3696241473564880804, guid: 77f2af2dfba1a8141999109c7784b78b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078214564997363356, guid: 77f2af2dfba1a8141999109c7784b78b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

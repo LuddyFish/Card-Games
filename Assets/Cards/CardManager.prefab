@@ -47,6 +47,7 @@ MonoBehaviour:
   _gameContext: {fileID: 11400000, guid: 81c1dda567dc8cc48850eaca48b5be90, type: 2}
   cardPrefab: {fileID: 4514296869395623950, guid: f94cdf4a4c86be3408ef341cf8ce0b22, type: 3}
   cardSet: {fileID: 11400000, guid: d17bd59dfbc03664baf81725be481bba, type: 2}
+  jokers: {fileID: 11400000, guid: 1dcccc94bc011014ebf1f33a3dfedf1d, type: 2}
   cards: []
   _isHighContrastMode: 0
   discardLocation: {x: 3, y: 0}
