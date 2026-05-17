@@ -400,7 +400,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 519420031}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -666,6 +666,10 @@ PrefabInstance:
     - target: {fileID: 505798443688136836, guid: e94684b88bbc98440bb50a34aae2f205, type: 3}
       propertyPath: m_Name
       value: Canvas BG
+      objectReference: {fileID: 0}
+    - target: {fileID: 505798443688136836, guid: e94684b88bbc98440bb50a34aae2f205, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2519869430264997624, guid: e94684b88bbc98440bb50a34aae2f205, type: 3}
       propertyPath: m_Pivot.x
