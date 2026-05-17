@@ -60,65 +60,7 @@ public class Card
 
     public string Print()
     {
-        return $"Name: {GetName()}\nID: {Id}\ninPlay: {inPlay}\nFaceUp: {faceUp}";
-    }
-
-    /// <summary>
-    /// Takes the card's <see cref="Rank"/> and converts it to a string
-    /// </summary>
-    /// <returns>Name of the card's <see cref="Rank"/></returns>
-    public string ConvertRankToString()
-    {
-        return Rank switch
-        {
-            (int)Ranks.two => "02",
-            (int)Ranks.three => "03",
-            (int)Ranks.four => "04",
-            (int)Ranks.five => "05",
-            (int)Ranks.six => "06",
-            (int)Ranks.seven => "07",
-            (int)Ranks.eight => "08",
-            (int)Ranks.nine => "09",
-            (int)Ranks.ten => "10",
-            (int)Ranks.jack => "J",
-            (int)Ranks.queen => "Q",
-            (int)Ranks.king => "K",
-            (int)Ranks.ace => "A",
-            _ => "JOKER"
-        };
-    }
-
-    /// <summary>
-    /// Takes the card's <see cref="Suit"/> and converts it to a string
-    /// </summary>
-    /// <returns>Name of the card's <see cref="Suit"/></returns>
-    public string ConvertSuitToString()
-    {
-        return Suit switch
-        {
-            (int)Suits.Diamond => "Diamond",
-            (int)Suits.Club => "Club",
-            (int)Suits.Spade => "Spade",
-            (int)Suits.Heart => "Heart",
-            _ => "Joker"
-        };
-    }
-
-    /// <summary>
-    /// Gets the name of the card
-    /// </summary>
-    /// <returns>
-    /// <see cref="Card.Suit"/>-<see cref="Card.Rank"/> as a string
-    /// </returns>
-    public string GetName()
-    {
-        string suit = ConvertSuitToString();
-        string rank = ConvertRankToString();
-        if (rank == "JOKER" || suit == "Joker")
-        {
-            return rank;
-        }
-        return $"{suit}-{rank}";
+        return $"Name: {CardUtility.GetName(this)}\nID: {Id}\ninPlay: {inPlay}\nFaceUp: {faceUp}";
     }
 
     /// <summary>
@@ -150,28 +92,5 @@ public class Card
     {
         Suit = suit;
         Rank = rank;
-    }
-
-    /// <summary>
-    /// The value of cards in blackjack
-    /// </summary>
-    /// <param name="card"></param>
-    /// <returns>Returns the value of the given card</returns>
-    public static int BlackjackValue(Ranks card)
-    {
-        return card switch
-        {
-            Ranks.ace => 1,
-            Ranks.two => 2,
-            Ranks.three => 3,
-            Ranks.four => 4,
-            Ranks.five => 5,
-            Ranks.six => 6,
-            Ranks.seven => 7,
-            Ranks.eight => 8,
-            Ranks.nine => 9,
-            Ranks.joker => 0,
-            _ => 10
-        };
     }
 }

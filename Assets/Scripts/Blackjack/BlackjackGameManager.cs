@@ -153,7 +153,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     private void AdvancePhase()
     {
         _phase = GetNextPhase(_phase);
-        Debug.Log("Next phase is: " + _phase);
+        //Debug.Log("Next phase is: " + _phase);
         DelayStartPhase(_phase, GetPhaseDelayTime(_phase));
     }
 
@@ -189,7 +189,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     /// <param name="phase">Refer to <see cref="Phase"/> for phase numbers</param>
     private void StartPhase(Phase phase)
     {
-        Debug.Log("Enacting phase: " + (int)phase);
+        //Debug.Log($"Enacting phase: {(int)phase} - {phase}");
         _phase = phase;
 
         OnPhaseComplete = null;
@@ -311,7 +311,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         bool ace = false;
         foreach (var card in player.cards)
         {
-            int value = Card.BlackjackValue((Card.Ranks)card.card.Rank);
+            int value = CardUtility.BlackjackValue((Card.Ranks)card.card.Rank);
             if (value == 1)
                 ace = true;
             score += value;

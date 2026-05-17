@@ -7,6 +7,9 @@ public class CardObject : MonoBehaviour, IDataPersistence
     public Card card;
     public Sprite front, back;
 
+    public bool selected = false;
+    public float selectedRaise = 0.5f;
+
     public bool inHand = false;
     public bool discarded = false;
 
@@ -67,7 +70,7 @@ public class CardObject : MonoBehaviour, IDataPersistence
     /// </summary>
     public void CheckCard()
     {
-        gameObject.name = card.GetName();
+        gameObject.name = CardUtility.GetName(card);
         CheckStatus();
     }
 
@@ -98,5 +101,16 @@ public class CardObject : MonoBehaviour, IDataPersistence
             Hide();
         else
             Reveal();
+    }
+
+    public void ToggleSelect()
+    {
+        selected = !selected;
+        Select();
+    }
+
+    public void Select()
+    {
+        transform.position += new Vector3(0, selected ? selectedRaise : -selectedRaise);
     }
 }
