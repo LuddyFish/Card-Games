@@ -31,34 +31,7 @@ public class Card
         this.Rank = Rank;
     }
 
-    public enum Suits
-    {
-        Spade = 0,
-        Heart = 1,
-        Diamond = 2,
-        Club = 3,
-        Joker = -1
-    }
-
-    public enum Ranks
-    {
-        ace = 1,
-        two = 2,
-        three = 3,
-        four = 4,
-        five = 5,
-        six = 6,
-        seven = 7,
-        eight = 8,
-        nine = 9,
-        ten = 10,
-        jack = 11,
-        queen = 12,
-        king = 13,
-        joker = -1
-    }
-
-    public string Print()
+    public override string ToString()
     {
         return $"Name: {CardUtility.GetName(this)}\nID: {Id}\ninPlay: {inPlay}\nFaceUp: {faceUp}";
     }
@@ -93,4 +66,31 @@ public class Card
         Suit = suit;
         Rank = rank;
     }
+}
+
+public enum Suits
+{
+    Spade = 0,
+    Heart = 1,
+    Diamond = 2,
+    Club = 3,
+    Joker = -1
+}
+
+public enum Ranks
+{
+    ace = 1,
+    two = 2,
+    three = 3,
+    four = 4,
+    five = 5,
+    six = 6,
+    seven = 7,
+    eight = 8,
+    nine = 9,
+    ten = 10,
+    jack = 11,
+    queen = 12,
+    king = 13,
+    joker = -1
 }

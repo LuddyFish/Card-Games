@@ -8,7 +8,7 @@ public class AudioPlayer : MonoBehaviour
     public List<AudioSource> sources;
     public AudioClip[] audios;
 
-    protected void Start()
+    protected virtual void Start()
     {
         sources = new() { GetComponent<AudioSource>() };
     }

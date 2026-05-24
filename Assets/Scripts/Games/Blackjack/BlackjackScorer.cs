@@ -11,7 +11,7 @@ public static class BlackjackScorer
         bool ace = false;
         foreach (var card in player.cards)
         {
-            int value = BlackjackValue((Card.Ranks)card.card.Rank);
+            int value = BlackjackValue((Ranks)card.card.Rank);
             if (value == 1)
                 ace = true;
             score += value;
@@ -83,20 +83,20 @@ public static class BlackjackScorer
     /// </summary>
     /// <param name="card"></param>
     /// <returns>Returns the value of the given card</returns>
-    public static int BlackjackValue(Card.Ranks card)
+    public static int BlackjackValue(Ranks card)
     {
         return card switch
         {
-            Card.Ranks.ace => 1,
-            Card.Ranks.two => 2,
-            Card.Ranks.three => 3,
-            Card.Ranks.four => 4,
-            Card.Ranks.five => 5,
-            Card.Ranks.six => 6,
-            Card.Ranks.seven => 7,
-            Card.Ranks.eight => 8,
-            Card.Ranks.nine => 9,
-            Card.Ranks.joker => 0,
+            Ranks.ace => 1,
+            Ranks.two => 2,
+            Ranks.three => 3,
+            Ranks.four => 4,
+            Ranks.five => 5,
+            Ranks.six => 6,
+            Ranks.seven => 7,
+            Ranks.eight => 8,
+            Ranks.nine => 9,
+            Ranks.joker => 0,
             _ => 10
         };
     }

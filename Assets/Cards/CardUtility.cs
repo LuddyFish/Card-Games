@@ -4,23 +4,23 @@ public static class CardUtility
     /// Takes the card's <see cref="Rank"/> and converts it to a string
     /// </summary>
     /// <returns>Name of the card's <see cref="Rank"/></returns>
-    public static string ConvertRankToString(Card.Ranks rank)
+    public static string ConvertRankToString(Ranks rank)
     {
         return rank switch
         {
-            Card.Ranks.two => "02",
-            Card.Ranks.three => "03",
-            Card.Ranks.four => "04",
-            Card.Ranks.five => "05",
-            Card.Ranks.six => "06",
-            Card.Ranks.seven => "07",
-            Card.Ranks.eight => "08",
-            Card.Ranks.nine => "09",
-            Card.Ranks.ten => "10",
-            Card.Ranks.jack => "J",
-            Card.Ranks.queen => "Q",
-            Card.Ranks.king => "K",
-            Card.Ranks.ace => "A",
+            Ranks.two => "02",
+            Ranks.three => "03",
+            Ranks.four => "04",
+            Ranks.five => "05",
+            Ranks.six => "06",
+            Ranks.seven => "07",
+            Ranks.eight => "08",
+            Ranks.nine => "09",
+            Ranks.ten => "10",
+            Ranks.jack => "J",
+            Ranks.queen => "Q",
+            Ranks.king => "K",
+            Ranks.ace => "A",
             _ => "JOKER"
         };
     }
@@ -29,14 +29,14 @@ public static class CardUtility
     /// Takes the card's <see cref="Suit"/> and converts it to a string
     /// </summary>
     /// <returns>Name of the card's <see cref="Suit"/></returns>
-    public static string ConvertSuitToString(Card.Suits suit)
+    public static string ConvertSuitToString(Suits suit)
     {
         return suit switch
         {
-            Card.Suits.Diamond => "Diamond",
-            Card.Suits.Club => "Club",
-            Card.Suits.Spade => "Spade",
-            Card.Suits.Heart => "Heart",
+            Suits.Diamond => "Diamond",
+            Suits.Club => "Club",
+            Suits.Spade => "Spade",
+            Suits.Heart => "Heart",
             _ => "Joker"
         };
     }
@@ -49,8 +49,8 @@ public static class CardUtility
     /// </returns>
     public static string GetName(Card card)
     {
-        string suit = ConvertSuitToString((Card.Suits)card.Suit);
-        string rank = ConvertRankToString((Card.Ranks)card.Rank);
+        string suit = ConvertSuitToString((Suits)card.Suit);
+        string rank = ConvertRankToString((Ranks)card.Rank);
         if (rank == "JOKER" || suit == "Joker")
         {
             return rank;

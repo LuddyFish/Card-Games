@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(ClickableSprite))]
 public class CardObject : MonoBehaviour, IDataPersistence
 {
+    [HideInInspector] public CardGameContext context;
+
     SpriteRenderer _rend;
     ClickableSprite _clickSprite;
 
@@ -24,6 +26,8 @@ public class CardObject : MonoBehaviour, IDataPersistence
         _clickSprite = GetComponent<ClickableSprite>();
         _clickSprite.OnTrueClick += Select;
         InputManager.Instance.OnRightClick += Deselect;
+
+        _clickSprite.enabled = isSelectable;
     }
 
     public void LoadData(GameData data)
@@ -47,19 +51,13 @@ public class CardObject : MonoBehaviour, IDataPersistence
         data.cards[index] = new(card);
     }
 
-    void Update()
-    {
-        _rend.sprite = card.faceUp ? front : back;
-        _clickSprite.enabled = isSelectable;
-    }
-
     /// <summary>
     /// Finds it's position index in <see cref="Deck.Cards"/>
     /// </summary>
     /// <returns>Returns it's index position or <c>-1</c> if it can't</returns>
     public int GetCardInDeck()
     {
-        var deck = BlackjackGameManager.Instance.DeckHandler;
+        var deck = context.Deck;
         for (int i = 0; i < deck.Cards.Length; i++)
             if (card.CompareCard(deck.Cards[i]))
                 return i;
@@ -72,6 +70,8 @@ public class CardObject : MonoBehaviour, IDataPersistence
     public void CheckStatus()
     {
         gameObject.SetActive(card.inPlay);
+        _rend.sprite = card.faceUp ? front : back;
+        _clickSprite.enabled = isSelectable;
     }
 
     /// <summary>
@@ -98,6 +98,7 @@ public class CardObject : MonoBehaviour, IDataPersistence
     public void Hide()
     {
         card.faceUp = false;
+        _rend.sprite = back;
         CheckStatus();
     }
 

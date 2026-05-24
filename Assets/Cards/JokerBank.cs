@@ -18,7 +18,8 @@ public class JokerBank : MonoBehaviour
 
     public void GiftJoker(PlayerObject player)
     {
-        var joker = Cardbox.Instance.GetAvailableJoker().GetComponent<CardObject>().card;
+        Cardbox.Instance.TryGetAvaibleJoker(out var jokerObj);
+        var joker = jokerObj.GetComponent<CardObject>().card;
         _context.Deck.DealSpecific(player.data, joker);
     }
 

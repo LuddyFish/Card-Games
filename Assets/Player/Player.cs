@@ -29,13 +29,13 @@ public class Player
         Jokers = new List<Card>();
     }
 
-    public string Print()
+    public override string ToString()
     {
         string cards = string.Empty;
         for (int i = 1; i <= Hand.Count; i++)
-            cards += $"\tCard {i}:\n{Hand[i].Print()}\n";
+            cards += $"\tCard {i}:\n{Hand[i]}\n";
         for (int i = 1; i < Jokers.Count; i++)
-            cards += $"\tJoker {i}:\n{Jokers[i].Print()}\n";
+            cards += $"\tJoker {i}:\n{Jokers[i]}\n";
 
         return $"Name: {name}\nID: {Id}\nCards:\n{cards}\nIs My Turn: {isMyTurn}\nIs Dealer: {isDealer}";
     }

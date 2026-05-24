@@ -59,7 +59,7 @@ public class Deck : IDataPersistence
     /// </summary>
     public void NewDeck()
     {
-        PlayCardSound(Audio.sources[0], 3);
+        Audio.PlayDeckShuffle(Audio.sources[0]);
         _pool.Clear();
         foreach (Card card in Cards)
             _pool.Add(card);
@@ -72,15 +72,16 @@ public class Deck : IDataPersistence
     {
         if (Box != null)
         {
-            PlayCardSound(Audio.sources[0], 3);
+            Audio.PlayDeckShuffle(Audio.sources[0]);
             _pool.Clear();
+            // TODO: Query on how to decouple data to scene
+            Box.OnDeckRecall.Invoke();
             for (int i = 0; i < Cards.Length; i++)
             {
                 var card = Box.cards[i].GetComponent<CardObject>();
                 if (!card.inHand)
                 {
                     _pool.Add(card.card);
-                    Box.ReturnCard(Box.cards[i].transform);
                 }
             }
         }
@@ -98,7 +99,7 @@ public class Deck : IDataPersistence
         for (int i = 0; i < Cards.Length; i++)
             if (Cards[i] == card)
                 return i;
-        return 0;
+        return -1;
     }
 
     /// <summary>
@@ -119,7 +120,7 @@ public class Deck : IDataPersistence
     {
         if (IsDeckEmpty()) NewSoftDeck(); // Ensures that can deal cards.
         int index = UnityEngine.Random.Range(0, _pool.Count);
-        PlayCardSound(Box.cards[index], 1);
+        Audio.PlayCardDeal(Box.cards[index]);
         Card card = _pool.ElementAt(index);
         _pool.RemoveAt(index);
         return card;
@@ -135,10 +136,15 @@ public class Deck : IDataPersistence
         var dealer = table.GetDealer();
         int cardsDealt = 0;
         bool CardsNeedDealing() => cardsDealt < table.Players.Length * table.StartingCardCount;
+        void RestockDeck()
+        {
+            if (IsDeckEmpty() && CardsNeedDealing() && fillHands)
+                NewSoftDeck();
+        }
 
-        PlayCardSound(Audio.sources[0], 4);
-        Deal:
-        while (!IsDeckEmpty() && CardsNeedDealing())
+        Audio.PlayCardShuffle(Audio.sources[0]);
+        RestockDeck();
+        do
         {
             int playerIndex = (cardsDealt + dealer + 1) % table.Players.Length;
             Card card = GetRandomCard();
@@ -146,13 +152,8 @@ public class Deck : IDataPersistence
             Cards[FindCardIndex(card)].inPlay = true;
             _pool.Remove(card);
             cardsDealt++;
-        }
-        
-        if (fillHands && CardsNeedDealing())
-        {
-            NewSoftDeck();
-            goto Deal;
-        }
+            RestockDeck();
+        } while (!IsDeckEmpty() && CardsNeedDealing());
     }
 
     /// <summary>
@@ -171,7 +172,7 @@ public class Deck : IDataPersistence
 
     public void DealSpecific(Player player, Card card)
     {
-        if (card.Rank != (int)Card.Ranks.joker)
+        if (card.Rank != (int)Ranks.joker)
             player.Hand.Add(card);
         else
             player.Jokers.Add(card);
@@ -197,15 +198,5 @@ public class Deck : IDataPersistence
     public bool NotEnoughCards(int cardsToDeal)
     {
         return _pool.Count < cardsToDeal;
-    }
-
-    public void PlayCardSound(GameObject card, int srcNum)
-    {
-        Audio?.Play(card.GetComponent<AudioSource>(), Audio.audios[srcNum]);
-    }
-
-    public void PlayCardSound(AudioSource src, int srcNum)
-    {
-        Audio?.Play(src, Audio.audios[srcNum]);
     }
 }

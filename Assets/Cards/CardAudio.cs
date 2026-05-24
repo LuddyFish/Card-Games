@@ -9,7 +9,7 @@ public class CardAudio : AudioPlayer
      * 1. Card deal
      * 2. Card flip
      * 3. Multiple cards slide
-     * 4. Multiple cards slide
+     * 4. Multiple cards slide / shuffle
      * 5. Card slide / Card unselect
      * 6. Card select
      */
@@ -22,28 +22,63 @@ public class CardAudio : AudioPlayer
             Destroy(this);
     }
 
-    new void Start()
+    protected override void Start()
     {
         base.Start();
     }
 
-    public void SetCardSRCs()
+    public void RegisterCardSRC(AudioSource src)
     {
-        foreach (var card in Cardbox.Instance.cards)
-            sources.Add(card.GetComponent<AudioSource>());
+        sources.Add(src);
     }
 
-    public void SetJokerCardSRCs()
+    #region Play Calls
+    private void PlayCardSound(GameObject card, int srcNum)
     {
-        foreach (var card in Cardbox.Instance.jokerCards)
-        {
-            sources.Add(card.GetComponent<AudioSource>());
-        }
+        Play(card.GetComponent<AudioSource>(), audios[srcNum]);
     }
+
+    private void PlayCardSound(AudioSource src, int srcNum)
+    {
+        Play(src, audios[srcNum]);
+    }
+
+    #region Named Play Calls
+    public void PlayCardDeal(GameObject card)
+    {
+        PlayCardSound(card, 1);
+    }
+
+    public void PlayCardDeal(AudioSource src)
+    {
+        PlayCardSound(src, 1);
+    }
+
+    public void PlayDeckShuffle(GameObject card)
+    {
+        PlayCardSound(card, 3);
+    }
+
+    public void PlayDeckShuffle(AudioSource src)
+    {
+        PlayCardSound(src, 3);
+    }
+
+    public void PlayCardShuffle(GameObject card)
+    {
+        PlayCardSound(card, 4);
+    }
+
+    public void PlayCardShuffle(AudioSource src)
+    {
+        PlayCardSound(src, 4);
+    }
+    #endregion
+    #endregion
 
     void OnDestroy()
     {
-        if (Instance == null)
-            Instance = this;
+        if (Instance == this)
+            Instance = null;
     }
 }

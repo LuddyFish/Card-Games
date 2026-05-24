@@ -29,12 +29,7 @@ public abstract class CardGameManager : PhaseController
 
     // --- Players ---
     [HideInInspector] public List<PlayerObject> Players { get; private set; } = new();
-    private int _minPlayerCount = 2;
-    public int MinPlayerCount
-    {
-        get { return _minPlayerCount; }
-        set { _minPlayerCount = value; }
-    }
+    [HideInInspector] public int MinPlayerCount = 2;
 
     // --- Internal Data ---
     [SerializeField] private int _startingCardCount = 5;

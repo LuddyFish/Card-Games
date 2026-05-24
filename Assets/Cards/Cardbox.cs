@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Cardbox : MonoBehaviour
@@ -14,6 +13,8 @@ public class Cardbox : MonoBehaviour
     public CardDeckSet cardSet;
     public JokerDefinition jokers;
 
+    private readonly Dictionary<GameObject, int> _cardIndexMap = new();
+
     [HideInInspector] public List<GameObject> cards = new();
     [HideInInspector] public List<GameObject> jokerCards = new();
     public bool isHighContrastMode = false;
@@ -24,6 +25,7 @@ public class Cardbox : MonoBehaviour
     [SerializeField] private float discardTime = 0.5f;
 
     public Action OnDealAnimationCompletion;
+    public Action OnDeckRecall;
 
     private void Awake()
     {
@@ -45,16 +47,19 @@ public class Cardbox : MonoBehaviour
             GameObject card = Instantiate(cardPrefab, transform);
             var obj = card.GetComponent<CardObject>();
             obj.card = _gameContext.Deck.Cards[i];
+            obj.context = _gameContext;
             _gameContext.CardMap.Add(obj.card, obj);
 
             SetCardContrast(obj, cardSet.cards[i]);
             SetCard(obj);
             ReturnCard(card.transform);
             cards.Add(card);
+            _cardIndexMap[card] = i;
+
+            CardAudio.Instance?.RegisterCardSRC(card.GetComponent<AudioSource>());
         }
 
         _gameContext.ActiveGame.OnShuffle += ReturnCardsToDeck;
-        CardAudio.Instance?.SetCardSRCs();
     }
 
     public void InitJokers(int players, int startingCount) 
@@ -63,8 +68,6 @@ public class Cardbox : MonoBehaviour
         {
             CreateJokerCard();
         }
-
-        CardAudio.Instance?.SetJokerCardSRCs();
     }
 
     public void CreateJokerCard()
@@ -79,6 +82,8 @@ public class Cardbox : MonoBehaviour
         SetCard(obj);
         ReturnCard(obj.transform);
         jokerCards.Add(card);
+
+        CardAudio.Instance?.RegisterCardSRC(card.GetComponent<AudioSource>());
     }
 
     /// <summary>
@@ -107,30 +112,21 @@ public class Cardbox : MonoBehaviour
         card.back = isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
     }
 
-    private void GiftCard(PlayerObject player, CardObject card)
+    private void GiftCard(PlayerObject player, CardObject card, bool isJoker)
     {
         card.inHand = true;
         player.cards.Add(card);
 
-        var layout = player.transform.GetChild(0).GetComponent<HandLayout>();
+        var layout = player.transform.GetChild(isJoker ? 0 : 1).GetComponent<HandLayout>();
         card.transform.SetParent(layout.transform);
         layout.ReceiveCard(card.transform, player.cards.Count - 1, player.collectTime);
         StartCoroutine(InvokeAnimationSend(player.collectTime));
+        if (isJoker)
+        {
+            card.gameObject.SetActive(true);
+            card.Reveal();
+        }
         card.GetComponent<SpriteRenderer>().sortingOrder = player.cards.Count - 1;
-    }
-
-    private void GiftJoker(PlayerObject player, CardObject card)
-    {
-        card.inHand = true;
-        player.jokers.Add(card);
-
-        var layout = player.transform.GetChild(1).GetComponent<HandLayout>();
-        card.transform.SetParent(layout.transform);
-        layout.ReceiveCard(card.transform, player.jokers.Count - 1, player.collectTime);
-        StartCoroutine(InvokeAnimationSend(player.collectTime));
-        card.gameObject.SetActive(true);
-        card.Reveal();
-        card.GetComponent<SpriteRenderer>().sortingOrder = player.jokers.Count - 1;
     }
 
     private void AnimateDeal(Player player, Card card)
@@ -146,14 +142,7 @@ public class Cardbox : MonoBehaviour
             return;
         }
 
-        if (card.Suit != (int)Card.Suits.Joker) 
-        { 
-            GiftCard(playerObj, cardObj); 
-        }
-        else
-        {
-            GiftJoker(playerObj, cardObj);
-        }
+        GiftCard(playerObj, cardObj, card.Suit == (int)Suits.Joker); 
     }
 
     private IEnumerator InvokeAnimationSend(float time)
@@ -173,10 +162,22 @@ public class Cardbox : MonoBehaviour
 
     public void ReturnCardsToDeck()
     {
-        _gameContext.Deck.PlayCardSound(CardAudio.Instance.sources[0], 4);
+        CardAudio.Instance?.PlayCardShuffle(CardAudio.Instance.sources[0]);
         foreach (var card in cards)
         {
             ReturnCard(card.transform);
+        }
+    }
+
+    public void RecallInactiveCards()
+    {
+        foreach (var card in cards)
+        {
+            var c = card.GetComponent<CardObject>();
+            if (!c.inHand)
+            {
+                ReturnCard(card.transform);
+            }
         }
     }
 
@@ -186,7 +187,7 @@ public class Cardbox : MonoBehaviour
         var obj = card.GetComponent<CardObject>();
         obj.inHand = false;
         obj.discarded = true;
-        if (obj.card.Suit == (int)Card.Suits.Joker)
+        if (obj.card.Suit == (int)Suits.Joker)
         {
             card.gameObject.SetActive(false);
             card.position = discardLocation;
@@ -199,31 +200,23 @@ public class Cardbox : MonoBehaviour
 
     public int GetCardPosition(GameObject original)
     {
-        for (int i = 0; i < cards.Count; i++)
-            if (original.name == cards[i].name)
-                return i;
-        return 0;
+        return _cardIndexMap.TryGetValue(original, out int index) ? index : 0;
     }
 
-    public bool HasAvailableJoker()
+    public bool TryGetAvaibleJoker(out GameObject joker)
     {
-        foreach (var joker in jokerCards)
-            if (joker.transform.parent == transform)
+        foreach (var j in jokerCards)
+        {
+            if (j.transform.parent == transform)
+            {
+                joker = j;
                 return true;
+            }
+        }
 
-        return false;
-    }
-
-    public GameObject GetAvailableJoker()
-    {
-        if (!HasAvailableJoker())
-            CreateJokerCard();
-
-        foreach (var joker in jokerCards)
-            if (joker.transform.parent == transform)
-                return joker;
-
-        return null;
+        CreateJokerCard();
+        joker = jokerCards[^1];
+        return true;
     }
 
     void OnDestroy()
