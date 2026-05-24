@@ -1,21 +1,29 @@
 using UnityEngine;
 
+[RequireComponent(typeof(ClickableSprite))]
 public class CardObject : MonoBehaviour, IDataPersistence
 {
     SpriteRenderer _rend;
+    ClickableSprite _clickSprite;
 
     public Card card;
     public Sprite front, back;
 
+    [Space(10)]
+    public bool isSelectable = false;
     public bool selected = false;
     public float selectedRaise = 0.5f;
 
+    [Space(10)]
     public bool inHand = false;
     public bool discarded = false;
 
     void Start()
     {
         _rend = GetComponent<SpriteRenderer>();
+        _clickSprite = GetComponent<ClickableSprite>();
+        _clickSprite.OnTrueClick += Select;
+        InputManager.Instance.OnRightClick += Deselect;
     }
 
     public void LoadData(GameData data)
@@ -42,6 +50,7 @@ public class CardObject : MonoBehaviour, IDataPersistence
     void Update()
     {
         _rend.sprite = card.faceUp ? front : back;
+        _clickSprite.enabled = isSelectable;
     }
 
     /// <summary>
@@ -103,14 +112,20 @@ public class CardObject : MonoBehaviour, IDataPersistence
             Reveal();
     }
 
-    public void ToggleSelect()
-    {
-        selected = !selected;
-        Select();
-    }
-
-    public void Select()
+    private void ToggleSelect()
     {
         transform.position += new Vector3(0, selected ? selectedRaise : -selectedRaise);
+    }
+
+    private void Select()
+    {
+        selected = true;
+        ToggleSelect();
+    }
+
+    private void Deselect()
+    {
+        selected = false;
+        ToggleSelect();
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class CardGameManager : MonoBehaviour
+public abstract class CardGameManager : PhaseController
 {
     // --- Table Properties ---
     [SerializeField] protected CardGameContext _context;
@@ -15,7 +15,7 @@ public abstract class CardGameManager : MonoBehaviour
         protected set { _table = value; }
     }
     private Deck _deck;
-    public Deck DeckHandler { 
+    public Deck DeckHandler {
         get { return _deck; }
         protected set { _deck = value; }
     }
@@ -24,6 +24,8 @@ public abstract class CardGameManager : MonoBehaviour
 
     [Tooltip("This GameObject must contain a \"Cardbox\" script")]
     [SerializeField] private GameObject _cardManagerPrefab;
+    [Tooltip("This GameObject must contain a \"JokerBank\" script")]
+    [SerializeField] private GameObject _jokerManagerPrefab;
 
     // --- Players ---
     [HideInInspector] public List<PlayerObject> Players { get; private set; } = new();
@@ -106,6 +108,8 @@ public abstract class CardGameManager : MonoBehaviour
         OnGameLoaded += cardbox.Init;
         OnGameLoaded += () => cardbox.InitJokers(Players.Count, startingJokerCount);
 
+        var jokerManager = Instantiate(_jokerManagerPrefab);
+
         DataPersistenceManager.Instance.Init();
     }
 
@@ -184,11 +188,9 @@ public abstract class CardGameManager : MonoBehaviour
     /// <summary>
     /// Discard all cards from every player's hands
     /// </summary>
-    protected virtual void ClearHands()
+    protected override void ClearHands()
     {
         OnReset?.Invoke();
     }
-
-    public abstract int GetPlayerScore(PlayerObject player);
     #endregion
 }

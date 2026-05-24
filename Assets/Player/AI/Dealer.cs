@@ -43,7 +43,7 @@ public class Dealer : MonoBehaviour
         }
 
         // Force rest if can't continue
-        if (me.GetScore() >= 21)
+        if (BlackjackScorer.GetPlayerScore(me) >= 21)
         {
             Manager.TableHandler.RestPlayer(me.data);
         }
@@ -52,10 +52,10 @@ public class Dealer : MonoBehaviour
 
     bool HaveHighestScore()
     {
-        int myScore = me.GetScore();
+        int myScore = BlackjackScorer.GetPlayerScore(me);
         foreach (var player in Manager.Players)
         {
-            int playerScore = player.GetScore();
+            int playerScore = BlackjackScorer.GetPlayerScore(player);
             if (playerScore > myScore && playerScore <= 21) return false;
         }
 

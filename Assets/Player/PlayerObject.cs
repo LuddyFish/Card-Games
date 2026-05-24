@@ -179,13 +179,4 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
             card.Reveal();
         }
     }
-
-    /// <summary>
-    /// Calculates my score
-    /// </summary>
-    /// <returns>The sum value of all my cards</returns>
-    public int GetScore()
-    {
-        return _gameContext.ActiveGame.GetPlayerScore(this);
-    }
 }

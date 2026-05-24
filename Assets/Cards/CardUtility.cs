@@ -57,29 +57,4 @@ public static class CardUtility
         }
         return $"{suit}-{rank}";
     }
-
-
-
-    /// <summary>
-    /// The value of cards in blackjack
-    /// </summary>
-    /// <param name="card"></param>
-    /// <returns>Returns the value of the given card</returns>
-    public static int BlackjackValue(Card.Ranks card)
-    {
-        return card switch
-        {
-            Card.Ranks.ace => 1,
-            Card.Ranks.two => 2,
-            Card.Ranks.three => 3,
-            Card.Ranks.four => 4,
-            Card.Ranks.five => 5,
-            Card.Ranks.six => 6,
-            Card.Ranks.seven => 7,
-            Card.Ranks.eight => 8,
-            Card.Ranks.nine => 9,
-            Card.Ranks.joker => 0,
-            _ => 10
-        };
-    }
 }

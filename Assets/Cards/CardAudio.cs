@@ -10,7 +10,8 @@ public class CardAudio : AudioPlayer
      * 2. Card flip
      * 3. Multiple cards slide
      * 4. Multiple cards slide
-     * 5. Card slide
+     * 5. Card slide / Card unselect
+     * 6. Card select
      */
 
     void Awake()
