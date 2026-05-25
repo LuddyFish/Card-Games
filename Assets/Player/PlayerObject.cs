@@ -8,8 +8,8 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     Cardbox Box => Cardbox.Instance;
     CardAudio CardAudio => CardAudio.Instance;
 
-    private Transform _hand;
-    private Transform _jokerHand;
+    public Transform hand;
+    public Transform jokerHand;
 
     public Player data;
     [HideInInspector] public List<CardObject> cards;
@@ -17,15 +17,12 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
 
     [Tooltip("How long it takes for a card to move into hand")]
     public float collectTime = 0.5f;
-    private bool handRevealed = false;
 
     // -- Blackjack data --
     public int turnsWithoutJokers = 0;
 
     void Start()
     {
-        _hand = transform.Find("Hand").transform;
-        _jokerHand = transform.Find("Joker Hand").transform;
         data = new Player(name);
         cards = new List<CardObject>();
         jokers = new List<CardObject>();
@@ -35,11 +32,13 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
         else
             _gameContext.ActiveGame.SetPlayer(this);
 
-        _gameContext.ActiveGame.OnDeal += SetHand;
-        _gameContext.ActiveGame.OnDeal += SetJokerHand;
+        _gameContext.ActiveGame.OnDeal += () => SetHand(data.Hand, hand, cards);
+        _gameContext.ActiveGame.OnDeal += () => SetHand(data.Jokers, jokerHand, jokers);
         _gameContext.ActiveGame.OnDeal += SetCards;
         _gameContext.ActiveGame.OnDeal += SetJokerCards;
         _gameContext.ActiveGame.OnReset += DiscardCards;
+
+        data.OnTurnEnable += RevealHand;
     }
 
     public void LoadData(GameData data)
@@ -64,14 +63,6 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
         data.players[index] = new(this.data);
     }
 
-    void Update()
-    {
-        if (data.isMyTurn && !handRevealed)
-            RevealHand();
-        else if (!data.isMyTurn)
-            handRevealed = false;
-    }
-
     /// <summary>
     /// Finds it's position index in <see cref="Table.Players"/>
     /// </summary>
@@ -84,37 +75,31 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
         return -1;
     }
 
+    // TODO: Query how to handle outputCache
     /// <summary>
-    /// Retrieve all cards in <see cref="data"/> and set the objects parents as <see cref="_hand"/>
+    /// Retrieve all cards from <paramref name="source"/> and set the objects parents as <paramref name="parent"/>
     /// </summary>
-    public void SetHand()
+    /// <param name="source">List of cards</param>
+    /// <param name="parent">The hand that holds the cards</param>
+    /// <param name="outputCache"></param>
+    public void SetHand(List<Card> source, Transform parent, List<CardObject> outputCache)
     {
-        foreach (var card in data.Hand)
+        foreach (var card in source)
             if (_gameContext.CardMap.TryGetValue(card, out var obj))
-                obj.transform.SetParent(_hand);
+                obj.transform.SetParent(parent);
     }
 
     /// <summary>
-    /// Retrieve all <c>JOKER</c> cards in <see cref="data"/> and set the objects parents as <see cref="_jokerHand"/>
-    /// </summary>
-    public void SetJokerHand()
-    {
-        foreach (var card in data.Jokers)
-            if (_gameContext.CardMap.TryGetValue(card, out var obj))
-                obj.transform.SetParent(_jokerHand);
-    }
-
-    /// <summary>
-    /// Collect all card objects in <see cref="_hand"/> and aligns them
+    /// Collect all card objects in <see cref="hand"/> and aligns them
     /// </summary>
     public void SetCards()
     {
         cards.Clear(); // Pre-emptive removal to avoid dupliactes
 
-        var layout = _hand.GetComponent<HandLayout>();
-        for (int i = 0; i < _hand.childCount; i++)
+        var layout = hand.GetComponent<HandLayout>();
+        for (int i = 0; i < hand.childCount; i++)
         {
-            Transform child = _hand.GetChild(i);
+            Transform child = hand.GetChild(i);
             CardObject obj = child.GetComponent<CardObject>();
             obj.inHand = true;
             cards.Add(obj);
@@ -124,16 +109,16 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     }
 
     /// <summary>
-    /// Collect all <c>JOKER</c> card objects in <see cref="_jokerHand"/> and aligns them
+    /// Collect all <c>JOKER</c> card objects in <see cref="jokerHand"/> and aligns them
     /// </summary>
     public void SetJokerCards()
     {
         jokers.Clear();
 
-        var layout = _jokerHand.GetComponent<HandLayout>();
-        for (int i = 0; i < _jokerHand.childCount; i++)
+        var layout = jokerHand.GetComponent<HandLayout>();
+        for (int i = 0; i < jokerHand.childCount; i++)
         {
-            Transform child = _jokerHand.GetChild(i);
+            Transform child = jokerHand.GetChild(i);
             CardObject obj = child.GetComponent<CardObject>();
             obj.inHand = true;
             jokers.Add(obj);
@@ -156,27 +141,35 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
     }
 
     /// <summary>
-    /// Remove all cards from <see cref="data"/> and <see cref="_hand"/>
+    /// Remove all cards from <see cref="data"/> and <see cref="hand"/>
     /// </summary>
     public void DiscardCards()
     {
         data.Hand.Clear();
-        while (_hand.childCount > 0)
-            RemoveFromHand(_hand.GetChild(0));
+        while (hand.childCount > 0)
+            RemoveFromHand(hand.GetChild(0));
         foreach (var card in cards)
             card.Hide();
         cards.Clear();
     }
 
     /// <summary>
-    /// Turn all cards in <see cref="_hand"/> face up
+    /// Turn all cards in <see cref="hand"/> face up
     /// </summary>
     public void RevealHand()
     {
-        handRevealed = true;
         foreach (var card in cards)
-        {
             card.Reveal();
-        }
+    }
+
+    void OnDestroy()
+    {
+        _gameContext.ActiveGame.OnDeal -= () => SetHand(data.Hand, hand, cards);
+        _gameContext.ActiveGame.OnDeal -= () => SetHand(data.Jokers, jokerHand, jokers);
+        _gameContext.ActiveGame.OnDeal -= SetCards;
+        _gameContext.ActiveGame.OnDeal -= SetJokerCards;
+        _gameContext.ActiveGame.OnReset -= DiscardCards;
+
+        data.OnTurnEnable -= RevealHand;
     }
 }

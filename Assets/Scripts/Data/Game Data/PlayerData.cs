@@ -8,7 +8,6 @@ public class PlayerData
 
     public string name;
     public List<int> cardIds;
-    public bool isMyTurn;
     public bool isDealer;
 
     public PlayerData() { }
@@ -21,7 +20,6 @@ public class PlayerData
         name = player.name;
         cardIds = player.Hand.Select(c => c.Id).ToList();
 
-        isMyTurn = player.isMyTurn;
         isDealer = player.isDealer;
     }
 
@@ -38,7 +36,6 @@ public class PlayerData
             if (cardById.TryGetValue(id, out var card))
                 player.Hand.Add(card);
 
-        player.isMyTurn = isMyTurn;
         player.isDealer = isDealer;
     }
 }

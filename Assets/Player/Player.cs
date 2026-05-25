@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 /// <summary>
@@ -13,8 +14,10 @@ public class Player
     public List<Card> Hand { get; private set; }
     public List<Card> Jokers { get; private set; }
 
-    public bool isMyTurn = false;
     public bool isDealer = false;
+
+    public Action OnTurnEnable;
+    public Action OnTurnDisable;
 
     public Player(string name, int? id = null)
     {
@@ -32,12 +35,12 @@ public class Player
     public override string ToString()
     {
         string cards = string.Empty;
-        for (int i = 1; i <= Hand.Count; i++)
-            cards += $"\tCard {i}:\n{Hand[i]}\n";
-        for (int i = 1; i < Jokers.Count; i++)
-            cards += $"\tJoker {i}:\n{Jokers[i]}\n";
+        for (int i = 0; i < Hand.Count; i++)
+            cards += $"\tCard {i + 1}:\n{Hand[i]}\n";
+        for (int i = 0; i < Jokers.Count; i++)
+            cards += $"\tJoker {i + 1}:\n{Jokers[i]}\n";
 
-        return $"Name: {name}\nID: {Id}\nCards:\n{cards}\nIs My Turn: {isMyTurn}\nIs Dealer: {isDealer}";
+        return $"Name: {name}\nID: {Id}\nCards:\n{cards}\nIs Dealer: {isDealer}";
     }
 
     /// <summary>

@@ -187,7 +187,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     {
         PlayerObject player = Players[TableHandler.PlayerTurn];
         player.data.Hand.Add(DeckHandler.DealRandomCard());
-        player.SetHand();
+        player.SetHand(player.data.Hand, player.hand, player.cards);
         player.SetCards();
         player.RevealHand();
         _blackjackStates[player.data].Scores = BlackjackScorer.GetPlayerScore(player);

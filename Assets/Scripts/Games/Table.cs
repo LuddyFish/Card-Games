@@ -139,7 +139,7 @@ public class Table : IDataPersistence
     /// <param name="player"></param>
     public void WakePlayer(Player player)
     {
-        player.isMyTurn = true;
+        player.OnTurnEnable.Invoke();
     }
 
     /// <summary>
@@ -148,6 +148,6 @@ public class Table : IDataPersistence
     /// <param name="player"></param>
     public void RestPlayer(Player player)
     {
-        player.isMyTurn = false;
+        player.OnTurnDisable.Invoke();
     }
 }

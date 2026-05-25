@@ -93,8 +93,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerObject
   _gameContext: {fileID: 11400000, guid: 81c1dda567dc8cc48850eaca48b5be90, type: 2}
+  hand: {fileID: 8825301691252551797}
+  jokerHand: {fileID: 5216913465039195619}
   cards: []
+  jokers: []
   collectTime: 0.5
+  turnsWithoutJokers: 0
 --- !u!1 &7577667778405786663
 GameObject:
   m_ObjectHideFlags: 0

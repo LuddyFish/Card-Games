@@ -13,23 +13,31 @@ public class Dealer : MonoBehaviour
     [Min(0)]
     public float thinkingTime = 1f;
     private bool _performingAction = false;
+    private bool _isMyTurn = false;
 
     void Start()
     {
         me = GetComponent<PlayerObject>();
+        me.data.OnTurnEnable += () => ToggleMyTurn(true);
+        me.data.OnTurnDisable += () => ToggleMyTurn(false);
+    }
+
+    private void ToggleMyTurn(bool turnEnabled)
+    {
+        _isMyTurn = turnEnabled;
     }
 
     void Update()
     {
         if (!Manager.PlayersActive) return;
-        if (me.data.isMyTurn && !_performingAction)
+        if (_isMyTurn && !_performingAction)
         {
             _performingAction = true;
             StartCoroutine(TryToWin());
         }
     }
 
-    IEnumerator TryToWin()
+    private IEnumerator TryToWin()
     {
         yield return new WaitForSeconds(thinkingTime);
         if (HaveHighestScore())
@@ -50,7 +58,7 @@ public class Dealer : MonoBehaviour
         _performingAction = false;
     }
 
-    bool HaveHighestScore()
+    private bool HaveHighestScore()
     {
         int myScore = BlackjackScorer.GetPlayerScore(me);
         foreach (var player in Manager.Players)
@@ -60,5 +68,11 @@ public class Dealer : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void OnDestroy()
+    {
+        me.data.OnTurnEnable -= () => ToggleMyTurn(true);
+        me.data.OnTurnDisable -= () => ToggleMyTurn(false);
     }
 }
