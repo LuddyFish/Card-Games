@@ -6,7 +6,7 @@ public class GameData
     // --- Player Settings 
     public float volume;
     public string backgroundId;
-    public bool highConstrast;
+    public bool highContrast;
 
     // --- Player Stats ---
     public int blackjackWins;
@@ -34,7 +34,7 @@ public class GameData
     {
         volume = 1.0f;
         backgroundId = "Classic";
-        highConstrast = false;
+        highContrast = false;
 
         blackjackGames = 0;
         blackjackWins = 0;

@@ -27,7 +27,7 @@ public class Settings : MonoBehaviour, IDataPersistence
     {
         Volume = data.volume;
         SetNewBGColour(data.backgroundId);
-        HighContrast = data.highConstrast;
+        HighContrast = data.highContrast;
 
         ActivePlayer.SetSettings(this);
     }
@@ -36,7 +36,7 @@ public class Settings : MonoBehaviour, IDataPersistence
     {
         data.volume = Volume;
         data.backgroundId = selectedColour.name;
-        data.highConstrast = HighContrast;
+        data.highContrast = HighContrast;
     }
 
     private void SetBGMaterial()

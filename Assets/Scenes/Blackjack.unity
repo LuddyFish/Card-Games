@@ -806,6 +806,7 @@ MonoBehaviour:
   _cardSet: {fileID: 11400000, guid: d17bd59dfbc03664baf81725be481bba, type: 2}
   _cardManagerPrefab: {fileID: 5669062867936209645, guid: 07a6b587a5b4ccb4796f526e011e925d, type: 3}
   _jokerManagerPrefab: {fileID: 8081369305917907991, guid: d3d1f9309559c3546abed575baf5f118, type: 3}
+  MinPlayerCount: 2
   _startingCardCount: 2
   _dealSequentially: 1
   startingJokerCount: 1
@@ -1794,14 +1795,14 @@ PrefabInstance:
     - target: {fileID: 5429075957671343395, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 793172128}
+      objectReference: {fileID: 1986640971}
     - target: {fileID: 5429075957671343395, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: TogglePause
       objectReference: {fileID: 0}
     - target: {fileID: 5429075957671343395, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BlackjackGameManager, Assembly-CSharp
+      value: PauseController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5905389594496292690, guid: db35f7d013e334546a3b2d59ca0395ce, type: 3}
       propertyPath: m_Name
@@ -1990,6 +1991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
   resumeGame: 0
   addSaveGame: 0
+  action: 1
   goToNewScene: 1
   addScene: 0
   removeScene: 0

@@ -8,6 +8,7 @@ public class Cardbox : MonoBehaviour
     public static Cardbox Instance { get; private set; }
 
     [SerializeField] private CardGameContext _gameContext;
+    CardAudio _cardAudio => CardAudio.Instance;
 
     public GameObject cardPrefab;
     public CardDeckSet cardSet;
@@ -25,7 +26,6 @@ public class Cardbox : MonoBehaviour
     [SerializeField] private float discardTime = 0.5f;
 
     public Action OnDealAnimationCompletion;
-    public Action OnDeckRecall;
 
     private void Awake()
     {
@@ -56,7 +56,7 @@ public class Cardbox : MonoBehaviour
             cards.Add(card);
             _cardIndexMap[card] = i;
 
-            CardAudio.Instance?.RegisterCardSRC(card.GetComponent<AudioSource>());
+            _cardAudio?.RegisterCardSRC(card.GetComponent<AudioSource>());
         }
 
         _gameContext.ActiveGame.OnShuffle += ReturnCardsToDeck;
@@ -83,7 +83,7 @@ public class Cardbox : MonoBehaviour
         ReturnCard(obj.transform);
         jokerCards.Add(card);
 
-        CardAudio.Instance?.RegisterCardSRC(card.GetComponent<AudioSource>());
+        _cardAudio?.RegisterCardSRC(card.GetComponent<AudioSource>());
     }
 
     /// <summary>
@@ -142,6 +142,7 @@ public class Cardbox : MonoBehaviour
             return;
         }
 
+        _cardAudio?.PlayCardDeal(cardObj.GetComponent<AudioSource>());
         GiftCard(playerObj, cardObj, card.Suit == (int)Suits.Joker); 
     }
 
@@ -162,7 +163,7 @@ public class Cardbox : MonoBehaviour
 
     public void ReturnCardsToDeck()
     {
-        CardAudio.Instance?.PlayCardShuffle(CardAudio.Instance.sources[0]);
+        _cardAudio?.PlayCardShuffle(_cardAudio.sources[0]);
         foreach (var card in cards)
         {
             ReturnCard(card.transform);

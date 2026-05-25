@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
     {
         if (Mouse.current.rightButton.isPressed)
         {
-            OnRightClick.Invoke();
+            OnRightClick?.Invoke();
         }
     }
 }

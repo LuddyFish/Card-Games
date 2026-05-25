@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
@@ -21,13 +20,13 @@ public class Deck : IDataPersistence
     // How many suits and ranks
     private readonly int _suitCount;
     private readonly int _rankCount;
-
-    Cardbox Box => Cardbox.Instance;
-    CardAudio Audio => CardAudio.Instance;
+    private readonly Func<Card, bool> _isAvailable;
 
     public event Action<Player, Card> OnCardDealt;
+    public event Action OnDeckShuffled;
+    public event Action OnBatchDealStart;
 
-    public Deck(int suitCount = 4, int rankCount = 13, CardDeckSet set = null)
+    public Deck(int suitCount = 4, int rankCount = 13, CardDeckSet set = null, Func<Card, bool> isAvailable = null)
     {
         _suitCount = suitCount;
         _rankCount = rankCount;
@@ -40,12 +39,12 @@ public class Deck : IDataPersistence
             for (int i = 0; i < Cards.Length; i++)
                 Cards[i] = new(set.cards[i].suit, set.cards[i].rank);
         _pool = new();
+        _isAvailable = isAvailable;
     }
 
     public void LoadData(GameData data)
     {
         if (DataPersistenceManager.Instance == null) return;
-
         Cards = data.LoadCards(Cards.ToDictionary(c => c.Id));
     }
 
@@ -59,10 +58,10 @@ public class Deck : IDataPersistence
     /// </summary>
     public void NewDeck()
     {
-        Audio.PlayDeckShuffle(Audio.sources[0]);
         _pool.Clear();
         foreach (Card card in Cards)
             _pool.Add(card);
+        OnDeckShuffled?.Invoke();
     }
 
     /// <summary>
@@ -70,23 +69,11 @@ public class Deck : IDataPersistence
     /// </summary>
     public void NewSoftDeck()
     {
-        if (Box != null)
-        {
-            Audio.PlayDeckShuffle(Audio.sources[0]);
-            _pool.Clear();
-            // TODO: Query on how to decouple data to scene
-            Box.OnDeckRecall.Invoke();
-            for (int i = 0; i < Cards.Length; i++)
-            {
-                var card = Box.cards[i].GetComponent<CardObject>();
-                if (!card.inHand)
-                {
-                    _pool.Add(card.card);
-                }
-            }
-        }
-        else
-            NewDeck();
+        _pool.Clear();
+        foreach (var card in Cards)
+            if (_isAvailable == null || _isAvailable(card))
+                _pool.Add(card);
+        OnDeckShuffled?.Invoke();
     }
 
     /// <summary>
@@ -120,7 +107,6 @@ public class Deck : IDataPersistence
     {
         if (IsDeckEmpty()) NewSoftDeck(); // Ensures that can deal cards.
         int index = UnityEngine.Random.Range(0, _pool.Count);
-        Audio.PlayCardDeal(Box.cards[index]);
         Card card = _pool.ElementAt(index);
         _pool.RemoveAt(index);
         return card;
@@ -142,7 +128,7 @@ public class Deck : IDataPersistence
                 NewSoftDeck();
         }
 
-        Audio.PlayCardShuffle(Audio.sources[0]);
+        OnBatchDealStart?.Invoke();
         RestockDeck();
         do
         {
@@ -184,10 +170,7 @@ public class Deck : IDataPersistence
     /// Check how many cards remain in <see cref="_pool"/>
     /// </summary>
     /// <returns>Returns <c>True</c> if no cards remain in <see cref="_pool"/></returns>
-    public bool IsDeckEmpty()
-    {
-        return _pool.Count <= 0;
-    }
+    public bool IsDeckEmpty() => _pool.Count <= 0;
 
     /// <summary>
     /// Check if there is enough remaining number of cards in <see cref="_pool"/> <br/>
@@ -195,8 +178,5 @@ public class Deck : IDataPersistence
     /// </summary>
     /// <param name="cardsToDeal">Number of cards that need to be dealt</param>
     /// <returns>Returns <c>True</c> if not enough cards remain in <see cref="_pool"/></returns>
-    public bool NotEnoughCards(int cardsToDeal)
-    {
-        return _pool.Count < cardsToDeal;
-    }
+    public bool NotEnoughCards(int cardsToDeal) => _pool.Count < cardsToDeal;
 }

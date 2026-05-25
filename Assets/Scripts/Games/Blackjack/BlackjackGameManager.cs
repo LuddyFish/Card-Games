@@ -15,7 +15,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
 
     // --- Internal Data ---
     private int _roundsPlayed = 0;
-    private List<int> _playerInitialWins = new();
+    private int _playerInitialWins = 0;
 
     // --- Conditions ---
 
@@ -84,7 +84,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         }
 
         data.blackjackGames += _roundsPlayed;
-        // TODO: add data.blackjackWins to the identified player
+        if (ActivePlayer.Id >= 0)
+        {
+            int winsThisSession = _blackjackStates[TableHandler.GetPlayer(ActivePlayer.Id)].Wins - _playerInitialWins;
+            data.blackjackWins += winsThisSession;
+        }
     }
     #endregion
     #endregion
@@ -188,7 +192,6 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         PlayerObject player = Players[TableHandler.PlayerTurn];
         player.data.Hand.Add(DeckHandler.DealRandomCard());
         player.SetHand(player.data.Hand, player.hand, player.cards);
-        player.SetCards();
         player.RevealHand();
         _blackjackStates[player.data].Scores = BlackjackScorer.GetPlayerScore(player);
         if (!BlackjackScorer.CanHit(player))

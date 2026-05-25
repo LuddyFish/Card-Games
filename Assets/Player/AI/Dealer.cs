@@ -43,7 +43,7 @@ public class Dealer : MonoBehaviour
         if (HaveHighestScore())
         {
             Manager.Stay();
-            Manager.TableHandler.RestPlayer(me.data); // Pre-initative rest
+            me.data.OnTurnDisable.Invoke(); // Pre-initative rest
         }
         else
         {
@@ -53,7 +53,7 @@ public class Dealer : MonoBehaviour
         // Force rest if can't continue
         if (BlackjackScorer.GetPlayerScore(me) >= 21)
         {
-            Manager.TableHandler.RestPlayer(me.data);
+            me.data.OnTurnDisable.Invoke();
         }
         _performingAction = false;
     }

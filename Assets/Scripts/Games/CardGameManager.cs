@@ -94,7 +94,10 @@ public abstract class CardGameManager : PhaseController
 
     protected virtual void SetDataVariables()
     {
-        DeckHandler = new(set: _cardSet);
+        DeckHandler = new(
+            set: _cardSet,
+            isAvailable: card => _context.CardMap.TryGetValue(card, out var obj) && !obj.inHand
+        );
         _context.Deck = DeckHandler;
 
         var cardManager = Instantiate(_cardManagerPrefab);
@@ -111,6 +114,12 @@ public abstract class CardGameManager : PhaseController
     protected virtual void AddEventSubscribers()
     {
         OnShuffle += DeckHandler.NewDeck;
+
+        if (CardAudio.Instance != null)
+        {
+            DeckHandler.OnDeckShuffled += () => CardAudio.Instance.PlayDeckShuffle(CardAudio.Instance.sources[0]);
+            DeckHandler.OnBatchDealStart += () => CardAudio.Instance.PlayCardShuffle(CardAudio.Instance.sources[0]);
+        }
     }
 
     protected virtual void OnDestroy()

@@ -14,17 +14,14 @@ public class CardAudio : AudioPlayer
      * 6. Card select
      */
 
-    void Awake()
+    protected override void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
             Destroy(this);
-    }
 
-    protected override void Start()
-    {
-        base.Start();
+        base.Awake();
     }
 
     public void RegisterCardSRC(AudioSource src)
@@ -44,6 +41,16 @@ public class CardAudio : AudioPlayer
     }
 
     #region Named Play Calls
+    public void PlayCardDiscard(GameObject card)
+    {
+        PlayCardSound(card, 0);
+    }
+
+    public void PlayCardDiscard(AudioSource src)
+    {
+        PlayCardSound(src, 0);
+    }
+
     public void PlayCardDeal(GameObject card)
     {
         PlayCardSound(card, 1);

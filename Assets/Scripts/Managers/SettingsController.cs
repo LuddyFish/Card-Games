@@ -7,36 +7,42 @@ public class SettingsController : MonoBehaviour, IDataPersistence
 
     [Space(12)]
     [SerializeField] private GameObject _volumeSlider;
+    private Slider slider;
 
     [Space(12)]
     [SerializeField] private GameObject _BGCDropdown;
+    private Dropdown dropdown;
 
     [Space(12)]
     [SerializeField] private GameObject _contrastButton;
+    private Toggle toggle;
+
     [SerializeField] private Image[] _cards;
     [SerializeField] private CardDefinition[] _cardSprites;
 
     private void Start()
     {
-        var dropdown = _BGCDropdown.GetComponent<Dropdown>();
+        dropdown = _BGCDropdown.GetComponent<Dropdown>();
         dropdown.ClearOptions();
         dropdown.AddOptions(settings.BGColours.GetNameList());
+
+        slider = _volumeSlider.GetComponent<Slider>();
+
+        toggle = _contrastButton.GetComponent<Toggle>();
     }
 
     private void Update()
     {
-        bool hc = _contrastButton.GetComponent<Toggle>().isOn;
         for (int i = 0; i < _cards.Length; i++)
         {
-            _cards[i].sprite = hc ? _cardSprites[i].highContrast : _cardSprites[i].lowContrast;
+            _cards[i].sprite = toggle.isOn ? _cardSprites[i].highContrast : _cardSprites[i].lowContrast;
         }
     }
 
     public void LoadData(GameData data)
     {
-        _volumeSlider.GetComponent<Slider>().value = data.volume;
+        slider.value = data.volume;
 
-        var dropdown = _BGCDropdown.GetComponent<Dropdown>();
         for (int i = 0; i < dropdown.options.Count; i++)
         {
             if (dropdown.options[i].text == data.backgroundId)
@@ -46,14 +52,14 @@ public class SettingsController : MonoBehaviour, IDataPersistence
             }
         }
 
-        _contrastButton.GetComponent<Toggle>().isOn = data.highConstrast;
+        toggle.isOn = data.highContrast;
     }
 
     public void SaveData(ref GameData data)
     {
-        data.volume = _volumeSlider.GetComponent<Slider>().value;
-        data.backgroundId = _BGCDropdown.GetComponent<Dropdown>().options[
-            _BGCDropdown.GetComponent<Dropdown>().value].text;
-        data.highConstrast = _contrastButton.GetComponent<Toggle>().isOn;
+        data.volume = slider.value;
+        data.backgroundId = dropdown.options[
+            dropdown.value].text;
+        data.highContrast = toggle.isOn;
     }
 }

@@ -2525,6 +2525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
   resumeGame: 0
   addSaveGame: 1
+  action: 0
   goToNewScene: 0
   addScene: 0
   removeScene: 0
@@ -2838,6 +2839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AddEventAtRuntime
   resumeGame: 0
   addSaveGame: 0
+  action: 3
   goToNewScene: 0
   addScene: 0
   removeScene: 1

@@ -8,42 +8,10 @@ public class AudioPlayer : MonoBehaviour
     public List<AudioSource> sources;
     public AudioClip[] audios;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         sources = new() { GetComponent<AudioSource>() };
     }
-
-    // --- public API ---
-    /// <summary>
-    /// Play the whole length of <paramref name="clip"/>.
-    /// </summary>
-    /// <param name="player">Audio output source</param>
-    /// <param name="clip">Audio file</param>
-    /// <returns></returns>
-    public Coroutine Play(AudioSource player, AudioClip clip)
-        => StartCoroutine(PlayAudio(player, clip, 0f, clip.length));
-
-    /// <summary>
-    /// Play the length of <paramref name="clip"/> starting from <paramref name="start"/>.
-    /// </summary>
-    /// <param name="player">Audio output source</param>
-    /// <param name="clip">Audio file</param>
-    /// <param name="start">Start of the audio</param>
-    /// <returns></returns>
-    public Coroutine Play(AudioSource player, AudioClip clip, float start)
-        => StartCoroutine(PlayAudio(player, clip, start, clip.length));
-
-    /// <summary>
-    /// Play <paramref name="clip"/> from <paramref name="start"/> to <paramref name="end"/>.
-    /// </summary>
-    /// <param name="player">Audio output source</param>
-    /// <param name="clip">Audio file</param>
-    /// <param name="start">Start of the audio</param>
-    /// <param name="end">End of the audio</param>
-    /// <returns></returns>
-    public Coroutine Play(AudioSource player, AudioClip clip, float start, float end)
-        => StartCoroutine(PlayAudio(player, clip, start, end));
-
 
     /// <summary>
     /// Play <paramref name="clip"/> from <paramref name="start"/> to <paramref name="end"/> 
@@ -55,10 +23,12 @@ public class AudioPlayer : MonoBehaviour
     /// <param name="end">End of the audio</param>
     /// <param name="delay">Time to wait before playing</param>
     /// <returns></returns>
-    public Coroutine Play(AudioSource player, AudioClip clip, float start, float end, float delay)
-        => StartCoroutine(PlayAudio(player, clip, start, end, delay));
+    public Coroutine Play(AudioSource player, AudioClip clip, float start = 0, float end = -1, float delay = 0)
+    {
+        float realEnd = end < 0 || end > clip.length ? clip.length : end;
+        return StartCoroutine(delay > 0 ? PlayAudio(player, clip, start, realEnd, delay) : PlayAudio(player, clip, start, realEnd));
+    }
 
-    // --- Core ---
     /// <summary>
     /// Play <paramref name="clip"/> from <paramref name="start"/> to <paramref name="end"/>.
     /// </summary>
@@ -99,7 +69,6 @@ public class AudioPlayer : MonoBehaviour
         yield return PlayAudio(player, clip, start, end);
     }
 
-    // --- Hooks ---
     protected virtual void OnPlayStart(AudioSource source, AudioClip clip, float start, float end) { }
     protected virtual void OnPlayEnd(AudioSource source, AudioClip clip, float start, float end) { }
 }

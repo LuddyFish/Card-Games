@@ -11,14 +11,14 @@ public class ClickableSprite : MonoBehaviour
     private void OnMouseDown()
     {
         SpriteClicked = true;
-        OnClick.Invoke();
+        OnClick?.Invoke();
     }
 
     private void OnMouseUp()
     {
         if (SpriteClicked)
         {
-            OnTrueClick.Invoke();
+            OnTrueClick?.Invoke();
             SpriteClicked = false;
         }
     }

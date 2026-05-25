@@ -79,9 +79,9 @@ public class Table : IDataPersistence
     /// </summary>
     public void NextPlayerTurn()
     {
-        RestPlayer(Players[PlayerTurn]);
+        Players[PlayerTurn].OnTurnDisable.Invoke();
         PlayerTurn = (PlayerTurn + 1) % Players.Length;
-        WakePlayer(Players[PlayerTurn]);
+        Players[PlayerTurn].OnTurnDisable.Invoke();
     }
 
     public void SetPlayerTurn(int playerNum)
@@ -129,25 +129,7 @@ public class Table : IDataPersistence
     public void GetNextDealer()
     {
         int currentDealer = GetDealer();
-        int nextDealer = currentDealer++ % Players.Length;
+        int nextDealer = (currentDealer + 1) % Players.Length;
         SwapDealer(Players[currentDealer], Players[nextDealer]);
-    }
-
-    /// <summary>
-    /// Set the Player's turn as active
-    /// </summary>
-    /// <param name="player"></param>
-    public void WakePlayer(Player player)
-    {
-        player.OnTurnEnable.Invoke();
-    }
-
-    /// <summary>
-    /// Set the Player's turn as disabled
-    /// </summary>
-    /// <param name="player"></param>
-    public void RestPlayer(Player player)
-    {
-        player.OnTurnDisable.Invoke();
     }
 }
