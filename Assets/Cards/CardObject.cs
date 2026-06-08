@@ -5,8 +5,8 @@ public class CardObject : MonoBehaviour, IDataPersistence
 {
     [HideInInspector] public CardGameContext context;
 
-    SpriteRenderer _rend;
-    ClickableSprite _clickSprite;
+    [SerializeField] private SpriteRenderer _rend;
+    [SerializeField] private ClickableSprite _clickSprite;
 
     public Card card;
     public Sprite front, back;
@@ -22,8 +22,6 @@ public class CardObject : MonoBehaviour, IDataPersistence
 
     void Start()
     {
-        _rend = GetComponent<SpriteRenderer>();
-        _clickSprite = GetComponent<ClickableSprite>();
         _clickSprite.OnTrueClick += Select;
         InputManager.Instance.OnRightClick += Deselect;
 

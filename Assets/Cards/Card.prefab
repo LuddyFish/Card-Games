@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5445287819840238615}
   - component: {fileID: 1570397760871585094}
   - component: {fileID: 3065689724512979828}
+  - component: {fileID: 3120865312827105102}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -104,8 +105,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08040f353bb7bb4bab7ba17f47cfef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardObject
+  context: {fileID: 0}
+  _rend: {fileID: 5445287819840238615}
+  _clickSprite: {fileID: 3120865312827105102}
   front: {fileID: 0}
   back: {fileID: 0}
+  isSelectable: 0
+  selected: 0
+  selectedRaise: 0.5
+  inHand: 0
+  discarded: 0
 --- !u!82 &3065689724512979828
 AudioSource:
   m_ObjectHideFlags: 0
@@ -203,3 +212,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3120865312827105102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4514296869395623950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca81c2b981ba0946a30e00d4d52b2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickableSprite

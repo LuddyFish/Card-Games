@@ -66,7 +66,6 @@ public abstract class PhaseController : MonoBehaviour
             case Phase.Deal:
                 OnPhaseComplete += AdvancePhase;
                 DealPhase();
-                OnPhaseComplete?.Invoke();
                 break;
             case Phase.PlayerTurn:
                 // Game-controlled completion: subclass invokes OnPhaseComplete when done

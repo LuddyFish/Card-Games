@@ -79,9 +79,9 @@ public class Table : IDataPersistence
     /// </summary>
     public void NextPlayerTurn()
     {
-        Players[PlayerTurn].OnTurnDisable.Invoke();
+        Players[PlayerTurn].OnTurnDisable?.Invoke();
         PlayerTurn = (PlayerTurn + 1) % Players.Length;
-        Players[PlayerTurn].OnTurnDisable.Invoke();
+        Players[PlayerTurn].OnTurnEnable?.Invoke();
     }
 
     public void SetPlayerTurn(int playerNum)

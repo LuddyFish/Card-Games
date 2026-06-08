@@ -15,11 +15,15 @@ public class Dealer : MonoBehaviour
     private bool _performingAction = false;
     private bool _isMyTurn = false;
 
-    void Start()
+    private void ToggleOn() => ToggleMyTurn(true);
+    private void ToggleOff() => ToggleMyTurn(false);
+
+    IEnumerator Start()
     {
         me = GetComponent<PlayerObject>();
-        me.data.OnTurnEnable += () => ToggleMyTurn(true);
-        me.data.OnTurnDisable += () => ToggleMyTurn(false);
+        yield return new WaitUntil(() => me.data != null);
+        me.data.OnTurnEnable += ToggleOn;
+        me.data.OnTurnDisable += ToggleOff;
     }
 
     private void ToggleMyTurn(bool turnEnabled)
@@ -72,7 +76,7 @@ public class Dealer : MonoBehaviour
 
     private void OnDestroy()
     {
-        me.data.OnTurnEnable -= () => ToggleMyTurn(true);
-        me.data.OnTurnDisable -= () => ToggleMyTurn(false);
+        me.data.OnTurnEnable -= ToggleOn;
+        me.data.OnTurnDisable -= ToggleOff;
     }
 }

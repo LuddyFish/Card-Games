@@ -78,7 +78,7 @@ public class DataPersistenceManager : MonoBehaviour
         if (gameData == null)
             NewGame();
 
-        Debug.Log("Loading game data");
+        //Debug.Log("Loading game data");
 
         // push loaded data to all other scripts
         foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)

@@ -1992,9 +1992,6 @@ MonoBehaviour:
   resumeGame: 0
   addSaveGame: 0
   action: 1
-  goToNewScene: 1
-  addScene: 0
-  removeScene: 0
   sceneToLoad:
     _sceneAsset: {fileID: 102900000, guid: e8b28458e44e07246a7bcda97e4550e3, type: 3}
     _sceneName: MainMenu

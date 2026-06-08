@@ -8,7 +8,7 @@ public class WinTextDisplay : MonoBehaviour
 
     private void Start()
     {
-        winText = GetComponent<Text>();
+        winText = _winTextBox.GetComponentInChildren<Text>();
         HideWinText();
     }
 

@@ -30,7 +30,7 @@ public class BlackjackScores : MonoBehaviour
     /// <summary>
     /// Updates the text fields to match the Player's current <see cref="BlackjackPlayerState"/>
     /// </summary>
-    public void Refresh()
+    private void Refresh()
     {
         _numbers.text = $"{State.Scores}\n{State.Wins}";
         _bust.SetActive(State.IsBust);

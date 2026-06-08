@@ -102,6 +102,19 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         foreach (var button in _buttons)
             button.interactable = TableHandler.PlayerTurn != 0 && CurrentPhase == Phase.PlayerTurn;
     }
+    
+    protected override Phase GetNextPhase(Phase current)
+    {
+        return current switch
+        {
+            Phase.Reset => Phase.Deal,
+            Phase.Deal => Phase.PlayerTurn,
+            Phase.PlayerTurn => Phase.RoundEnd,
+            Phase.RoundEnd => Phase.Clear,
+            Phase.Clear => Phase.Deal,
+            _ => Phase.Reset
+        };
+    }
 
     protected override void ResetGame()
     {
@@ -117,6 +130,8 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
             if (_context.PlayerMap.TryGetValue(player, out var playerObj))
                 JokerBank.Instance.GiftPityJoker(playerObj);
         }
+
+        OnPhaseComplete?.Invoke();
     }
 
     protected override void DealPhase()
@@ -171,7 +186,6 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         foreach (var text in _blackjackStates.Values)
         {
             text.Scores = 0;
-            text.IsBust = false;
         }
     }
 

@@ -59,7 +59,7 @@ public class Cardbox : MonoBehaviour
             _cardAudio?.RegisterCardSRC(card.GetComponent<AudioSource>());
         }
 
-        _gameContext.ActiveGame.OnShuffle += ReturnCardsToDeck;
+        _gameContext.Deck.OnDeckShuffled += ReturnCardsToDeck;
     }
 
     public void InitJokers(int players, int startingCount) 
@@ -115,18 +115,22 @@ public class Cardbox : MonoBehaviour
     private void GiftCard(PlayerObject player, CardObject card, bool isJoker)
     {
         card.inHand = true;
-        player.cards.Add(card);
 
-        var layout = player.transform.GetChild(isJoker ? 0 : 1).GetComponent<HandLayout>();
-        card.transform.SetParent(layout.transform);
-        layout.ReceiveCard(card.transform, player.cards.Count - 1, player.collectTime);
+        var targetHand = isJoker ? player.jokerHand : player.hand;
+        var targetList = isJoker ? player.jokers : player.cards;
+        targetList.Add(card);
+
+        var layout = targetHand.GetComponent<HandLayout>();
+        card.transform.SetParent(targetHand);
+        layout.ReceiveCard(card.transform, targetList.Count - 1, player.collectTime);
+        
         StartCoroutine(InvokeAnimationSend(player.collectTime));
         if (isJoker)
         {
             card.gameObject.SetActive(true);
             card.Reveal();
         }
-        card.GetComponent<SpriteRenderer>().sortingOrder = player.cards.Count - 1;
+        card.GetComponent<SpriteRenderer>().sortingOrder = targetList.Count - 1;
     }
 
     private void AnimateDeal(Player player, Card card)
