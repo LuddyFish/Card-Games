@@ -64,7 +64,7 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     #region Data Saving
     public void LoadData(GameData data)
     {
-        if (!DataPersistenceManager.Instance.ResumeGame) return;
+        if (!_persistenceManager.ResumeGame) return;
 
         for (int i = 0; i < TableHandler.Players.Length && i < data.blackjackScores.Length; i++)
         {

@@ -8,6 +8,7 @@ public abstract class CardGameManager : PhaseController
 {
     // --- Table Properties ---
     [SerializeField] protected CardGameContext _context;
+    protected DataPersistenceManager _persistenceManager => DataPersistenceManager.Instance;
 
     private Table _table;
     public Table TableHandler {
@@ -90,6 +91,7 @@ public abstract class CardGameManager : PhaseController
             StartingCardCount: _startingCardCount
         );
         _context.Table = TableHandler;
+        _persistenceManager.RegisterDataPersistenceObject(TableHandler);
     }
 
     protected virtual void SetDataVariables()
@@ -99,6 +101,7 @@ public abstract class CardGameManager : PhaseController
             isAvailable: card => _context.CardMap.TryGetValue(card, out var obj) && !obj.inHand
         );
         _context.Deck = DeckHandler;
+        _persistenceManager.RegisterDataPersistenceObject(DeckHandler);
 
         var cardManager = Instantiate(_cardManagerPrefab);
         var cardbox = cardManager.GetComponent<Cardbox>();
@@ -108,7 +111,7 @@ public abstract class CardGameManager : PhaseController
 
         var jokerManager = Instantiate(_jokerManagerPrefab);
 
-        DataPersistenceManager.Instance.Init();
+        _persistenceManager.Init();
     }
 
     protected virtual void AddEventSubscribers()
@@ -118,6 +121,7 @@ public abstract class CardGameManager : PhaseController
         if (CardAudio.Instance != null)
         {
             DeckHandler.OnDeckShuffled += () => CardAudio.Instance.PlayDeckShuffle(CardAudio.Instance.sources[0]);
+            DeckHandler.OnDeckSoftShuffled += () => CardAudio.Instance.PlayDeckShuffle(CardAudio.Instance.sources[0]);
             DeckHandler.OnBatchDealStart += () => CardAudio.Instance.PlayCardShuffle(CardAudio.Instance.sources[0]);
         }
     }

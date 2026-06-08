@@ -922,8 +922,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 793172128}
-        m_TargetAssemblyTypeName: BlackjackGameManager, Assembly-CSharp
+      - m_Target: {fileID: 1986640971}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
         m_MethodName: TogglePause
         m_Mode: 6
         m_Arguments:

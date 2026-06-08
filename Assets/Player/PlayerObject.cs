@@ -139,9 +139,12 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
 
     void OnDestroy()
     {
-        _gameContext.ActiveGame.OnDeal -= OnDealHand;
-        _gameContext.ActiveGame.OnDeal -= OnDealJokers;
-        _gameContext.ActiveGame.OnReset -= DiscardCards;
+        if (_gameContext.ActiveGame != null)
+        {
+            _gameContext.ActiveGame.OnDeal -= OnDealHand;
+            _gameContext.ActiveGame.OnDeal -= OnDealJokers;
+            _gameContext.ActiveGame.OnReset -= DiscardCards;
+        }
 
         data.OnTurnEnable -= RevealHand;
     }

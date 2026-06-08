@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Class <see cref="Deck"/> is responsible for maintaining the cards in the deck
@@ -24,20 +25,26 @@ public class Deck : IDataPersistence
 
     public event Action<Player, Card> OnCardDealt;
     public event Action OnDeckShuffled;
+    public event Action OnDeckSoftShuffled;
     public event Action OnBatchDealStart;
 
     public Deck(int suitCount = 4, int rankCount = 13, CardDeckSet set = null, Func<Card, bool> isAvailable = null)
     {
         _suitCount = suitCount;
         _rankCount = rankCount;
-        Cards = new Card[_suitCount * _rankCount];
-        if (set == null)
+        if (set == null || set.cards.Count == 0)
+        {
+            Cards = new Card[_suitCount * _rankCount];
             for (int s = 0; s < _suitCount; s++)
                 for (int r = 1; r <= _rankCount; r++)
                     Cards[s * _rankCount + r - 1] = new Card(s, r, s * _rankCount + r);
+        }
         else
-            for (int i = 0; i < Cards.Length; i++)
-                Cards[i] = new(set.cards[i].suit, set.cards[i].rank);
+        {
+            Cards = new Card[set.cards.Count];
+            for (int i = 0; i < set.cards.Count; i++)
+                Cards[i] = new(set.cards[i].suit, set.cards[i].rank, i);
+        }
         _pool = new();
         _isAvailable = isAvailable;
     }
@@ -45,6 +52,8 @@ public class Deck : IDataPersistence
     public void LoadData(GameData data)
     {
         if (DataPersistenceManager.Instance == null) return;
+        if (data.cards == null || data.cards.Count == 0) return;
+        
         Cards = data.LoadCards(Cards.ToDictionary(c => c.Id));
     }
 
@@ -73,7 +82,7 @@ public class Deck : IDataPersistence
         foreach (var card in Cards)
             if (_isAvailable == null || _isAvailable(card))
                 _pool.Add(card);
-        OnDeckShuffled?.Invoke();
+        OnDeckSoftShuffled?.Invoke();
     }
 
     /// <summary>
@@ -139,7 +148,7 @@ public class Deck : IDataPersistence
             _pool.Remove(card);
             cardsDealt++;
             RestockDeck();
-        } while (!IsDeckEmpty() && CardsNeedDealing());
+        } while (CardsNeedDealing());
     }
 
     /// <summary>

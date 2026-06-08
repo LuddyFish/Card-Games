@@ -35,7 +35,7 @@ public class DataPersistenceManager : MonoBehaviour
     [HideInInspector] public string FullPath => Path.Combine(Application.persistentDataPath, fileName);
 
     private GameData gameData;
-    private List<IDataPersistence> DataPersistenceObjects => FindAllDataPersistenceObjects();
+    private readonly List<IDataPersistence> registeredObjects = new();
     private FileDataHandler<GameData> dataHandler;
 
     [Tooltip("FALSE = New game | TRUE = Resume game")]
@@ -57,11 +57,14 @@ public class DataPersistenceManager : MonoBehaviour
     public void Init()
     {
         SetDataHandler();
-        Debug.Log("File can be found at: " + Path.Combine(Application.persistentDataPath, fileName));
+        // Debug.Log("File can be found at: " + Path.Combine(Application.persistentDataPath, fileName));
         LoadGame();
     }
 
     private void SetDataHandler() => dataHandler = new FileDataHandler<GameData>(Application.persistentDataPath, fileName);
+    
+    public void RegisterDataPersistenceObject(IDataPersistence dataPersistenceObj) => registeredObjects.Add(dataPersistenceObj);
+    public void DeregisterDataPersistenceObject(IDataPersistence dataPersistenceObj) => registeredObjects.Remove(dataPersistenceObj);
 
     public void NewGame()
     {
@@ -81,7 +84,7 @@ public class DataPersistenceManager : MonoBehaviour
         //Debug.Log("Loading game data");
 
         // push loaded data to all other scripts
-        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
+        foreach (IDataPersistence dataPersistenceObj in registeredObjects)
             dataPersistenceObj.LoadData(gameData);
 
         Debug.Log("Loaded game data");
@@ -96,10 +99,10 @@ public class DataPersistenceManager : MonoBehaviour
         }
 
         // pass the data to other scripts so they can update
-        foreach (IDataPersistence dataPersistenceObj in DataPersistenceObjects)
+        foreach (IDataPersistence dataPersistenceObj in registeredObjects)
             dataPersistenceObj.SaveData(ref gameData);
 
-        Debug.Log("Saving game data");
+        // Debug.Log("Saving game data");
 
         // save that data to a file
         dataHandler.Save(gameData);
@@ -113,16 +116,13 @@ public class DataPersistenceManager : MonoBehaviour
     public void DestroySaveFile()
     {
         if (dataHandler == null) SetDataHandler();
-        dataHandler.Delete();
+        dataHandler?.Delete();
         Debug.Log("Deleted game data");
     }
 
     public bool HasSave()
     {
-        if (dataHandler == null)
-            return false;
-
-        return dataHandler.Load() != null;
+        return dataHandler?.Load() != null;
     }
 
     private void OnApplicationQuit()
@@ -131,12 +131,16 @@ public class DataPersistenceManager : MonoBehaviour
             SaveGame();
     }
 
+    /// <summary>
+    /// Registers all MonoBehaviours that have the type <see cref="IDataPersistence"/>
+    /// </summary>
+    /// <returns></returns>
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistenceObjects =
             FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
             .OfType<IDataPersistence>();
 
-        return new List<IDataPersistence>(dataPersistenceObjects);
+        return registeredObjects.Concat(dataPersistenceObjects).ToList();
     }
 }

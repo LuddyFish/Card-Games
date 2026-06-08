@@ -60,11 +60,12 @@ public class Cardbox : MonoBehaviour
         }
 
         _gameContext.Deck.OnDeckShuffled += ReturnCardsToDeck;
+        _gameContext.Deck.OnDeckSoftShuffled += RecallInactiveCards;
     }
 
     public void InitJokers(int players, int startingCount) 
     {
-        for (int i = 0; i < startingCount * players; i++)
+        for (int i = 0; i < startingCount * players; i++) 
         {
             CreateJokerCard();
         }
@@ -167,7 +168,7 @@ public class Cardbox : MonoBehaviour
 
     public void ReturnCardsToDeck()
     {
-        _cardAudio?.PlayCardShuffle(_cardAudio.sources[0]);
+        // _cardAudio?.PlayCardShuffle(_cardAudio.sources[0]);
         foreach (var card in cards)
         {
             ReturnCard(card.transform);
@@ -176,6 +177,7 @@ public class Cardbox : MonoBehaviour
 
     public void RecallInactiveCards()
     {
+        // _cardAudio?.PlayCardShuffle(_cardAudio.sources[0]);
         foreach (var card in cards)
         {
             var c = card.GetComponent<CardObject>();
