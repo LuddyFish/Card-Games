@@ -1,21 +1,39 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Settings : MonoBehaviour, IDataPersistence
 {
     private Cardbox Box => Cardbox.Instance;
 
     /* =================================== */
-    [field: SerializeField, Range(0f, 1f)]
+    [field: Header("Field Values"), SerializeField, Range(0f, 1f)]
     public float Volume { get; set; }
 
     [HideInInspector] public BackgroundColours.BackgroundColour selectedColour;
-    [field: SerializeField]
-    public BackgroundColours BGColours { get; set; }
-    [SerializeField] private Material _BGMaterial;
+    [field: FormerlySerializedAs("<BGColours>k__BackingField"), SerializeField]
+    public BackgroundColours bgColours { get; set; }
+    [FormerlySerializedAs("_BGMaterial")] 
+    [SerializeField] private Material _bgMaterial;
 
     [field: SerializeField]
     public bool HighContrast { get; set; }
+    
+    // --- UI ---
+    [Header("UI Elements")]
+    [SerializeField] private GameObject _volumeSlider;
+    private Slider _slider;
+
+    [FormerlySerializedAs("_BGCDropdown")]
+    [SerializeField] private GameObject _bgcDropdown;
+    private Dropdown _dropdown;
+
+    [SerializeField] private GameObject _contrastButton;
+    private Toggle _toggle;
+
+    [SerializeField] private Image[] _cards;
+    [SerializeField] private CardDefinition[] _cardSprites;
 
     private void Reset()
     {
@@ -23,44 +41,60 @@ public class Settings : MonoBehaviour, IDataPersistence
         HighContrast = false;
     }
 
+    private void Update()
+    {
+        for (int i = 0; i < _cards.Length; i++)
+            _cards[i].sprite = _toggle.isOn ? _cardSprites[i].highContrast : _cardSprites[i].lowContrast;
+    }
+
     public void LoadData(GameData data)
     {
         Volume = data.volume;
-        SetNewBGColour(data.backgroundId);
         HighContrast = data.highContrast;
+        _slider.value = data.volume;
 
+        SetNewBgColour(data.backgroundId);
+        for (int i = 0; i < _dropdown.options.Count; i++)
+        {
+            if (_dropdown.options[i].text == data.backgroundId)
+            {
+                _dropdown.value = i;
+                break;
+            }
+        }
+        
         ActivePlayer.SetSettings(this);
     }
 
     public void SaveData(ref GameData data)
     {
-        data.volume = Volume;
-        data.backgroundId = selectedColour.name;
-        data.highContrast = HighContrast;
+        data.volume = _slider.value;
+        data.backgroundId = _dropdown.options[_dropdown.value].text;
+        data.highContrast = _toggle.isOn;
     }
 
-    private void SetBGMaterial()
+    private void SetBgMaterial()
     {
-        _BGMaterial.SetColor("_PrimaryColour", selectedColour.primary);
-        _BGMaterial.SetColor("_SecondaryColour", selectedColour.secondary);
+        _bgMaterial.SetColor("_PrimaryColour", selectedColour.primary);
+        _bgMaterial.SetColor("_SecondaryColour", selectedColour.secondary);
     }
 
-    public void SetNewBGColour(BackgroundColours.BackgroundColour newColour)
+    public void SetNewBgColour(BackgroundColours.BackgroundColour newColour)
     {
         selectedColour = newColour;
-        SetBGMaterial();
+        SetBgMaterial();
     }
 
-    public void SetNewBGColour(string newColour)
+    public void SetNewBgColour(string newColour)
     {
-        selectedColour = BGColours.Get(newColour);
-        SetBGMaterial();
+        selectedColour = bgColours.Get(newColour);
+        SetBgMaterial();
     }
 
-    public void SetNewBGColour(int newColour)
+    public void SetNewBgColour(int newColour)
     {
-        selectedColour = BGColours.Get(newColour);
-        SetBGMaterial();
+        selectedColour = bgColours.Get(newColour);
+        SetBgMaterial();
     }
 
     public void ToggleCardContrast()

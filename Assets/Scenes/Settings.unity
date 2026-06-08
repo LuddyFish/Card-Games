@@ -500,7 +500,6 @@ GameObject:
   m_Component:
   - component: {fileID: 239546969}
   - component: {fileID: 239546971}
-  - component: {fileID: 239546970}
   m_Layer: 5
   m_Name: Settings Components
   m_TagString: Untagged
@@ -533,32 +532,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 100, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &239546970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 239546968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be36a7196f8fc348b3f3c10c6ae0c09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsController
-  settings: {fileID: 1255865940}
-  _volumeSlider: {fileID: 526373}
-  _BGCDropdown: {fileID: 1362548471}
-  _contrastButton: {fileID: 1228831343}
-  _cards:
-  - {fileID: 1764296147}
-  - {fileID: 1576210870}
-  - {fileID: 101118574}
-  - {fileID: 1793243787}
-  _cardSprites:
-  - {fileID: 11400000, guid: bb9d443ef3b1e5145b58c373ce03b2e0, type: 2}
-  - {fileID: 11400000, guid: 80063662ca0ea9b4b94d08790d2f9add, type: 2}
-  - {fileID: 11400000, guid: 027d3e998d61ed740b37a0af31fb5296, type: 2}
-  - {fileID: 11400000, guid: e64ad14c9c1b4544a80a58040aa6a117, type: 2}
 --- !u!114 &239546971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2184,9 +2157,22 @@ MonoBehaviour:
     name: 
     primary: {r: 0, g: 0, b: 0, a: 0}
     secondary: {r: 0, g: 0, b: 0, a: 0}
-  <BGColours>k__BackingField: {fileID: 11400000, guid: 88e61863fe60cf04895d14eb29f9796b, type: 2}
-  _BGMaterial: {fileID: 2100000, guid: af3c9853e614166409dde3625a32208e, type: 2}
+  <bgColours>k__BackingField: {fileID: 11400000, guid: 88e61863fe60cf04895d14eb29f9796b, type: 2}
+  _bgMaterial: {fileID: 2100000, guid: af3c9853e614166409dde3625a32208e, type: 2}
   <HighContrast>k__BackingField: 0
+  _volumeSlider: {fileID: 526373}
+  _bgcDropdown: {fileID: 1362548471}
+  _contrastButton: {fileID: 1228831343}
+  _cards:
+  - {fileID: 1764296147}
+  - {fileID: 1576210870}
+  - {fileID: 101118574}
+  - {fileID: 1793243787}
+  _cardSprites:
+  - {fileID: 11400000, guid: bb9d443ef3b1e5145b58c373ce03b2e0, type: 2}
+  - {fileID: 11400000, guid: 80063662ca0ea9b4b94d08790d2f9add, type: 2}
+  - {fileID: 11400000, guid: 027d3e998d61ed740b37a0af31fb5296, type: 2}
+  - {fileID: 11400000, guid: e64ad14c9c1b4544a80a58040aa6a117, type: 2}
 --- !u!114 &1255865941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2526,9 +2512,6 @@ MonoBehaviour:
   resumeGame: 0
   addSaveGame: 1
   action: 0
-  goToNewScene: 0
-  addScene: 0
-  removeScene: 0
   sceneToLoad:
     _sceneAsset: {fileID: 0}
     _sceneName: 
@@ -2840,9 +2823,6 @@ MonoBehaviour:
   resumeGame: 0
   addSaveGame: 0
   action: 3
-  goToNewScene: 0
-  addScene: 0
-  removeScene: 1
   sceneToLoad:
     _sceneAsset: {fileID: 102900000, guid: ea51738e22a26f94f94bef6c5a6da4d2, type: 3}
     _sceneName: Settings

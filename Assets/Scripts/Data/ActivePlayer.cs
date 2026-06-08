@@ -9,4 +9,14 @@ public static class ActivePlayer
     {
         PlayerSettings = data;
     }
+
+    public static void SetId(int id)
+    {
+        Id = id;
+    }
+
+    public static void SetName(string name)
+    {
+        Name = name;
+    }
 }
