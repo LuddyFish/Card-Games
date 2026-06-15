@@ -31,4 +31,28 @@ public class CardGameContext : ScriptableObject
         PlayerMap.Clear();
         CardMap.Clear();
     }
+
+    /// <summary>
+    /// Get the <see cref="PlayerObject"/> attached to <see cref="Player"/>
+    /// </summary>
+    /// <param name="player">The player variable</param>
+    /// <returns></returns>
+    public PlayerObject GetPlayerObject(Player player)
+    {
+        if (PlayerMap.TryGetValue(player, out var obj)) return obj;
+        Debug.LogError($"PlayerObject not registered for {player}");
+        return null;
+    }
+    
+    /// <summary>
+    /// Get the <see cref="CardObject"/> attached to <see cref="Card"/>
+    /// </summary>
+    /// <param name="card">The player variable</param>
+    /// <returns></returns>
+    public CardObject GetCardObject(Card card)
+    {
+        if (CardMap.TryGetValue(card, out var obj)) return obj;
+        Debug.LogError($"CardObject not registered for {card}");
+        return null;
+    }
 }

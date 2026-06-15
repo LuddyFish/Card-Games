@@ -18,7 +18,6 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
     private int _playerInitialWins = 0;
 
     // --- Conditions ---
-
     public bool PlayersActive => CurrentPhase == Phase.PlayerTurn;
 
     // --- Events ---
@@ -38,10 +37,11 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         base.InitGame();
         foreach (var player in TableHandler.Players)
         {
-            if (_context.PlayerMap.TryGetValue(player, out var playerObj))
+            var playerObj = _context.GetPlayerObject(player);
+            if (playerObj)
                 JokerBank.Instance.GiftJoker(playerObj);
         }
-        StartPhase(Phase.Clear);
+        StartPhase(Phase.Reset);
     }
 
     protected override void SetPlayerData()
@@ -127,7 +127,8 @@ public class BlackjackGameManager : CardGameManager, IDataPersistence
         TableHandler.SetPlayerTurn(TableHandler.GetDealer());
         foreach (var player in TableHandler.Players)
         {
-            if (_context.PlayerMap.TryGetValue(player, out var playerObj))
+            var playerObj = _context.GetPlayerObject(player);
+            if (playerObj)
                 JokerBank.Instance.GiftPityJoker(playerObj);
         }
 

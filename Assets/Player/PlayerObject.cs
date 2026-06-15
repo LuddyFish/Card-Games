@@ -90,8 +90,11 @@ public class PlayerObject : MonoBehaviour, IDataPersistence
 
         // re-parent
         foreach (var card in source)
-            if (_gameContext.CardMap.TryGetValue(card, out var obj))
-                obj.transform.SetParent(parent);
+        {
+            var cardObj = _gameContext.GetCardObject(card);
+            if (cardObj)
+                cardObj.transform.SetParent(parent);
+        }
 
         // receive
         for (int i = 0; i < parent.childCount; i++)

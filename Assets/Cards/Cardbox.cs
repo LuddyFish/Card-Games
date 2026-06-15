@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Cardbox : MonoBehaviour
 {
@@ -78,7 +79,7 @@ public class Cardbox : MonoBehaviour
         obj.card = new Card(jokers.suit, jokers.rank);
         _gameContext.CardMap.Add(obj.card, obj);
 
-        obj.front = jokers.faces[UnityEngine.Random.Range(0, jokers.faces.Length)];
+        obj.front = jokers.faces[Random.Range(0, jokers.faces.Length)];
         obj.back = isHighContrastMode ? cardSet.highContrast : cardSet.lowContrast;
         SetCard(obj);
         ReturnCard(obj.transform);
@@ -131,22 +132,16 @@ public class Cardbox : MonoBehaviour
             card.gameObject.SetActive(true);
             card.Reveal();
         }
-        card.GetComponent<SpriteRenderer>().sortingOrder = targetList.Count - 1;
+        card.GetComponent<SpriteRenderer>().sortingOrder = targetList.Count;
     }
 
     private void AnimateDeal(Player player, Card card)
     {
-        if (!_gameContext.PlayerMap.TryGetValue(player, out var playerObj))
-        {
-            Debug.LogError($"PlayerObject not registered for {player}");
-            return;
-        }
-        if (!_gameContext.CardMap.TryGetValue(card, out var cardObj))
-        {
-            Debug.LogError($"CardObject not registered for {card}");
-            return;
-        }
+        var playerObj = _gameContext.GetPlayerObject(player);
+        var cardObj = _gameContext.GetCardObject(card);
+        if (playerObj == null || cardObj == null) return;
 
+        cardObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
         _cardAudio?.PlayCardDeal(cardObj.GetComponent<AudioSource>());
         GiftCard(playerObj, cardObj, card.Suit == (int)Suits.Joker); 
     }
@@ -157,6 +152,10 @@ public class Cardbox : MonoBehaviour
         OnDealAnimationCompletion?.Invoke();
     }
 
+    /// <summary>
+    /// Returns the <c>card</c> back to the deck ready to be reused again
+    /// </summary>
+    /// <param name="card">The card object to return to the deck</param>
     public void ReturnCard(Transform card)
     {
         card.SetParent(transform);
@@ -164,6 +163,7 @@ public class Cardbox : MonoBehaviour
         obj.inHand = false;
         obj.discarded = false;
         AnimationUtilities.Lerp(card, card.position, poolLocation, discardTime);
+        card.GetComponent<SpriteRenderer>().sortingOrder = 0;
     }
 
     public void ReturnCardsToDeck()
@@ -188,6 +188,11 @@ public class Cardbox : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Places the given <c>card</c> into a discard pile. This is not to be confused with <see cref="ReturnCard"/>
+    /// where that returns cards back to the deck, to be used. The discarded pile does not get reused.
+    /// </summary>
+    /// <param name="card">The card object to discard</param>
     public void DiscardCard(Transform card)
     {
         card.SetParent(transform);

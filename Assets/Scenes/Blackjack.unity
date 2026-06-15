@@ -809,6 +809,7 @@ MonoBehaviour:
   MinPlayerCount: 2
   _startingCardCount: 2
   _dealSequentially: 1
+  _dealByCardTop: 1
   startingJokerCount: 1
   maxJokerCount: 3
   _buttons:

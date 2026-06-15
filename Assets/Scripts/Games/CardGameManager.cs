@@ -35,7 +35,7 @@ public abstract class CardGameManager : PhaseController
     // --- Internal Data ---
     [SerializeField] private int _startingCardCount = 5;
     [Tooltip("<b>False</b>: deal all cards simultaneously" +
-        "\n<b>True</b>: deal all cards one at a time")]
+             "\n<b>True</b>: deal all cards one at a time")]
     [SerializeField] private bool _dealSequentially = true;
     public int startingJokerCount = 2;
     public int maxJokerCount = 3;
@@ -43,12 +43,7 @@ public abstract class CardGameManager : PhaseController
     // --- Conditions ---
     private bool _isWaitingForSetup = true;
     protected bool IsWaitingForSetup => _isWaitingForSetup;
-    private bool _isDealerTurn = false;
-    protected bool IsDealerTurn
-    {
-        get { return _isDealerTurn; }
-        set { _isDealerTurn = value; }
-    }
+    protected bool IsDealerTurn = false;
 
     // --- Events ---
     public Action OnGameLoaded;
